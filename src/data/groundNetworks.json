@@ -1,0 +1,47 @@
+[
+  {
+    "id": "net-dedicated-single",
+    "name": "Dedicated Institutional Ground Station",
+    "explain": "Single owned and operated university or institutional tracking dish. Lowest annual operating cost, but provides contact only when the satellite passes directly overhead.",
+    "basis": "Standard University SmallSat Ground Station, approximate, game-balanced",
+    "minLevel": "YOUTH",
+    "type": "dedicated",
+    "stationCount": 1,
+    "contactMinutesPerDayLEO": 35.0,
+    "continuousGEO": true,
+    "costPerPassM": 0.0,
+    "annualOpsCostM": 0.3,
+    "deepSpaceSupport": false,
+    "referenceDistanceKm": 2000.0
+  },
+  {
+    "id": "net-commercial-global",
+    "name": "Global Commercial Ground Station Network",
+    "explain": "Federated multi-station network (e.g. KSAT / SSC / AWS Ground Station) with 8 polar and mid-latitude sites providing high-frequency contact passes for Earth observation.",
+    "basis": "Kongsberg Satellite Services (KSATlite) / AWS Ground Station, approximate, game-balanced",
+    "minLevel": "INTERMEDIATE",
+    "type": "commercial",
+    "stationCount": 8,
+    "contactMinutesPerDayLEO": 160.0,
+    "continuousGEO": false,
+    "costPerPassM": 0.0015,
+    "annualOpsCostM": 2.5,
+    "deepSpaceSupport": false,
+    "referenceDistanceKm": 2000.0
+  },
+  {
+    "id": "net-dsn-nsn",
+    "name": "NASA Near Space & Deep Space Network (DSN/NSN)",
+    "explain": "Tri-continental deep-space tracking network (Goldstone, Madrid, Canberra) equipped with 34-meter and 70-meter parabolic dishes for cislunar, Lagrange, and interplanetary telemetry.",
+    "basis": "NASA Deep Space Network Telecommunications Link Design Handbook, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "type": "dsn-nsn",
+    "stationCount": 3,
+    "contactMinutesPerDayLEO": 360.0,
+    "continuousGEO": true,
+    "costPerPassM": 0.0,
+    "annualOpsCostM": 6.5,
+    "deepSpaceSupport": true,
+    "referenceDistanceKm": 1500000.0
+  }
+]

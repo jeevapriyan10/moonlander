@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #05070d;
+  --foreground: #e2e8f0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Tactical Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05070d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1b2440;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2e3d66;
+}
+
+/* Subtle CRT / Scanline Texture Effect */
+.bg-scanline {
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.015) 50%,
+    rgba(0, 0, 0, 0.05) 50%
+  );
+  background-size: 100% 4px;
+}
+
+.bg-radial-vignette {
+  background: radial-gradient(circle at 50% 30%, transparent 60%, rgba(5, 7, 13, 0.85) 100%);
+}
+
+.bg-mission-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(27, 36, 64, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 36, 64, 0.25) 1px, transparent 1px);
+}
+
+/* High-Contrast Accessible Focus Indicators */
+:focus-visible {
+  outline: 2px solid #ffb000;
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

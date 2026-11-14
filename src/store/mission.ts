@@ -1,0 +1,295 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import {
+  evaluateMission,
+  type MissionDesignConfig,
+  type MissionEvaluation,
+} from "../engine/evaluate";
+import { generateSeedCode } from "../engine/rng";
+import { getCatalogLookup } from "../data";
+
+export type DifficultyLevel = "YOUTH" | "INTERMEDIATE" | "ADVANCED";
+
+export interface MissionStoreState {
+  currentMission: MissionDesignConfig;
+  savedMissions: Record<string, MissionDesignConfig>;
+  evaluation: MissionEvaluation;
+
+  // Actions
+  updateDesign: (patch: Partial<MissionDesignConfig>) => void;
+  applyFix: (patch: Record<string, unknown>) => void;
+  setDifficulty: (difficulty: DifficultyLevel) => void;
+  createMission: (
+    scenarioId: string,
+    difficulty: DifficultyLevel,
+    isSandbox?: boolean
+  ) => string;
+  initMission: (
+    scenarioId: string,
+    difficulty?: DifficultyLevel,
+    isSandbox?: boolean
+  ) => string;
+  loadMission: (id: string) => void;
+  saveCurrentMission: () => void;
+  deleteMission: (id: string) => void;
+  exportMissionJson: () => string;
+  importMissionJson: (jsonStr: string) => boolean;
+  exportShareCode: () => string;
+  importShareCode: (code: string) => boolean;
+  recalculate: () => void;
+}
+
+const catalog = getCatalogLookup();
+
+export function getDefaultMissionConfig(
+  scenarioId = "earth-watch",
+  difficulty: "YOUTH" | "INTERMEDIATE" | "ADVANCED" = "YOUTH",
+  isSandbox = false
+): MissionDesignConfig {
+  const seed = generateSeedCode();
+  const id = `mission-${Date.now()}-${seed.toLowerCase()}`;
+
+  if (scenarioId === "earth-watch") {
+    return {
+      id,
+      seed,
+      name: "Wildfire Sentinel-1",
+      scenarioId: "earth-watch",
+      difficulty,
+      isSandbox,
+      busId: "bus-midsize",
+      orbitId: "sso-700",
+      launcherId: "vega-c",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 7.5,
+      batteryId: "battery-li-ion-std",
+      batteryCapacityWh: 1200,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 120,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-tolerant",
+      thermalId: "thermal-passive",
+      commsId: "comms-ka-band",
+      groundNetworkId: "net-commercial-global",
+      storageGb: 512,
+      selectedInstrumentIds: ["inst-multispectral"],
+    };
+  }
+
+  if (scenarioId === "exoplanet-hunter") {
+    return {
+      id,
+      seed,
+      name: "Stellar Transit Surveyor",
+      scenarioId: "exoplanet-hunter",
+      difficulty,
+      isSandbox,
+      busId: "bus-smallsat",
+      orbitId: "heo-tess",
+      launcherId: "falcon-9",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 3.5,
+      batteryId: "battery-li-ion-std",
+      batteryCapacityWh: 450,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 70,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-tolerant",
+      thermalId: "thermal-passive",
+      commsId: "comms-x-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 512,
+      selectedInstrumentIds: ["inst-transit-photometer"],
+    };
+  }
+
+  // Generic fallback default
+  return {
+    id,
+    seed,
+    name: "Orbital Explorer",
+    scenarioId,
+    difficulty,
+    isSandbox,
+    busId: "bus-microsat",
+    orbitId: "leo-500",
+    launcherId: "electron",
+    solarArrayId: "solar-silicon",
+    solarArrayAreaM2: 2.0,
+    batteryId: "battery-li-ion-std",
+    batteryCapacityWh: 250,
+    propulsionId: "prop-cold-gas",
+    propellantMassKg: 15,
+    adcsId: "adcs-reaction-wheels",
+    flightComputerId: "fc-cots",
+    thermalId: "thermal-passive",
+    commsId: "comms-s-band",
+    groundNetworkId: "net-dedicated-single",
+    storageGb: 128,
+    selectedInstrumentIds: ["inst-hyperspectral"],
+  };
+}
+
+const initialConfig = getDefaultMissionConfig();
+const initialEval = evaluateMission(initialConfig, catalog);
+
+export const useMissionStore = create<MissionStoreState>()(
+  persist(
+    (set, get) => ({
+      currentMission: initialConfig,
+      savedMissions: {
+        [initialConfig.id]: initialConfig,
+      },
+      evaluation: initialEval,
+
+      recalculate: () => {
+        const { currentMission } = get();
+        const evalResult = evaluateMission(currentMission, catalog);
+        set({ evaluation: evalResult });
+      },
+
+      updateDesign: (patch) => {
+        const { currentMission, savedMissions } = get();
+        const updated = { ...currentMission, ...patch };
+        const evalResult = evaluateMission(updated, catalog);
+        set({
+          currentMission: updated,
+          savedMissions: {
+            ...savedMissions,
+            [updated.id]: updated,
+          },
+          evaluation: evalResult,
+        });
+      },
+
+      applyFix: (patch) => {
+        const { currentMission, savedMissions } = get();
+        const updated = { ...currentMission, ...patch };
+        const evalResult = evaluateMission(updated, catalog);
+        set({
+          currentMission: updated,
+          savedMissions: {
+            ...savedMissions,
+            [updated.id]: updated,
+          },
+          evaluation: evalResult,
+        });
+      },
+
+      setDifficulty: (difficulty) => {
+        get().updateDesign({ difficulty });
+      },
+
+      createMission: (scenarioId, difficulty, isSandbox = false) => {
+        const config = getDefaultMissionConfig(scenarioId, difficulty, isSandbox);
+        const evalResult = evaluateMission(config, catalog);
+        const { savedMissions } = get();
+        set({
+          currentMission: config,
+          savedMissions: {
+            ...savedMissions,
+            [config.id]: config,
+          },
+          evaluation: evalResult,
+        });
+        return config.id;
+      },
+
+      initMission: (scenarioId, difficulty = "INTERMEDIATE", isSandbox = false) => {
+        return get().createMission(scenarioId, difficulty, isSandbox);
+      },
+
+      loadMission: (id) => {
+        const { savedMissions } = get();
+        const target = savedMissions[id];
+        if (target) {
+          const evalResult = evaluateMission(target, catalog);
+          set({
+            currentMission: target,
+            evaluation: evalResult,
+          });
+        }
+      },
+
+      saveCurrentMission: () => {
+        const { currentMission, savedMissions } = get();
+        set({
+          savedMissions: {
+            ...savedMissions,
+            [currentMission.id]: currentMission,
+          },
+        });
+      },
+
+      deleteMission: (id) => {
+        const { savedMissions, currentMission } = get();
+        const updated = { ...savedMissions };
+        delete updated[id];
+        const remaining = Object.values(updated);
+        const fallback = remaining[0] ?? getDefaultMissionConfig();
+        const evalResult = evaluateMission(fallback, catalog);
+        set({
+          savedMissions: updated,
+          currentMission: currentMission.id === id ? fallback : currentMission,
+          evaluation: currentMission.id === id ? evalResult : get().evaluation,
+        });
+      },
+
+      exportMissionJson: () => {
+        const { currentMission } = get();
+        return JSON.stringify(currentMission, null, 2);
+      },
+
+      importMissionJson: (jsonStr) => {
+        try {
+          const parsed = JSON.parse(jsonStr) as MissionDesignConfig;
+          if (!parsed.id || !parsed.scenarioId || !parsed.busId) {
+            return false;
+          }
+          const { savedMissions } = get();
+          const evalResult = evaluateMission(parsed, catalog);
+          set({
+            currentMission: parsed,
+            savedMissions: {
+              ...savedMissions,
+              [parsed.id]: parsed,
+            },
+            evaluation: evalResult,
+          });
+          return true;
+        } catch {
+          return false;
+        }
+      },
+
+      exportShareCode: () => {
+        const { currentMission } = get();
+        try {
+          const jsonStr = JSON.stringify(currentMission);
+          const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+          return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        } catch {
+          return "";
+        }
+      },
+
+      importShareCode: (code) => {
+        try {
+          let base64 = code.replace(/-/g, "+").replace(/_/g, "/");
+          while (base64.length % 4) {
+            base64 += "=";
+          }
+          const jsonStr = decodeURIComponent(escape(atob(base64)));
+          return get().importMissionJson(jsonStr);
+        } catch {
+          return false;
+        }
+      },
+    }),
+    {
+      name: "moonlander-mission-storage-v1",
+      version: 1,
+    }
+  )
+);
+

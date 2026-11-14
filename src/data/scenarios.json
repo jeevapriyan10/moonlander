@@ -1,0 +1,122 @@
+[
+  {
+    "id": "earth-watch",
+    "title": "Earth Watch",
+    "subtitle": "Global Wildfire & Land Surface Monitor",
+    "analogue": "NASA / USGS Landsat 8 & Landsat 9",
+    "briefing": "Design and launch an operational Earth observation observatory to track wildfire propagation, deforestation, and agricultural water usage across continental biomes. The mission demands consistent sun-synchronous lighting, multi-spectral capability, and high data downlink throughput.",
+    "targetOrbitId": "sso-700",
+    "targetLifeYears": 5.0,
+    "budgetCapM": 235.0,
+    "deadlineMonths": 54,
+    "annualOpsCostM": 3.5,
+    "recommendedInstruments": ["inst-multispectral", "inst-thermal-ir"],
+    "playable": true,
+    "difficulty": "YOUTH",
+    "minLevel": "YOUTH",
+    "requirementsList": [
+      "Ground Optical Spatial Resolution <= 30 m",
+      "Full Global Surface Revisit <= 16 days",
+      "Mission Operational Design Life >= 5.0 years",
+      "Daily Science Data Return Fraction >= 90%",
+      "Total Project Lifecycle Cost within Budget Cap ($235M)",
+      "Flight Readiness Delivery within Schedule Deadline (54 mo)"
+    ],
+    "realWorldContext": "Landsat 8 and 9 orbit in a 705 km sun-synchronous orbit, repeating their exact orbital ground track every 16 days with an 8-day offset between the two satellites, imaging Earth's continents in 30-meter multispectral and 100-meter thermal infrared."
+  },
+  {
+    "id": "exoplanet-hunter",
+    "title": "Exoplanet Hunter",
+    "subtitle": "All-Sky Stellar Transit Survey",
+    "analogue": "NASA Transiting Exoplanet Survey Satellite (TESS)",
+    "briefing": "Deploy a wide-field photometric observatory to discover transiting exoplanets around bright nearby stars across the entire celestial sphere. The mission requires an expansive field of view, sub-arcminute pointing stabilization, and an unocculted viewing geometry with >90% observing efficiency.",
+    "targetOrbitId": "heo-tess",
+    "targetLifeYears": 2.0,
+    "budgetCapM": 210.0,
+    "deadlineMonths": 48,
+    "annualOpsCostM": 4.0,
+    "recommendedInstruments": ["inst-transit-photometer", "inst-stellar-spectrograph"],
+    "playable": true,
+    "difficulty": "INTERMEDIATE",
+    "minLevel": "INTERMEDIATE",
+    "requirementsList": [
+      "Combined Optical Field of View >= 2,000 deg²",
+      "ADCS Boresight Pointing Stability <= 0.01°",
+      "Science Observing Viewing Efficiency >= 90%",
+      "Mission Operational Design Life >= 2.0 years",
+      "Periodic Science Downlink Buffer Resolution Each Orbit",
+      "Total Project Lifecycle Cost within Budget Cap ($210M)",
+      "Flight Readiness Delivery within Schedule Deadline (48 mo)"
+    ],
+    "realWorldContext": "TESS utilizes a unique P/2 lunar-resonant 13.7-day high Earth orbit (108,000 x 375,000 km). This orbit keeps the spacecraft outside Earth's radiation belts and shadow for continuous photometric observations, downlinking data during rapid perigee passes."
+  },
+  {
+    "id": "space-weather-sentinel",
+    "title": "Space Weather Sentinel",
+    "subtitle": "Sun-Earth L1 Solar Storm Warning",
+    "analogue": "ESA/NASA SOHO & NOAA DSCOVR",
+    "briefing": "Station an early-warning heliophysics platform at the Sun-Earth L1 Lagrange point (1.5M km upstream) to provide real-time alerts of coronal mass ejections and solar energetic proton storms.",
+    "targetOrbitId": "l1-halo",
+    "targetLifeYears": 5.0,
+    "budgetCapM": 210.0,
+    "deadlineMonths": 54,
+    "annualOpsCostM": 5.5,
+    "recommendedInstruments": ["inst-hyperspectral"],
+    "playable": false,
+    "difficulty": "ADVANCED",
+    "minLevel": "ADVANCED",
+    "requirementsList": [
+      "Stationed in continuous Sun-Earth L1 Halo Orbit",
+      "Continuous Real-time Solar Wind Magnetometer & Plasma Telemetry",
+      "High Radiation Hardness (TID >= 100 krad)",
+      "Uninterrupted Deep Space Network Telemetry Link"
+    ],
+    "realWorldContext": "Satellites at L1 observe the solar wind ~15 to 45 minutes before it impacts Earth's magnetosphere, giving critical warning to electrical grids and astronaut crews."
+  },
+  {
+    "id": "lunar-pathfinder",
+    "title": "Lunar Pathfinder",
+    "subtitle": "Polar Volatiles & Topographic Mapping",
+    "analogue": "NASA Lunar Reconnaissance Orbiter (LRO)",
+    "briefing": "Insert a high-inclination reconnaissance spacecraft into a low circular orbit around the Moon to locate water ice in permanently shadowed polar craters and certify Artemis landing sites.",
+    "targetOrbitId": "llo-100",
+    "targetLifeYears": 3.0,
+    "budgetCapM": 190.0,
+    "deadlineMonths": 48,
+    "annualOpsCostM": 4.5,
+    "recommendedInstruments": ["inst-highres-pan", "inst-sar-radar"],
+    "playable": false,
+    "difficulty": "ADVANCED",
+    "minLevel": "ADVANCED",
+    "requirementsList": [
+      "Low Circular Lunar Polar Orbit (100 km, 90°)",
+      "Sub-meter Landing Site Imagery",
+      "Frequent Mascon Gravitational Station-Keeping Maneuvers",
+      "Farside Data Recording Buffer During Earth Blackouts"
+    ],
+    "realWorldContext": "LRO has mapped the lunar surface for over a decade from a 50-100 km polar orbit, braving extreme thermal swings between lunar noon and night."
+  },
+  {
+    "id": "red-planet-relay",
+    "title": "Red Planet Relay",
+    "subtitle": "Mars Orbital Science & Surface Communications Hub",
+    "analogue": "NASA Mars Reconnaissance Orbiter & MAVEN",
+    "briefing": "Journey across interplanetary space to Mars, execute an aerocapture or propulsive capture into Low Mars Orbit, and operate as a high-bandwidth telecommunications relay for surface rovers.",
+    "targetOrbitId": "lmo-400",
+    "targetLifeYears": 4.0,
+    "budgetCapM": 320.0,
+    "deadlineMonths": 60,
+    "annualOpsCostM": 7.0,
+    "recommendedInstruments": ["inst-highres-pan", "inst-hyperspectral"],
+    "playable": false,
+    "difficulty": "ADVANCED",
+    "minLevel": "ADVANCED",
+    "requirementsList": [
+      "Trans-Mars Injection (TMI) and Mars Orbit Insertion (MOI)",
+      "Massive Solar Array Sizing for 586 W/m² Solar Irradiance",
+      "Deep Space Network Telecommunications with 20-min Latency",
+      "Dual Science Imaging and Surface UHF Rover Relay Payload"
+    ],
+    "realWorldContext": "Mars orbiters require autonomous fault management due to the one-way light travel time of up to 22 minutes, preventing real-time joystick control from Earth."
+  }
+]

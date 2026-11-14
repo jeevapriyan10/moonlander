@@ -1,0 +1,122 @@
+[
+  {
+    "id": "electron",
+    "name": "Electron",
+    "explain": "Dedicated small-satellite orbital launch vehicle powered by Rutherford electric-pump-fed engines, optimized for rapid responsive LEO/SSO deployments.",
+    "basis": "Rocket Lab Electron Payload User Guide, approximate, game-balanced",
+    "minLevel": "YOUTH",
+    "manufacturer": "Rocket Lab",
+    "capacityKg": {
+      "leo": 300,
+      "sso": 200,
+      "gto": null,
+      "tli": null,
+      "tmi": null
+    },
+    "priceM": 7.5,
+    "fairingDiameterM": 1.2,
+    "reliability": 0.93,
+    "firstFlightYear": 2017,
+    "stages": 2
+  },
+  {
+    "id": "vega-c",
+    "name": "Vega-C",
+    "explain": "European light-medium solid-propellant launch vehicle delivering cost-effective direct insertion to sun-synchronous polar orbits.",
+    "basis": "Arianespace Vega-C User's Manual, approximate, game-balanced",
+    "minLevel": "YOUTH",
+    "manufacturer": "Arianespace / ESA",
+    "capacityKg": {
+      "leo": 3000,
+      "sso": 2200,
+      "gto": null,
+      "tli": null,
+      "tmi": null
+    },
+    "priceM": 42.0,
+    "fairingDiameterM": 3.3,
+    "reliability": 0.92,
+    "firstFlightYear": 2022,
+    "stages": 4
+  },
+  {
+    "id": "falcon-9",
+    "name": "Falcon 9",
+    "explain": "Reusable two-stage medium-lift launch vehicle powered by 9 Merlin 1D engines. Outstanding flight heritage and high mission cadence.",
+    "basis": "SpaceX Falcon 9 Launch Vehicle Payload User's Guide, approximate, game-balanced",
+    "minLevel": "INTERMEDIATE",
+    "manufacturer": "SpaceX",
+    "capacityKg": {
+      "leo": 17500,
+      "sso": 10000,
+      "gto": 5500,
+      "tli": 2500,
+      "tmi": 1000
+    },
+    "priceM": 70.0,
+    "fairingDiameterM": 5.2,
+    "reliability": 0.99,
+    "firstFlightYear": 2010,
+    "stages": 2
+  },
+  {
+    "id": "atlas-v-551",
+    "name": "Atlas V 551",
+    "explain": "Heavy-configuration launch vehicle with 5 solid rocket boosters and a Centaur upper stage. Proven precision insertion for high-value science missions.",
+    "basis": "United Launch Alliance (ULA) Atlas V Launch Services User's Guide, approximate, game-balanced",
+    "minLevel": "INTERMEDIATE",
+    "manufacturer": "United Launch Alliance (ULA)",
+    "capacityKg": {
+      "leo": 18850,
+      "sso": 12500,
+      "gto": 8900,
+      "tli": 7000,
+      "tmi": 3850
+    },
+    "priceM": 135.0,
+    "fairingDiameterM": 5.4,
+    "reliability": 0.99,
+    "firstFlightYear": 2002,
+    "stages": 2
+  },
+  {
+    "id": "falcon-heavy",
+    "name": "Falcon Heavy",
+    "explain": "Heavy-lift launch vehicle composed of three Falcon 9 engine cores generating over 5 million pounds of liftoff thrust for high delta-V deep space trajectories.",
+    "basis": "SpaceX Falcon Heavy Payload User's Guide, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "manufacturer": "SpaceX",
+    "capacityKg": {
+      "leo": 63800,
+      "sso": 30000,
+      "gto": 26700,
+      "tli": 18000,
+      "tmi": 16800
+    },
+    "priceM": 150.0,
+    "fairingDiameterM": 5.2,
+    "reliability": 0.95,
+    "firstFlightYear": 2018,
+    "stages": 2
+  },
+  {
+    "id": "sls-block-1",
+    "name": "Space Launch System (SLS) Block 1",
+    "explain": "Super-heavy exploration class rocket engineered for direct high-mass injection to lunar transits and the outer solar system.",
+    "basis": "NASA SLS Mission Planner's Guide, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "manufacturer": "NASA / Boeing",
+    "capacityKg": {
+      "leo": 95000,
+      "sso": null,
+      "gto": 40000,
+      "tli": 27000,
+      "tmi": 20000
+    },
+    "priceM": 2000.0,
+    "fairingDiameterM": 8.4,
+    "reliability": 0.93,
+    "firstFlightYear": 2022,
+    "stages": 2
+  }
+]

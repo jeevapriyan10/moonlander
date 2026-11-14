@@ -1,0 +1,67 @@
+[
+  {
+    "id": "bus-cubesat-12u",
+    "name": "12U CubeSat Frame",
+    "explain": "Standardized modular nanosatellite chassis engineered for secondary rideshare and low-cost rapid development.",
+    "basis": "CubeSat Design Specification Rev 14.1, approximate, game-balanced",
+    "minLevel": "YOUTH",
+    "structuralMassKg": 3.0,
+    "maxDryMassKg": 24.0,
+    "diameterM": 0.22,
+    "baseCostM": 0.8,
+    "baseScheduleMonths": 12,
+    "defaultPointingDeg": 0.5
+  },
+  {
+    "id": "bus-microsat",
+    "name": "ESPA-Class Microsat Bus",
+    "explain": "EELV Secondary Payload Adapter ring-compatible microsatellite platform offering high rigidity and moderate payload capacity.",
+    "basis": "Moog ESPA Spacecraft User Guide, approximate, game-balanced",
+    "minLevel": "YOUTH",
+    "structuralMassKg": 40.0,
+    "maxDryMassKg": 180.0,
+    "diameterM": 1.0,
+    "baseCostM": 3.5,
+    "baseScheduleMonths": 20,
+    "defaultPointingDeg": 0.05
+  },
+  {
+    "id": "bus-smallsat",
+    "name": "TESS-Class Smallsat Bus",
+    "explain": "High-stability small platform designed for dedicated science surveys, fine pointing stability, and long orbital lifetime.",
+    "basis": "Orbital ATK / Northrop Grumman LEOStar-2 (TESS baseline), approximate, game-balanced",
+    "minLevel": "INTERMEDIATE",
+    "structuralMassKg": 110.0,
+    "maxDryMassKg": 600.0,
+    "diameterM": 1.5,
+    "baseCostM": 14.0,
+    "baseScheduleMonths": 30,
+    "defaultPointingDeg": 0.01
+  },
+  {
+    "id": "bus-midsize",
+    "name": "Landsat-Class Midsize Observatory",
+    "explain": "Heavy-duty Earth observation platform with dual deployable instrument benches, high thermal dissipation, and redundant avionics.",
+    "basis": "Northrop Grumman BCP-2000 (Landsat 8/9), approximate, game-balanced",
+    "minLevel": "INTERMEDIATE",
+    "structuralMassKg": 450.0,
+    "maxDryMassKg": 2800.0,
+    "diameterM": 3.0,
+    "baseCostM": 45.0,
+    "baseScheduleMonths": 42,
+    "defaultPointingDeg": 0.005
+  },
+  {
+    "id": "bus-flagship",
+    "name": "Deep-Space Flagship Bus",
+    "explain": "Maximum-capacity planetary and space observatory bus with radiation-hardened structure, autonomous safing, and massive propellant capacity.",
+    "basis": "Lockheed Martin A2100 / JPL Flagship platforms, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "structuralMassKg": 1400.0,
+    "maxDryMassKg": 6500.0,
+    "diameterM": 4.5,
+    "baseCostM": 150.0,
+    "baseScheduleMonths": 60,
+    "defaultPointingDeg": 0.001
+  }
+]

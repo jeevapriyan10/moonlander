@@ -1,0 +1,256 @@
+[
+  {
+    "id": "delta-v",
+    "term": "Delta-V (Δv)",
+    "shortDefinition": "The total velocity change a spacecraft must execute to change its trajectory or orbit.",
+    "fullExplanation": "Delta-v is the scalar measure of impulse per unit mass required to perform orbital maneuvers such as launch, plane change, station-keeping, or orbital insertion. It is the fundamental currency of spaceflight.",
+    "category": "propulsion",
+    "formula": "Δv = Isp · g0 · ln(m_initial / m_final)"
+  },
+  {
+    "id": "specific-impulse",
+    "term": "Specific Impulse (Isp)",
+    "shortDefinition": "A metric of rocket engine propellant efficiency, representing thrust delivered per unit weight flow of propellant.",
+    "fullExplanation": "Measured in seconds, specific impulse dictates how much velocity change a given mass of fuel provides. Chemical rockets typically achieve 200–450 seconds, while electric ion thrusters exceed 1,500 seconds.",
+    "category": "propulsion",
+    "formula": "Isp = F_thrust / (m_dot · g0)"
+  },
+  {
+    "id": "rocket-equation",
+    "term": "Tsiolkovsky Rocket Equation",
+    "shortDefinition": "The mathematical law linking velocity change to rocket exhaust velocity and propellant mass fraction.",
+    "fullExplanation": "Formulated by Konstantin Tsiolkovsky in 1903, this equation shows that achieving high delta-v requires exponentially larger propellant fractions, leading to the infamous 'tyranny of the rocket equation'.",
+    "category": "propulsion",
+    "formula": "Δv = v_exhaust · ln(m_wet / m_dry)"
+  },
+  {
+    "id": "eclipse-fraction",
+    "term": "Eclipse Fraction",
+    "shortDefinition": "The proportion of an orbital period that a satellite spends within a planet's shadow cylinder.",
+    "fullExplanation": "In Low Earth Orbit, spacecraft spend roughly 35–40% of each 90-minute orbit in darkness. Solar generation drops to zero during eclipse, dictating battery capacity sizing and thermal survival heater loads.",
+    "category": "orbits",
+    "formula": "f_eclipse = (1 / π) · arccos( sqrt(h² + 2·R_E·h) / ((R_E + h)·cos β) )"
+  },
+  {
+    "id": "beta-angle",
+    "term": "Solar Beta Angle (β)",
+    "shortDefinition": "The angle between a spacecraft's orbital plane and the vector pointing toward the Sun.",
+    "fullExplanation": "When the beta angle is 0°, the orbit passes directly through the center of Earth's shadow, resulting in maximum eclipse duration. When |β| exceeds the critical angle β*, the satellite enjoys continuous unbroken sunlight.",
+    "category": "orbits"
+  },
+  {
+    "id": "sun-synchronous",
+    "term": "Sun-Synchronous Orbit (SSO)",
+    "shortDefinition": "A polar retrograde orbit where Earth's oblateness precesses the orbital plane at the same rate Earth revolves around the Sun.",
+    "fullExplanation": "By placing an orbit at roughly 97° to 98° inclination, the Earth's J2 gravitational perturbation precesses the orbit by ~0.9856° per day. This guarantees that the spacecraft passes over the equator at the identical local solar time on every orbit.",
+    "category": "orbits"
+  },
+  {
+    "id": "semi-major-axis",
+    "term": "Semi-Major Axis (a)",
+    "shortDefinition": "Half of the longest diameter of an elliptical orbit, defining the overall size and period of the orbit.",
+    "fullExplanation": "For a circular orbit, the semi-major axis equals the orbital radius (Earth radius plus altitude). By Kepler's Third Law, the semi-major axis alone dictates the spacecraft's orbital period.",
+    "category": "orbits",
+    "formula": "a = (r_perigee + r_apogee) / 2"
+  },
+  {
+    "id": "eccentricity",
+    "term": "Orbital Eccentricity (e)",
+    "shortDefinition": "A dimensionless parameter that determines the degree to which an orbit deviates from a perfect circle.",
+    "fullExplanation": "An eccentricity of 0 represents a circle; values between 0 and 1 define ellipses; exactly 1 defines a parabola; and values greater than 1 represent hyperbolic escape trajectories.",
+    "category": "orbits",
+    "formula": "e = (r_apogee - r_perigee) / (r_apogee + r_perigee)"
+  },
+  {
+    "id": "kepler-equation",
+    "term": "Kepler's Equation",
+    "shortDefinition": "The transcendental equation relating a body's mean anomaly (time) to its eccentric anomaly (geometry).",
+    "fullExplanation": "Because Kepler's equation is transcendental, it cannot be solved algebraically for eccentric anomaly E; numerical iterative methods such as Newton-Raphson are required to calculate satellite position along an elliptical track.",
+    "category": "orbits",
+    "formula": "M = E - e · sin(E)"
+  },
+  {
+    "id": "ground-swath",
+    "term": "Ground Swath Width",
+    "shortDefinition": "The strip of Earth's surface imaged or illuminated by a spacecraft instrument as it sweeps along its orbital track.",
+    "fullExplanation": "Swath width scales directly with instrument field of view and orbital altitude. Wider swaths reduce the days needed to map the globe but require larger focal planes to maintain fine ground resolution.",
+    "category": "payload",
+    "formula": "Swath = 2 · (R_E + h) · tan(FOV / 2)"
+  },
+  {
+    "id": "revisit-time",
+    "term": "Revisit Time",
+    "shortDefinition": "The elapsed time between consecutive observational passes of a spacecraft over the exact same point on Earth's surface.",
+    "fullExplanation": "Revisit time is a function of swath width, orbital altitude, inclination, and ground track repeatability. Landsat has a 16-day revisit, whereas constellations of smaller satellites achieve daily revisits.",
+    "category": "orbits"
+  },
+  {
+    "id": "ground-station-pass",
+    "term": "Ground Station Contact Pass",
+    "shortDefinition": "The time window during which a satellite is above the horizon and within line-of-sight of a terrestrial tracking antenna.",
+    "fullExplanation": "For Low Earth Orbiters, pass durations are typically 6 to 12 minutes above a 10° elevation mask. The satellite must downlink all buffered science data and receive new command loads during these brief windows.",
+    "category": "comms"
+  },
+  {
+    "id": "downlink-rate",
+    "term": "Downlink Data Rate",
+    "shortDefinition": "The speed at which encoded telemetry and scientific observations are transmitted from the spacecraft to Earth.",
+    "fullExplanation": "Ranging from kilobits per second (S-band TT&C) to gigabits per second (Ka-band and optical laser comms), downlink rate determines whether high-resolution instruments experience onboard memory bottlenecks.",
+    "category": "comms"
+  },
+  {
+    "id": "duty-cycle",
+    "term": "Duty Cycle",
+    "shortDefinition": "The fraction of time an instrument or subsystem is actively powered and operational during an orbit.",
+    "fullExplanation": "High-power sensors like Synthetic Aperture Radars (SAR) or cryocooled imagers operate at 10% to 35% duty cycle to avoid depleting the battery and overheating internal thermal radiators.",
+    "category": "systems"
+  },
+  {
+    "id": "depth-of-discharge",
+    "term": "Depth of Discharge (DoD)",
+    "shortDefinition": "The percentage of a battery's total rated energy capacity that is drained during an eclipse discharge cycle.",
+    "fullExplanation": "Battery cell cycle life degrades rapidly at deep discharges. LEO satellites undergoing ~5,500 eclipse cycles per year are strictly limited to 20-30% DoD, while GEO satellites (90 cycles/year) can safely use 60-70% DoD.",
+    "category": "power",
+    "formula": "DoD = Energy_discharged / Total_capacity"
+  },
+  {
+    "id": "trl",
+    "term": "Technology Readiness Level (TRL)",
+    "shortDefinition": "A 9-point scale created by NASA to assess the developmental maturity of a spaceflight technology.",
+    "fullExplanation": "TRL 1 represents basic scientific principles observed; TRL 6 represents a prototype demonstrated in a relevant space environment; and TRL 9 represents a flight-proven system with successful mission operations heritage.",
+    "category": "systems"
+  },
+  {
+    "id": "mass-growth-allowance",
+    "term": "Mass Growth Allowance (Margin)",
+    "shortDefinition": "A design contingency added to spacecraft dry mass to account for inevitable growth during design and fabrication.",
+    "fullExplanation": "Per AIAA S-120 and NASA-STD-7009 standards, low-maturity technologies (TRL < 6) require a 20% mass growth contingency, while mature flight-proven hardware (TRL >= 8) requires 10%.",
+    "category": "systems"
+  },
+  {
+    "id": "power-margin",
+    "term": "Power Margin",
+    "shortDefinition": "The percentage of excess orbit-average electrical power generation remaining after satisfying all spacecraft loads.",
+    "fullExplanation": "Power margins protect against solar array degradation, pointing errors, seasonal solar flux variations, and unexpected heater demands. NASA systems engineering typically requires at least 15-20% margin at launch.",
+    "category": "power"
+  },
+  {
+    "id": "leo",
+    "term": "Low Earth Orbit (LEO)",
+    "shortDefinition": "Orbits between 160 km and 2,000 km above Earth's surface.",
+    "fullExplanation": "LEO is characterized by high orbital velocity (~7.5 km/s), short periods (90-120 minutes), and low communications latency. However, satellites experience atmospheric drag and frequent eclipses.",
+    "category": "orbits"
+  },
+  {
+    "id": "meo",
+    "term": "Medium Earth Orbit (MEO)",
+    "shortDefinition": "The region of space between Low Earth Orbit (2,000 km) and Geostationary Orbit (35,786 km).",
+    "fullExplanation": "Most famously home to GPS and Galileo navigation constellations at ~20,200 km, MEO provides broad continental coverage but traverses the high-energy trapped proton and electron Van Allen radiation belts.",
+    "category": "orbits"
+  },
+  {
+    "id": "geo",
+    "term": "Geostationary Orbit (GEO)",
+    "shortDefinition": "A circular equatorial orbit at 35,786 km altitude where the orbital period exactly equals one sidereal day.",
+    "fullExplanation": "Spacecraft in GEO appear stationary in the sky to terrestrial observers, making it ideal for telecommunications, broadcast television, and continuous continental weather monitoring.",
+    "category": "orbits"
+  },
+  {
+    "id": "heo",
+    "term": "Highly Elliptical Orbit (HEO)",
+    "shortDefinition": "An eccentric orbit with a low perigee and a very high apogee, giving long dwell times over high latitudes.",
+    "fullExplanation": "Molniya orbits (63.4° inclination) spend over 8 hours of their 12-hour orbit high above the northern hemisphere. The TESS exoplanet survey uses a lunar-resonant HEO for unobstructed stellar gazing.",
+    "category": "orbits"
+  },
+  {
+    "id": "lagrange-points",
+    "term": "Lagrange Point 1 (L1)",
+    "shortDefinition": "A gravitational equilibrium point located approximately 1.5 million kilometers sunward from Earth.",
+    "fullExplanation": "At Sun-Earth L1, the combined gravitational pulls of the Sun and Earth balance the orbital centrifugal force, allowing a spacecraft to hover in a permanent, unocculted solar observation outpost.",
+    "category": "orbits"
+  },
+  {
+    "id": "hohmann-transfer",
+    "term": "Hohmann Transfer Orbit",
+    "shortDefinition": "The most propellant-efficient two-impulse orbital transfer maneuver between two coplanar circular orbits.",
+    "fullExplanation": "Calculated by Walter Hohmann in 1925, the maneuver uses an elliptical transfer orbit tangent to both the inner and outer circles, requiring two instantaneous delta-v burns at opposite apsides.",
+    "category": "orbits"
+  },
+  {
+    "id": "link-budget",
+    "term": "RF Link Budget",
+    "shortDefinition": "The calculation of all gains and losses from the satellite transmitter through space to the ground receiver.",
+    "fullExplanation": "Accounts for transmitter power, antenna gains, free space path loss (1/d²), atmospheric attenuation, and receiver noise temperature to ensure the received signal-to-noise ratio satisfies bit error rate limits.",
+    "category": "comms"
+  },
+  {
+    "id": "tid",
+    "term": "Total Ionizing Dose (TID)",
+    "shortDefinition": "The cumulative ionizing radiation energy absorbed by silicon microelectronics over the mission lifetime.",
+    "fullExplanation": "Measured in kilorads (krad), high TID accumulation creates trapped oxide charges and parasitic leakage currents in microchips. Commercial parts fail at 10-20 krad, while rad-hard avionics withstand >100 krad.",
+    "category": "systems"
+  },
+  {
+    "id": "van-allen-belts",
+    "term": "Van Allen Radiation Belts",
+    "shortDefinition": "Toroidal zones of energetic charged particles (protons and electrons) trapped by Earth's magnetic field.",
+    "fullExplanation": "Comprises an inner belt of high-energy protons (1,000–6,000 km) and an outer belt of relativistic electrons (13,000–25,000 km) that present extreme radiation hazards to satellite avionics and human crews.",
+    "category": "systems"
+  },
+  {
+    "id": "adcs",
+    "term": "Attitude Determination & Control (ADCS)",
+    "shortDefinition": "The spacecraft subsystem responsible for measuring orientation in space and executing 3-axis pointing maneuvers.",
+    "fullExplanation": "Integrates sensors (star trackers, sun sensors, gyros) with actuators (reaction wheels, cold gas thrusters, magnetorquers) to point scientific telescopes, communications antennas, and solar arrays.",
+    "category": "systems"
+  },
+  {
+    "id": "star-tracker",
+    "term": "Star Tracker",
+    "shortDefinition": "An optical sensor that captures sky images and compares star centroids against an onboard stellar catalog.",
+    "fullExplanation": "Provides the most accurate spacecraft attitude measurement available, delivering sub-arcsecond 3-axis orientation solutions by tracking tens of thousands of cataloged star coordinates simultaneously.",
+    "category": "systems"
+  },
+  {
+    "id": "cryocooler",
+    "term": "Mechanical Cryocooler",
+    "shortDefinition": "A closed-cycle active refrigeration machine that cools infrared sensor focal planes down to cryogenic temperatures (<80K).",
+    "fullExplanation": "Thermal infrared photodetectors must be cooled down to ~77 Kelvin to prevent the sensor's own atomic thermal vibrations from drowning out incoming planetary infrared photons in dark current noise.",
+    "category": "thermal"
+  },
+  {
+    "id": "mli",
+    "term": "Multilayer Insulation (MLI)",
+    "shortDefinition": "Thermal insulation blankets composed of multiple thin reflective layers of aluminized Mylar or Kapton.",
+    "fullExplanation": "MLI acts as a radiation barrier in the vacuum of space, drastically minimizing radiative heat transfer between the spacecraft interior and the extreme temperature swings (-150°C to +120°C) of outer space.",
+    "category": "thermal"
+  },
+  {
+    "id": "ssr",
+    "term": "Solid-State Recorder (SSR)",
+    "shortDefinition": "High-speed, radiation-mitigated non-volatile flash memory used to buffer scientific data between downlinks.",
+    "fullExplanation": "Because instruments generate continuous bit streams while ground station passes occur only intermittently, the SSR must store multiple gigabytes to terabytes of data without data loss.",
+    "category": "comms"
+  },
+  {
+    "id": "j2-perturbation",
+    "term": "J2 Earth Oblateness Perturbation",
+    "shortDefinition": "The gravitational distortion caused by Earth's equatorial bulge from rotational centrifugal force.",
+    "fullExplanation": "Because Earth is an oblate spheroid (fatter at the equator), the non-spherical gravity field exerts a torque on satellite orbits, causing nodal precession and apsidal rotation that can be harnessed for Sun-synchronous orbits.",
+    "category": "orbits"
+  },
+  {
+    "id": "fairing-envelope",
+    "term": "Payload Fairing Static Envelope",
+    "shortDefinition": "The maximum allowable physical cross-section that a spacecraft can occupy inside a launch vehicle's aerodynamic nose cone.",
+    "fullExplanation": "The payload must remain inside the static envelope with sufficient mechanical clearance to ensure dynamic acoustic vibration and structural deflection during launch do not strike the fairing inner wall.",
+    "category": "systems"
+  },
+  {
+    "id": "mass-ratio",
+    "term": "Mass Ratio (m_wet / m_dry)",
+    "shortDefinition": "The ratio of a vehicle's fully fueled launch mass to its burnout structural dry mass.",
+    "fullExplanation": "In the rocket equation, higher mass ratios yield higher delta-v. For high-energy planetary missions, propellant often accounts for 50% to 90% of total spacecraft liftoff mass.",
+    "category": "propulsion"
+  }
+]

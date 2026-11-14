@@ -1,0 +1,346 @@
+{
+  "solarArrays": [
+    {
+      "id": "solar-silicon",
+      "name": "Standard Silicon (Si) Photovoltaic Array",
+      "explain": "Flight-proven silicon solar cells offering dependable power at minimal production cost, though lower efficiency requires larger surface area.",
+      "basis": "NASA Glenn Research Center PV Database, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "type": "silicon",
+      "efficiency": 0.20,
+      "massPerM2Kg": 3.5,
+      "costPerM2M": 0.05,
+      "annualDegradation": 0.025,
+      "trl": 9
+    },
+    {
+      "id": "solar-gaas-triple",
+      "name": "Triple-Junction GaAs Solar Array",
+      "explain": "High-efficiency Gallium Arsenide multi-junction cells tuned to distinct solar wavelengths. Delivers superior watts per square meter with slower degradation.",
+      "basis": "Spectrolab XTJ Prime Solar Cell Data Sheet, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "type": "gaas-triple",
+      "efficiency": 0.29,
+      "massPerM2Kg": 2.8,
+      "costPerM2M": 0.15,
+      "annualDegradation": 0.015,
+      "trl": 8
+    }
+  ],
+  "batteries": [
+    {
+      "id": "battery-li-ion-std",
+      "name": "Standard Spaceflight Lithium-Ion Battery",
+      "explain": "Flight-certified lithium-ion energy storage cells calibrated for 30,000 shallow eclipse cycles in Low Earth Orbit.",
+      "basis": "Saft Space VES 16 Li-ion Specification, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "type": "li-ion-standard",
+      "specificEnergyWhKg": 150.0,
+      "costPerKWhM": 0.02,
+      "ratedCyclesAt30DoD": 35000,
+      "trl": 9
+    },
+    {
+      "id": "battery-li-ion-adv",
+      "name": "Advanced Silicon-Anode Li-Ion Battery",
+      "explain": "Next-generation energy-dense battery cells delivering high capacity at low mass for volume-constrained and long-life spacecraft.",
+      "basis": "NASA Battery Workshop Technical Reports, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "li-ion-advanced",
+      "specificEnergyWhKg": 220.0,
+      "costPerKWhM": 0.05,
+      "ratedCyclesAt30DoD": 55000,
+      "trl": 7
+    }
+  ],
+  "propulsions": [
+    {
+      "id": "prop-cold-gas",
+      "name": "Cold Gas GN2 Thruster Pack",
+      "explain": "Non-toxic pressurized gaseous nitrogen thruster providing precise impulse bits for detumbling and small station-keeping maneuvers.",
+      "basis": "Moog Cold Gas Propulsion System Guide, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "type": "cold-gas",
+      "ispSeconds": 70,
+      "dryMassKg": 8.0,
+      "powerW": 5,
+      "thrustN": 0.5,
+      "costM": 0.6,
+      "trl": 9
+    },
+    {
+      "id": "prop-monoprop",
+      "name": "Hydrazine Monopropellant Subsystem",
+      "explain": "Catalytic hydrazine thrusters providing dependable moderate thrust for orbital insertion, phasing, and deorbit disposal maneuvers.",
+      "basis": "Aerojet Rocketdyne MR-106 Reaction Control Engine, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "type": "monoprop",
+      "ispSeconds": 220,
+      "dryMassKg": 18.0,
+      "powerW": 25,
+      "thrustN": 5.0,
+      "costM": 2.2,
+      "trl": 9
+    },
+    {
+      "id": "prop-biprop",
+      "name": "Bi-Propellant MMH/NTO Apogee Engine",
+      "explain": "Hypergolic liquid bi-propellant propulsion delivering high specific impulse for large delta-V maneuvers and planetary transfer insertion.",
+      "basis": "Aerojet Rocketdyne R-4D-15 Hi-PAT 445N Engine, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "type": "biprop",
+      "ispSeconds": 310,
+      "dryMassKg": 35.0,
+      "powerW": 40,
+      "thrustN": 400.0,
+      "costM": 5.5,
+      "trl": 9
+    },
+    {
+      "id": "prop-hall-electric",
+      "name": "Xenon Hall-Effect Electric Thruster",
+      "explain": "Electrostatic ion acceleration achieving exceptional specific impulse at the cost of high electrical power demand and low acceleration.",
+      "basis": "Aerojet Rocketdyne XR-5 Hall Thruster / NASA GRC, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "electric-hall",
+      "ispSeconds": 1600,
+      "dryMassKg": 22.0,
+      "powerW": 450,
+      "thrustN": 0.08,
+      "costM": 8.0,
+      "trl": 7
+    }
+  ],
+  "flightComputers": [
+    {
+      "id": "fc-cots",
+      "name": "High-Performance COTS Processor",
+      "explain": "Commercial off-the-shelf multi-core computing platform providing massive processing throughput with modest radiation shielding.",
+      "basis": "Space Micro ProtonX-Box COTS Onboard Computer, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "tidToleranceKrad": 15.0,
+      "powerW": 12.0,
+      "massKg": 1.5,
+      "costM": 0.4,
+      "trl": 8
+    },
+    {
+      "id": "fc-rad-tolerant",
+      "name": "Radiation-Tolerant Fault-Tolerant Computer",
+      "explain": "Triple-modular-redundant processor with error-correcting memory built for long-duration Low Earth Orbit and polar sun-synchronous flights.",
+      "basis": "Cobham Gaisler GR740 Quad-Core Fault-Tolerant LEON4, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "tidToleranceKrad": 50.0,
+      "powerW": 18.0,
+      "massKg": 3.0,
+      "costM": 1.8,
+      "trl": 9
+    },
+    {
+      "id": "fc-rad-hard",
+      "name": "RAD750 Radiation-Hardened Computer",
+      "explain": "Industry-benchmark radiation-hardened 32-bit PowerPC architecture capable of surviving high-radiation Van Allen belt transits and deep-space missions.",
+      "basis": "BAE Systems RAD750 Space Microprocessor Data Sheet, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "tidToleranceKrad": 100.0,
+      "powerW": 24.0,
+      "massKg": 5.5,
+      "costM": 5.0,
+      "trl": 9
+    }
+  ],
+  "adcsSystems": [
+    {
+      "id": "adcs-magnetorquers",
+      "name": "Magnetic Torquers + Coarse Sun Sensors",
+      "explain": "Uses Earth's geomagnetic field to dump momentum and point solar arrays. Inexpensive and lightweight, but pointing is limited to ~1.0 degree.",
+      "basis": "NewSpace Systems Magnetorquer Rods & Sun Sensor Suite, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "pointingAccuracyDeg": 1.0,
+      "massKg": 4.0,
+      "powerW": 8.0,
+      "costM": 0.5,
+      "trl": 9
+    },
+    {
+      "id": "adcs-reaction-wheels",
+      "name": "Reaction Wheels + Dual Star Trackers",
+      "explain": "High-agility 3-axis reaction wheel assembly paired with autonomous star pattern recognition for stable 0.01 degree pointing.",
+      "basis": "Blue Canyon Technologies RWP015 + NST-1 Star Tracker, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "pointingAccuracyDeg": 0.01,
+      "massKg": 15.0,
+      "powerW": 30.0,
+      "costM": 3.2,
+      "trl": 9
+    },
+    {
+      "id": "adcs-fine-pointing",
+      "name": "Ultra-Fine Pointing & Isolation Bench",
+      "explain": "Piezoelectric micro-vibration isolation platform paired with high-frequency gyro star trackers for sub-arcsecond pointing stability (0.001 deg).",
+      "basis": "Moog CSA Vibration Isolation System + Sodern Hydra Star Trackers, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "pointingAccuracyDeg": 0.001,
+      "massKg": 32.0,
+      "powerW": 65.0,
+      "costM": 9.5,
+      "trl": 7
+    }
+  ],
+  "thermals": [
+    {
+      "id": "thermal-passive",
+      "name": "Passive MLI Blankets & Surface Radiators",
+      "explain": "Multilayer insulation blankets and optical solar reflectors that regulate internal temperatures through radiation balance without active moving parts.",
+      "basis": "NASA Thermal Control Handbook, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "type": "passive",
+      "massFraction": 0.04,
+      "heaterPowerW": 15.0,
+      "coolerPowerW": 0.0,
+      "costM": 0.8,
+      "trl": 9,
+      "supportsCryoIR": false
+    },
+    {
+      "id": "thermal-heat-pipes",
+      "name": "Active Ammonia Heat Pipes & Louvers",
+      "explain": "Two-phase closed capillary fluid loops that transfer high waste heat loads from avionics and amplifiers to deployable radiators.",
+      "basis": "Advanced Cooling Technologies Constant Conductance Heat Pipes, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "type": "heat-pipes",
+      "massFraction": 0.06,
+      "heaterPowerW": 30.0,
+      "coolerPowerW": 0.0,
+      "costM": 2.4,
+      "trl": 8,
+      "supportsCryoIR": false
+    },
+    {
+      "id": "thermal-cryocooler",
+      "name": "Active Stirling / Pulse Tube Cryocooler",
+      "explain": "Closed-cycle cryogenic refrigeration engine capable of cooling infrared focal plane arrays to 65-80 Kelvin to suppress thermal dark noise.",
+      "basis": "Northrop Grumman High-Efficiency Cryocooler (HEC), approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "cryocooler",
+      "massFraction": 0.08,
+      "heaterPowerW": 20.0,
+      "coolerPowerW": 80.0,
+      "costM": 7.5,
+      "trl": 7,
+      "supportsCryoIR": true
+    }
+  ],
+  "commsSystems": [
+    {
+      "id": "comms-s-band",
+      "name": "S-Band TT&C Transceiver",
+      "explain": "Omnidirectional low-frequency radio link for health telemetry, spacecraft commanding, and low-rate emergency beacon communications.",
+      "basis": "L3Harris S-Band Space Transponder, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "band": "S-band",
+      "downlinkRateMbps": 0.5,
+      "rfPowerW": 5.0,
+      "dcPowerW": 20.0,
+      "massKg": 2.5,
+      "costM": 0.6,
+      "trl": 9,
+      "isDeepSpaceHGA": false
+    },
+    {
+      "id": "comms-x-band",
+      "name": "X-Band Science Downlink Transmitter",
+      "explain": "Standard high-throughput space research downlink transmitter delivering up to 50 Mbps to terrestrial ground stations during line-of-sight passes.",
+      "basis": "General Dynamics X-Band Mission Data Transmitter, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "band": "X-band",
+      "downlinkRateMbps": 50.0,
+      "rfPowerW": 20.0,
+      "dcPowerW": 65.0,
+      "massKg": 8.0,
+      "costM": 2.8,
+      "trl": 9,
+      "isDeepSpaceHGA": false
+    },
+    {
+      "id": "comms-ka-band",
+      "name": "Ka-Band High-Throughput System",
+      "explain": "High-frequency wideband downlink achieving 150 Mbps for massive Earth observation imagery and synthetic aperture radar datasets.",
+      "basis": "Thales Alenia Space Ka-Band Modulator/TWTA, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "band": "Ka-band",
+      "downlinkRateMbps": 150.0,
+      "rfPowerW": 40.0,
+      "dcPowerW": 120.0,
+      "massKg": 14.0,
+      "costM": 6.0,
+      "trl": 8,
+      "isDeepSpaceHGA": false
+    },
+    {
+      "id": "comms-dsn-hga",
+      "name": "Deep-Space High-Gain Antenna (HGA)",
+      "explain": "Gimballed high-gain parabolic dish tuned for ultra-long-distance links with NASA's Deep Space Network from interplanetary ranges.",
+      "basis": "JPL Mars Reconnaissance Orbiter 3.0m High-Gain Dish, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "band": "X-band",
+      "downlinkRateMbps": 5.0,
+      "rfPowerW": 50.0,
+      "dcPowerW": 140.0,
+      "massKg": 28.0,
+      "costM": 8.5,
+      "trl": 9,
+      "isDeepSpaceHGA": true
+    },
+    {
+      "id": "comms-optical-laser",
+      "name": "Free-Space Optical Laser Comm Terminal",
+      "explain": "Laser communication terminal delivering gigabit-class transmission with narrow beam divergence and low size and mass requirements.",
+      "basis": "NASA LCRD / Psyche Deep Space Optical Communications (DSOC), approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "band": "optical-laser",
+      "downlinkRateMbps": 1000.0,
+      "rfPowerW": 10.0,
+      "dcPowerW": 90.0,
+      "massKg": 18.0,
+      "costM": 12.0,
+      "trl": 6,
+      "isDeepSpaceHGA": false
+    }
+  ],
+  "storages": [
+    {
+      "id": "storage-128gb",
+      "name": "128 GB Solid-State Recorder",
+      "explain": "Radiation-tolerant Flash memory buffer for storing science packets between ground station contact windows.",
+      "basis": "InnnoFlight Solid-State Flight Recorder, approximate, game-balanced",
+      "minLevel": "YOUTH",
+      "capacityGb": 128,
+      "costM": 0.3,
+      "massKg": 0.8,
+      "trl": 9
+    },
+    {
+      "id": "storage-512gb",
+      "name": "512 GB Solid-State Recorder",
+      "explain": "High-reliability mass memory unit supporting multiple passes of buffered high-resolution optical imagery.",
+      "basis": "Airbus Spacecraft Mass Memory Unit (MMU), approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "capacityGb": 512,
+      "costM": 0.9,
+      "massKg": 1.5,
+      "trl": 9
+    },
+    {
+      "id": "storage-2tb",
+      "name": "2 TB Enterprise Space Data Recorder",
+      "explain": "High-throughput non-volatile storage capable of buffering multi-spectral scans and radar streams during communication outages.",
+      "basis": "SEAKR Engineering Mass Memory SSR, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "capacityGb": 2048,
+      "costM": 2.5,
+      "massKg": 3.0,
+      "trl": 8
+    }
+  ]
+}
