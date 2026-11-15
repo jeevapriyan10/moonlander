@@ -174,42 +174,44 @@ export default function NewMissionPage() {
           })}
         </div>
 
-        {/* Locked Scenarios Teaser (Stage 2/3 Roadmap) */}
-        <div>
-          <div className="flex items-center gap-2 text-slate-500 font-mono text-xs uppercase mb-3">
-            <Lock className="w-3.5 h-3.5" />
-            <span>EXPANSION PROFILES // UNLOCKS IN STAGES 2 & 3</span>
-          </div>
+        {/* Locked Scenarios Teaser (if any remain) */}
+        {futureScenarios.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 text-slate-500 font-mono text-xs uppercase mb-3">
+              <Lock className="w-3.5 h-3.5" />
+              <span>EXPANSION PROFILES</span>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {futureScenarios.map((scenario) => (
-              <div
-                key={scenario.id}
-                className="p-4 rounded border border-space-border/50 bg-space-panel/30 opacity-60 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-mono text-[10px] text-slate-400">
-                      {scenario.analogue}
-                    </span>
-                    <Badge variant="outline">STAGE 2</Badge>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {futureScenarios.map((scenario) => (
+                <div
+                  key={scenario.id}
+                  className="p-4 rounded border border-space-border/50 bg-space-panel/30 opacity-60 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono text-[10px] text-slate-400">
+                        {scenario.analogue}
+                      </span>
+                      <Badge variant="outline">STAGE 2</Badge>
+                    </div>
+                    <h3 className="font-heading uppercase text-sm text-slate-300 font-semibold mb-1">
+                      {scenario.title}
+                    </h3>
+                    <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                      {scenario.briefing}
+                    </p>
                   </div>
-                  <h3 className="font-heading uppercase text-sm text-slate-300 font-semibold mb-1">
-                    {scenario.title}
-                  </h3>
-                  <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
-                    {scenario.briefing}
-                  </p>
-                </div>
 
-                <div className="mt-4 pt-2 border-t border-space-border/30 flex items-center justify-between font-mono text-[10px] text-slate-500">
-                  <span>${scenario.budgetCapM}M CAP</span>
-                  <span className="uppercase">{scenario.targetOrbitId}</span>
+                  <div className="mt-4 pt-2 border-t border-space-border/30 flex items-center justify-between font-mono text-[10px] text-slate-500">
+                    <span>${scenario.budgetCapM}M CAP</span>
+                    <span className="uppercase">{scenario.targetOrbitId}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       {/* Footer */}

@@ -62,7 +62,9 @@ export interface PowerEvaluation {
 /**
  * Returns recommended maximum depth of discharge for an orbit regime.
  */
-export function getRecommendedDoD(orbitRegime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "LUNAR" | "MARS"): number {
+export function getRecommendedDoD(
+  orbitRegime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER"
+): number {
   switch (orbitRegime) {
     case "LEO":
     case "SSO":
@@ -72,8 +74,11 @@ export function getRecommendedDoD(orbitRegime: "LEO" | "SSO" | "MEO" | "GEO" | "
       return 0.5;
     case "GEO":
     case "L1":
+    case "L2":
     case "LUNAR":
+    case "SURFACE":
     case "MARS":
+    case "JUPITER":
       return 0.6;
     default:
       return 0.3;

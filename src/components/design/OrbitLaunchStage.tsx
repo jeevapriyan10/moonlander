@@ -8,6 +8,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { StatReadout } from "@/components/ui/StatReadout";
+import { PorkchopPlot } from "@/components/design/PorkchopPlot";
 import {
   Rocket,
   Orbit as OrbitIcon,
@@ -193,6 +194,25 @@ export const OrbitLaunchStage: React.FC<OrbitLaunchStageProps> = ({
           </div>
         </Panel>
       </div>
+
+      {/* Interplanetary Astrodynamics Trajectory Planner (for Deep Space & Planetary Missions) */}
+      {(selectedOrbit.launcherClassNeeded === "tmi" ||
+        selectedOrbit.launcherClassNeeded === "tli" ||
+        selectedOrbit.regime === "MARS" ||
+        selectedOrbit.regime === "JUPITER" ||
+        selectedOrbit.regime === "L1" ||
+        selectedOrbit.regime === "L2") && (
+        <PorkchopPlot
+          originBodyId="earth"
+          targetBodyId={
+            selectedOrbit.regime === "MARS"
+              ? "mars"
+              : selectedOrbit.regime === "JUPITER"
+              ? "jupiter"
+              : "mars"
+          }
+        />
+      )}
 
       {/* Flight Readiness Certification & Launch Button */}
       <Panel

@@ -104,6 +104,168 @@ export function getDefaultMissionConfig(
     };
   }
 
+  if (scenarioId === "space-weather-sentinel") {
+    return {
+      id,
+      seed,
+      name: "Solar Storm Sentinel",
+      scenarioId: "space-weather-sentinel",
+      difficulty,
+      isSandbox,
+      busId: "bus-midsize",
+      orbitId: "l1-halo",
+      launcherId: "falcon-9",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 5.0,
+      batteryId: "battery-li-ion-std",
+      batteryCapacityWh: 900,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 110,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-hard",
+      thermalId: "thermal-passive",
+      commsId: "comms-x-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 512,
+      selectedInstrumentIds: ["inst-hyperspectral"],
+    };
+  }
+
+  if (scenarioId === "deep-space-telescope") {
+    return {
+      id,
+      seed,
+      name: "Cosmic Dawn Explorer",
+      scenarioId: "deep-space-telescope",
+      difficulty,
+      isSandbox,
+      busId: "bus-flagship",
+      orbitId: "l2-halo",
+      launcherId: "ariane-64",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 9.0,
+      batteryId: "battery-li-ion-adv",
+      batteryCapacityWh: 1800,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 180,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-hard",
+      thermalId: "thermal-cryocooler",
+      commsId: "comms-ka-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 1024,
+      selectedInstrumentIds: ["inst-stellar-spectrograph", "inst-coronagraph"],
+    };
+  }
+
+  if (scenarioId === "geo-telecom-relay") {
+    return {
+      id,
+      seed,
+      name: "Equatorial Comms Relay",
+      scenarioId: "geo-telecom-relay",
+      difficulty,
+      isSandbox,
+      busId: "bus-flagship",
+      orbitId: "geo-35786",
+      launcherId: "falcon-heavy",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 12.0,
+      batteryId: "battery-li-ion-adv",
+      batteryCapacityWh: 2400,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 280,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-hard",
+      thermalId: "thermal-heat-pipes",
+      commsId: "comms-ka-band",
+      groundNetworkId: "net-commercial-global",
+      storageGb: 1024,
+      selectedInstrumentIds: ["inst-sar-radar"],
+    };
+  }
+
+  if (scenarioId === "lunar-pathfinder") {
+    return {
+      id,
+      seed,
+      name: "Lunar Recon Pathfinder",
+      scenarioId: "lunar-pathfinder",
+      difficulty,
+      isSandbox,
+      busId: "bus-midsize",
+      orbitId: "llo-100",
+      launcherId: "falcon-9",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 6.0,
+      batteryId: "battery-li-ion-std",
+      batteryCapacityWh: 1100,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 160,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-tolerant",
+      thermalId: "thermal-heat-pipes",
+      commsId: "comms-x-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 512,
+      selectedInstrumentIds: ["inst-highres-pan", "inst-sar-radar"],
+    };
+  }
+
+  if (scenarioId === "lunar-south-pole") {
+    return {
+      id,
+      seed,
+      name: "Shackleton Polar Lander",
+      scenarioId: "lunar-south-pole",
+      difficulty,
+      isSandbox,
+      busId: "bus-midsize",
+      orbitId: "lunar-surface",
+      launcherId: "falcon-heavy",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 5.5,
+      batteryId: "battery-li-ion-adv",
+      batteryCapacityWh: 1400,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 220,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-hard",
+      thermalId: "thermal-heat-pipes",
+      commsId: "comms-x-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 512,
+      selectedInstrumentIds: ["inst-multispectral", "inst-thermal-ir"],
+    };
+  }
+
+  if (scenarioId === "red-planet-relay") {
+    return {
+      id,
+      seed,
+      name: "Ares Orbital Relay",
+      scenarioId: "red-planet-relay",
+      difficulty,
+      isSandbox,
+      busId: "bus-flagship",
+      orbitId: "lmo-400",
+      launcherId: "falcon-heavy",
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 15.0,
+      batteryId: "battery-li-ion-adv",
+      batteryCapacityWh: 2200,
+      propulsionId: "prop-biprop",
+      propellantMassKg: 300,
+      adcsId: "adcs-reaction-wheels",
+      flightComputerId: "fc-rad-hard",
+      thermalId: "thermal-heat-pipes",
+      commsId: "comms-ka-band",
+      groundNetworkId: "net-dsn-nsn",
+      storageGb: 1024,
+      selectedInstrumentIds: ["inst-highres-pan", "inst-hyperspectral"],
+    };
+  }
+
   // Generic fallback default
   return {
     id,

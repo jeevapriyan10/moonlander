@@ -1,0 +1,187 @@
+[
+  {
+    "id": "landsat-9",
+    "name": "Landsat 9",
+    "agency": "NASA / USGS",
+    "launchYear": 2021,
+    "missionStatus": "operational",
+    "scenarioId": "earth-watch",
+    "launchMassKg": 2711.0,
+    "totalCostM": 885.0,
+    "primaryOrbit": "Sun-Synchronous Polar Orbit (705 km, 98.2°)",
+    "primaryPayloads": [
+      "Operational Land Imager 2 (OLI-2, 14-bit radiometric precision)",
+      "Thermal Infrared Sensor 2 (TIRS-2, dual-band split-window thermal radiometer)"
+    ],
+    "keyDiscoveries": [
+      "Over 50 years of uninterrupted continental environmental record continuation",
+      "Sub-field scale agricultural water evapotranspiration quantification",
+      "Immediate satellite tracking of severe global megafire boundary progression"
+    ],
+    "lessonsLearned": "Redundant split thermal channels overcome atmospheric water vapor contamination without requiring heavy active cooling on the optical bench.",
+    "nasaArchiveUrl": "https://landsat.gsfc.nasa.gov/satellites/landsat-9/"
+  },
+  {
+    "id": "tess",
+    "name": "Transiting Exoplanet Survey Satellite (TESS)",
+    "agency": "NASA / MIT",
+    "launchYear": 2018,
+    "missionStatus": "operational",
+    "scenarioId": "exoplanet-hunter",
+    "launchMassKg": 362.0,
+    "totalCostM": 337.0,
+    "primaryOrbit": "P/2 Lunar-Resonant High Earth Orbit (108,000 x 375,000 km)",
+    "primaryPayloads": [
+      "Four wide-field optical cameras (16.8 megapixel CCDs, combined 2,304 deg² FOV)",
+      "High-speed Ka-band phased array downlink transmitter"
+    ],
+    "keyDiscoveries": [
+      "Discovered over 7,000 candidate exoplanets and 400+ confirmed worlds",
+      "Discovered TOI-700 d, the first habitable-zone Earth-sized world found by TESS",
+      "Mapped full-sky stellar variability and asteroseismology on 200,000 bright stars"
+    ],
+    "lessonsLearned": "Selecting a lunar-resonant 13.7-day orbit eliminated thermal cycling and eclipse battery burdens, allowing an ultra-lightweight 362 kg smallsat to outperform multi-ton observatories.",
+    "nasaArchiveUrl": "https://tess.mit.edu/"
+  },
+  {
+    "id": "soho",
+    "name": "Solar and Heliospheric Observatory (SOHO)",
+    "agency": "ESA / NASA",
+    "launchYear": 1995,
+    "missionStatus": "operational",
+    "scenarioId": "space-weather-sentinel",
+    "launchMassKg": 1850.0,
+    "totalCostM": 1200.0,
+    "primaryOrbit": "Sun-Earth L1 Halo Orbit (1.5 million km sunward)",
+    "primaryPayloads": [
+      "LASCO (Large Angle and Spectrometric Coronagraph C1/C2/C3)",
+      "EIT (Extreme Ultraviolet Imaging Telescope)",
+      "CELIAS (Charge, Element, and Isotope Analysis System)"
+    ],
+    "keyDiscoveries": [
+      "Revolutionized space weather forecasting by identifying halo CMEs aimed at Earth",
+      "Discovered over 5,000 sungrazing comets using automated coronagraph images",
+      "Mapped internal solar acoustic sound waves through helioseismology"
+    ],
+    "lessonsLearned": "Operating at L1 avoids Earth's magnetosphere and orbital day/night cycles, but attitude recovery after loss-of-signal requires robust gyroless momentum dump routines.",
+    "nasaArchiveUrl": "https://soho.nascom.nasa.gov/"
+  },
+  {
+    "id": "jwst",
+    "name": "James Webb Space Telescope (JWST)",
+    "agency": "NASA / ESA / CSA",
+    "launchYear": 2021,
+    "missionStatus": "operational",
+    "scenarioId": "deep-space-telescope",
+    "launchMassKg": 6161.0,
+    "totalCostM": 9700.0,
+    "primaryOrbit": "Sun-Earth L2 Halo Orbit (1.5 million km anti-sunward)",
+    "primaryPayloads": [
+      "NIRCam (Near-Infrared Camera)",
+      "NIRSpec (Near-Infrared Spectrograph)",
+      "MIRI (Mid-Infrared Instrument with active pulse-tube cryocooler)",
+      "6.5-meter gold-coated beryllium primary mirror array"
+    ],
+    "keyDiscoveries": [
+      "Imaged earliest primordial galaxies formed within 300 million years of Big Bang",
+      "Detected CO2, water vapor, and methane in habitable-zone exoplanet atmospheres",
+      "Revealed proto-stellar disk star formation obscured by interstellar dust clouds"
+    ],
+    "lessonsLearned": "Deployable 5-layer Kapton sunshields passively cool telescope optics to 40K, reserving closed-cycle cryocoolers exclusively for long-wavelength mid-infrared detectors.",
+    "nasaArchiveUrl": "https://webb.nasa.gov/"
+  },
+  {
+    "id": "tdrs-13",
+    "name": "Tracking and Data Relay Satellite 13 (TDRS-M)",
+    "agency": "NASA",
+    "launchYear": 2017,
+    "missionStatus": "operational",
+    "scenarioId": "geo-telecom-relay",
+    "launchMassKg": 3454.0,
+    "totalCostM": 450.0,
+    "primaryOrbit": "Geostationary Equatorial Orbit (35,786 km, 0°)",
+    "primaryPayloads": [
+      "Dual 4.5-meter steerable carbon-composite parabolic reflector dishes",
+      "Multiple-Access phased array S-band / Ku-band / Ka-band transponders",
+      "High-power 3 kW GaAs solar array wings"
+    ],
+    "keyDiscoveries": [
+      "Maintained 99.9% continuous telemetry and 4K video for International Space Station",
+      "Enabled near-instantaneous global commanding of Hubble Space Telescope",
+      "Provided uninterrupted high-rate downlink pipelines for scientific launch vehicles"
+    ],
+    "lessonsLearned": "Stationing high-throughput transponders in geostationary orbit eliminates the need for expensive distributed networks of hundreds of terrestrial ground stations.",
+    "nasaArchiveUrl": "https://www.nasa.gov/directorates/somd/space-communications-navigation-program/tracking-and-data-relay-satellite-tdrs-fleet/"
+  },
+  {
+    "id": "lro",
+    "name": "Lunar Reconnaissance Orbiter (LRO)",
+    "agency": "NASA",
+    "launchYear": 2009,
+    "missionStatus": "operational",
+    "scenarioId": "lunar-pathfinder",
+    "launchMassKg": 1916.0,
+    "totalCostM": 504.0,
+    "primaryOrbit": "Low Circular Lunar Polar Orbit (50 x 100 km, 90°)",
+    "primaryPayloads": [
+      "LROC (Narrow Angle and Wide Angle High-Resolution Cameras)",
+      "LOLA (Lunar Orbiter Laser Altimeter)",
+      "Diviner (Lunar Radiometer Experiment measuring sub-40K polar ice traps)"
+    ],
+    "keyDiscoveries": [
+      "Created the highest-resolution digital elevation model of any planetary body",
+      "Confirmed presence of water ice inside permanently shadowed polar regions",
+      "Mapped Apollo landing sites, lander stages, and astronaut rover wheel tracks"
+    ],
+    "lessonsLearned": "Lunar mass concentrations (mascons) perturb orbits rapidly; choosing frozen orbital inclinations minimizes fuel required for repetitive altitude adjustments.",
+    "nasaArchiveUrl": "https://lunar.gsfc.nasa.gov/"
+  },
+  {
+    "id": "chandrayaan-3",
+    "name": "Chandrayaan-3 (Vikram Lander & Pragyan Rover)",
+    "agency": "ISRO",
+    "launchYear": 2023,
+    "missionStatus": "completed",
+    "scenarioId": "lunar-south-pole",
+    "launchMassKg": 1752.0,
+    "totalCostM": 75.0,
+    "primaryOrbit": "Lunar South Pole Surface (69.37° S, 32.35° E, Shiv Shakti Point)",
+    "primaryPayloads": [
+      "ChASTE (Chandra's Surface Thermophysical Experiment probe)",
+      "ILSA (Instrument for Lunar Seismic Activity)",
+      "LP (Langmuir Probe plasma density sensor)",
+      "Hazard Detection and Avoidance Cameras (LPDC/LHDAC)"
+    ],
+    "keyDiscoveries": [
+      "First successful soft landing in the lunar high-latitude southern polar region",
+      "Measured steep vertical temperature gradient in lunar regolith (60°C on surface to -10°C at 8cm depth)",
+      "In-situ sulfur and iron detection via rover Laser-Induced Breakdown Spectroscopy"
+    ],
+    "lessonsLearned": "Four throttleable 800N bipropellant engines paired with real-time velocity cameras provide critical stability margin when landing on 15° crater slopes.",
+    "nasaArchiveUrl": "https://www.isro.gov.in/Chandrayaan3.html"
+  },
+  {
+    "id": "maven",
+    "name": "Mars Atmosphere and Volatile EvolutioN (MAVEN)",
+    "agency": "NASA",
+    "launchYear": 2013,
+    "missionStatus": "operational",
+    "scenarioId": "red-planet-relay",
+    "launchMassKg": 2450.0,
+    "totalCostM": 671.0,
+    "primaryOrbit": "Elliptical Mars Orbit (150 x 6,200 km, 75° inclination)",
+    "primaryPayloads": [
+      "NGIMS (Neutral Gas and Ion Mass Spectrometer)",
+      "SWEA (Solar Wind Electron Analyzer)",
+      "IUVS (Imaging Ultraviolet Spectrograph)",
+      "Electra UHF Mars rover telecommunications relay"
+    ],
+    "keyDiscoveries": [
+      "Quantified that solar wind stripping caused Mars to lose over 85% of its atmosphere",
+      "Direct measurement of auroral displays triggered by solar energetic proton storms",
+      "Relayed majority of science data return from Curiosity and Perseverance rovers"
+    ],
+    "lessonsLearned": "Aerobraking passes into the Martian upper exosphere provide essential atmospheric samples while simultaneously lowering apogee without consuming propellant.",
+    "nasaArchiveUrl": "https://lasp.colorado.edu/maven/"
+  }
+]

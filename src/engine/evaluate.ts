@@ -83,7 +83,7 @@ import {
 export interface OrbitSpec {
   id: string;
   name: string;
-  regime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "LUNAR" | "MARS";
+  regime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER";
   launcherClassNeeded: "leo" | "sso" | "gto" | "tli" | "tmi";
   perigeeAltKm: number;
   apogeeAltKm: number;

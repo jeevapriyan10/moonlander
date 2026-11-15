@@ -5,10 +5,11 @@ import { CanvasWrapper } from "./CanvasWrapper";
 import { CameraRig, type CameraPreset } from "./CameraRig";
 import { Spacecraft } from "./Spacecraft";
 import { OrbitView } from "./OrbitView";
-import { Eye, Orbit, RotateCw, Sparkles } from "lucide-react";
+import { SolarSystemView } from "./SolarSystemView";
+import { Eye, Orbit, Globe, RotateCw, Sparkles } from "lucide-react";
 import { useSettingsStore } from "@/store/settings";
 
-export type ViewportMode = "spacecraft" | "orbit";
+export type ViewportMode = "spacecraft" | "orbit" | "solar-system";
 
 export interface Viewport3DProps {
   initialMode?: ViewportMode;
@@ -25,7 +26,8 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
   const [autoRotate, setAutoRotate] = useState(false);
   const graphicsQuality = useSettingsStore((s) => s.graphicsQuality);
 
-  const preset: CameraPreset = mode === "spacecraft" ? "spacecraft" : "orbit";
+  const preset: CameraPreset =
+    mode === "spacecraft" ? "spacecraft" : mode === "orbit" ? "orbit" : "solar-system";
 
   return (
     <div className={className}>
@@ -33,12 +35,14 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
         <CameraRig
           preset={preset}
           autoRotate={autoRotate}
-          autoRotateSpeed={mode === "spacecraft" ? 0.4 : 0.2}
+          autoRotateSpeed={mode === "spacecraft" ? 0.4 : 0.15}
         />
         {mode === "spacecraft" ? (
           <Spacecraft autoRotate={autoRotate} />
-        ) : (
+        ) : mode === "orbit" ? (
           <OrbitView />
+        ) : (
+          <SolarSystemView />
         )}
       </CanvasWrapper>
 
@@ -69,6 +73,19 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
           >
             <Orbit className="w-3.5 h-3.5" />
             <span>Trajectory</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMode("solar-system")}
+            className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-heading uppercase tracking-wider rounded transition-colors ${
+              mode === "solar-system"
+                ? "bg-telemetry-green/20 text-telemetry-green border border-telemetry-green/40"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>Solar System</span>
           </button>
 
           <div className="h-4 w-[1px] bg-space-800 mx-0.5" />

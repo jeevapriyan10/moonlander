@@ -178,7 +178,7 @@ export const OrbitDataSchema = z.object({
   explain: z.string(),
   basis: z.string(),
   minLevel: DifficultyLevelSchema,
-  regime: z.enum(["LEO", "SSO", "MEO", "GEO", "HEO", "L1", "LUNAR", "MARS"]),
+  regime: z.enum(["LEO", "SSO", "MEO", "GEO", "HEO", "L1", "L2", "LUNAR", "SURFACE", "MARS", "JUPITER"]),
   launcherClassNeeded: z.enum(["leo", "sso", "gto", "tli", "tmi"]),
   perigeeAltKm: z.number().nonnegative(),
   apogeeAltKm: z.number().nonnegative(),
@@ -269,4 +269,69 @@ export const CodexEntrySchema = z.object({
   diagramUrl: z.string().optional(),
   externalUrl: z.string().optional(),
   relatedIds: z.array(z.string()).default([]),
+});
+
+export const DestinationDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  bodyId: z.string(),
+  category: z.enum(["terrestrial", "lagrange", "lunar", "interplanetary", "outer-system"]),
+  distanceAU: z.number().nonnegative(),
+  typicalDeltaVKmS: z.number().positive(),
+  oneWayLightTimeMinutes: z.number().nonnegative(),
+  solarFluxW_M2: z.number().positive(),
+  blackbodyTempK: z.number().positive(),
+  radiationEnvironment: z.string(),
+  description: z.string(),
+  scienceGoals: z.array(z.string()),
+  historicMissions: z.array(z.string()),
+  defaultOrbitId: z.string(),
+});
+
+export const ExoplanetDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  hostStar: z.string(),
+  spectralType: z.string(),
+  distanceLightYears: z.number().positive(),
+  discoveryYear: z.number().int().positive(),
+  discoveryFacility: z.string(),
+  orbitalPeriodDays: z.number().positive(),
+  semiMajorAxisAU: z.number().positive(),
+  radiusEarthRadii: z.number().positive(),
+  massEarthMasses: z.number().positive().optional(),
+  transitDepthPpm: z.number().positive(),
+  equilibriumTempK: z.number().positive(),
+  habitableZoneStatus: z.enum(["optimistic", "conservative", "non-habitable"]),
+  atmosphereSignatures: z.array(z.string()),
+  scientificSignificance: z.string(),
+});
+
+export const SpaceWeatherDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  date: z.string(),
+  cmeSpeedKmS: z.number().positive(),
+  kpIndex: z.number().min(0).max(9),
+  dstIndexNt: z.number(),
+  solarProtonFluxPfu: z.number().positive(),
+  flareClass: z.string(),
+  historicalImpact: z.string(),
+  spacecraftCountermeasures: z.array(z.string()),
+});
+
+export const RealMissionDataSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  agency: z.string(),
+  launchYear: z.number().int().positive(),
+  missionStatus: z.enum(["operational", "completed", "en-route", "lost"]),
+  scenarioId: z.string(),
+  launchMassKg: z.number().positive(),
+  totalCostM: z.number().positive(),
+  primaryOrbit: z.string(),
+  primaryPayloads: z.array(z.string()),
+  keyDiscoveries: z.array(z.string()),
+  lessonsLearned: z.string(),
+  nasaArchiveUrl: z.string().url(),
 });

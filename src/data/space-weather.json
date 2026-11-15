@@ -1,0 +1,52 @@
+[
+  {
+    "id": "halloween-2003",
+    "name": "Halloween Solar Storms 2003",
+    "date": "2003-10-28",
+    "cmeSpeedKmS": 2400.0,
+    "kpIndex": 9,
+    "dstIndexNt": -383,
+    "solarProtonFluxPfu": 29500.0,
+    "flareClass": "X28+ (Estimated X45)",
+    "historicalImpact": "Over 47 satellites reported orbital anomalies, star tracker blindness, and memory upsets. The Japanese ADEOS-2 science satellite suffered permanent electrical power system failure. Mars Odyssey MARIE radiation instrument was permanently disabled by heavy ion damage.",
+    "spacecraftCountermeasures": [
+      "Stow high-gain antennas and orient spacecraft for minimum frontal cross-section",
+      "Power down non-essential scientific payloads and high-voltage sensors",
+      "Switch ADCS from optical star trackers to coarse sun-sensors + gyroscopes",
+      "Enable memory scrubbers and EDAC autonomous single-event-upset resets"
+    ]
+  },
+  {
+    "id": "march-1989",
+    "name": "March 1989 Hydro-Québec Storm",
+    "date": "1989-03-13",
+    "cmeSpeedKmS": 1600.0,
+    "kpIndex": 9,
+    "dstIndexNt": -589,
+    "solarProtonFluxPfu": 12000.0,
+    "flareClass": "X15",
+    "historicalImpact": "Induced geomagnetically induced currents (GIC) collapsed the Hydro-Québec power grid in 90 seconds. Severe upper-atmospheric heating dramatically increased thermospheric density, causing LEO satellites to drop thousands of meters in altitude and throwing off thousands of space tracking radar tracks.",
+    "spacecraftCountermeasures": [
+      "Command orbital drag reboost maneuvers using onboard chemical propulsion",
+      "Increase telemetry ground station pass frequency to re-acquire drifting ephemerides",
+      "Monitor battery charge-discharge cycles during extended atmospheric drag tumbling"
+    ]
+  },
+  {
+    "id": "carrington-class-2012",
+    "name": "July 2012 Ultra-Fast CME (Near-Carrington Event)",
+    "date": "2012-07-23",
+    "cmeSpeedKmS": 3050.0,
+    "kpIndex": 9,
+    "dstIndexNt": -1182,
+    "solarProtonFluxPfu": 55000.0,
+    "flareClass": "X25+ (Far-side)",
+    "historicalImpact": "Fastest coronal mass ejection ever measured in the space age, crossing the 1 AU distance in only 18.6 hours. The storm directly struck NASA's STEREO-A solar observatory, which survived and gathered unprecedented in-situ magnetic field and particle measurements. Had it erupted 9 days earlier, it would have struck Earth directly.",
+    "spacecraftCountermeasures": [
+      "Immediate entry into hardened Safe Hold Mode",
+      "Isolate critical avionics buses and shunt solar array peak power strings",
+      "Activate redundant flight computer cold standby watchdogs",
+      "Execute scheduled autonomous reboot verification once proton flux drops below 100 pfu"
+    ]
+  }
+]

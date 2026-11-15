@@ -18,6 +18,7 @@ import { OrbitLaunchStage } from "@/components/design/OrbitLaunchStage";
 import { SimulateStage } from "@/components/design/SimulateStage";
 import { DebriefStage } from "@/components/design/DebriefStage";
 import { StageRail } from "@/components/ui/StageRail";
+import { scenarios } from "@/data";
 import {
   SlidersHorizontal,
   Box,
@@ -104,7 +105,7 @@ export default function MissionWorkspacePage() {
         uiStore.setCurrentStage(3);
       }
       uiStore.unlockStage(6);
-    } else if (scenarioOrId === "earth-watch" || scenarioOrId === "exoplanet-hunter") {
+    } else if (scenarios.some((s) => s.id === scenarioOrId)) {
       if (
         missionStore.currentMission.scenarioId !== scenarioOrId ||
         missionStore.currentMission.isSandbox

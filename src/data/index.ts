@@ -21,6 +21,10 @@ import {
   ScenarioDataSchema,
   GlossaryTermSchema,
   CodexEntrySchema,
+  DestinationDataSchema,
+  ExoplanetDataSchema,
+  SpaceWeatherDataSchema,
+  RealMissionDataSchema,
 } from "./schemas";
 
 import busesRaw from "./buses.json";
@@ -32,6 +36,10 @@ import groundNetworksRaw from "./groundNetworks.json";
 import scenariosRaw from "./scenarios.json";
 import glossaryRaw from "./glossary.json";
 import codexRaw from "./codex.json";
+import destinationsRaw from "./destinations.json";
+import exoplanetsRaw from "./exoplanets.json";
+import spaceWeatherRaw from "./space-weather.json";
+import realMissionsRaw from "./real-missions.json";
 
 import type { CatalogLookup } from "../engine/evaluate";
 
@@ -52,6 +60,10 @@ export const groundNetworks = z.array(GroundNetworkDataSchema).parse(groundNetwo
 export const scenarios = z.array(ScenarioDataSchema).parse(scenariosRaw);
 export const glossary = z.array(GlossaryTermSchema).parse(glossaryRaw);
 export const codex = z.array(CodexEntrySchema).parse(codexRaw);
+export const destinations = z.array(DestinationDataSchema).parse(destinationsRaw);
+export const exoplanets = z.array(ExoplanetDataSchema).parse(exoplanetsRaw);
+export const spaceWeather = z.array(SpaceWeatherDataSchema).parse(spaceWeatherRaw);
+export const realMissions = z.array(RealMissionDataSchema).parse(realMissionsRaw);
 
 // Export types derived from validated schemas
 export type BusClass = z.infer<typeof BusClassDataSchema>;
@@ -70,6 +82,10 @@ export type GroundNetwork = z.infer<typeof GroundNetworkDataSchema>;
 export type Scenario = z.infer<typeof ScenarioDataSchema>;
 export type GlossaryTerm = z.infer<typeof GlossaryTermSchema>;
 export type CodexEntry = z.infer<typeof CodexEntrySchema>;
+export type Destination = z.infer<typeof DestinationDataSchema>;
+export type Exoplanet = z.infer<typeof ExoplanetDataSchema>;
+export type SpaceWeatherEvent = z.infer<typeof SpaceWeatherDataSchema>;
+export type RealMission = z.infer<typeof RealMissionDataSchema>;
 
 // Build typed catalog lookup object for pure evaluation engine
 export function getCatalogLookup(): CatalogLookup {

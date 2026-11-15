@@ -7,7 +7,7 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
 import { useSettingsStore } from "@/store/settings";
 
-export type CameraPreset = "spacecraft" | "orbit" | "earth" | "free";
+export type CameraPreset = "spacecraft" | "orbit" | "solar-system" | "earth" | "free";
 
 interface CameraRigProps {
   preset?: CameraPreset;
@@ -33,6 +33,12 @@ const PRESET_CONFIGS: Record<
     target: [0, 0, 0],
     minDistance: 8.0,
     maxDistance: 150.0,
+  },
+  "solar-system": {
+    position: [0, 75, 100],
+    target: [0, 0, 0],
+    minDistance: 12.0,
+    maxDistance: 400.0,
   },
   earth: {
     position: [0, 1.2, 7.5],

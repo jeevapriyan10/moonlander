@@ -83,7 +83,7 @@ export function computeDownlinkCapacityGb(
  * Computes effective contact minutes per day for an orbit and ground network.
  */
 export function computeEffectiveContactMinutes(
-  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "LUNAR" | "MARS",
+  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER",
   passesPerDayPerStation: number,
   meanPassDurationSeconds: number,
   network: GroundNetworkSpec,
@@ -94,7 +94,14 @@ export function computeEffectiveContactMinutes(
     return 1440; // 24 hours * 60 min
   }
 
-  if (orbitType === "L1" || orbitType === "LUNAR" || orbitType === "MARS") {
+  if (
+    orbitType === "L1" ||
+    orbitType === "L2" ||
+    orbitType === "LUNAR" ||
+    orbitType === "SURFACE" ||
+    orbitType === "MARS" ||
+    orbitType === "JUPITER"
+  ) {
     // Deep space missions rely on scheduled tracking passes via DSN / NSN
     if (!network.deepSpaceSupport) {
       return 0; // standard commercial LEO ground stations cannot track lunar/planetary distances

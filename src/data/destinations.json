@@ -1,0 +1,162 @@
+[
+  {
+    "id": "dest-leo-sso",
+    "name": "Low Earth Orbit & SSO",
+    "bodyId": "earth",
+    "category": "terrestrial",
+    "distanceAU": 0.0,
+    "typicalDeltaVKmS": 9.4,
+    "oneWayLightTimeMinutes": 0.00003,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 279,
+    "radiationEnvironment": "Geomagnetically shielded below Van Allen belts (0.5 - 1.5 krad/year). South Atlantic Anomaly SEU hotspot.",
+    "description": "Earth orbit between 200 km and 800 km altitude. Sun-synchronous orbits leverage J2 gravitational oblateness to maintain permanent daylight illumination angles across revisits.",
+    "scienceGoals": [
+      "Continental vegetation indices & agricultural drought monitoring",
+      "Real-time wildfire propagation tracking and thermal boundary mapping",
+      "High-resolution multispectral land surface classification"
+    ],
+    "historicMissions": ["Landsat 8/9", "Sentinel-2", "Terra", "Aqua"],
+    "defaultOrbitId": "sso-700"
+  },
+  {
+    "id": "dest-geo",
+    "name": "Geostationary Earth Orbit",
+    "bodyId": "earth",
+    "category": "terrestrial",
+    "distanceAU": 0.00024,
+    "typicalDeltaVKmS": 12.8,
+    "oneWayLightTimeMinutes": 0.002,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 279,
+    "radiationEnvironment": "Outer Van Allen belt electron fringe (5.0 krad/year). Moderate unshielded solar flare exposure.",
+    "description": "Circular equatorial orbit at 35,786 km altitude with a period matching Earth's sidereal rotation. Spacecraft hovers over a fixed terrestrial longitude with 24/7 continuous line-of-sight.",
+    "scienceGoals": [
+      "Continuous hemispheric weather radar and hurricane storm tracking",
+      "High-bandwidth inter-satellite and deep space communications relay",
+      "Space weather particle and magnetic field monitoring"
+    ],
+    "historicMissions": ["GOES-16/18", "TDRS-13", "Meteosat", "Inmarsat"],
+    "defaultOrbitId": "geo-35786"
+  },
+  {
+    "id": "dest-l1",
+    "name": "Sun-Earth Lagrange Point 1",
+    "bodyId": "sun",
+    "category": "lagrange",
+    "distanceAU": 0.01,
+    "typicalDeltaVKmS": 13.1,
+    "oneWayLightTimeMinutes": 0.083,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 279,
+    "radiationEnvironment": "Unshielded interplanetary solar wind and solar energetic protons (3.0 krad/year). Constant CME exposure.",
+    "description": "Gravitational equilibrium point 1.5 million kilometers sunward of Earth. Provides an uninterrupted view of the solar disc and samples the solar wind 15-45 minutes before terrestrial arrival.",
+    "scienceGoals": [
+      "Real-time solar coronal mass ejection (CME) early warning alerts",
+      "In-situ solar wind speed, plasma density, and interplanetary magnetic field measurement",
+      "Full-disc Earth sunlit climate and ozone monitoring"
+    ],
+    "historicMissions": ["SOHO", "DSCOVR", "ACE", "WIND"],
+    "defaultOrbitId": "l1-halo"
+  },
+  {
+    "id": "dest-l2",
+    "name": "Sun-Earth Lagrange Point 2",
+    "bodyId": "sun",
+    "category": "lagrange",
+    "distanceAU": 0.01,
+    "typicalDeltaVKmS": 13.2,
+    "oneWayLightTimeMinutes": 0.083,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 279,
+    "radiationEnvironment": "Interplanetary galactic cosmic ray background (3.0 krad/year). Zero Earth trapped radiation.",
+    "description": "Located 1.5 million kilometers anti-sunward behind Earth. Earth and Sun stay aligned behind the spacecraft's sunshield, providing an ultra-stable deep cryogenic dark environment for deep space astronomy.",
+    "scienceGoals": [
+      "Infrared imaging of first-generation cosmic dawn stars and galaxies",
+      "Atmospheric transit spectroscopy of temperate habitable-zone exoplanets",
+      "Cosmic Microwave Background anisotropic structure mapping"
+    ],
+    "historicMissions": ["JWST", "Gaia", "Euclid", "Planck", "Herschel"],
+    "defaultOrbitId": "l2-halo"
+  },
+  {
+    "id": "dest-lunar-orbit",
+    "name": "Cis-Lunar & Low Lunar Orbit",
+    "bodyId": "moon",
+    "category": "lunar",
+    "distanceAU": 0.00257,
+    "typicalDeltaVKmS": 12.6,
+    "oneWayLightTimeMinutes": 0.021,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 279,
+    "radiationEnvironment": "Solar cosmic rays + lunar surface albedo secondary neutrons (2.0 krad/year). No magnetospheric shield.",
+    "description": "Low circular polar orbit at 100 km altitude above the Moon. Gravitational mascons cause rapid orbital evolution requiring periodic active orbital maintenance.",
+    "scienceGoals": [
+      "High-precision laser altimetry topographic mapping of polar craters",
+      "Epithermal neutron detection of subsurface hydrogen/water-ice deposits",
+      "Artemis crewed landing site certification and slope hazard analysis"
+    ],
+    "historicMissions": ["LRO", "Chandrayaan-2 Orbiter", "Kaguya", "Clementine"],
+    "defaultOrbitId": "llo-100"
+  },
+  {
+    "id": "dest-lunar-surface",
+    "name": "Lunar South Pole Landing",
+    "bodyId": "moon",
+    "category": "lunar",
+    "distanceAU": 0.00257,
+    "typicalDeltaVKmS": 15.2,
+    "oneWayLightTimeMinutes": 0.021,
+    "solarFluxW_M2": 1361.0,
+    "blackbodyTempK": 220,
+    "radiationEnvironment": "Extreme unshielded solar particle events (SPE) and secondary regolith neutrons. Cryogenic PSR thermal traps (<40K).",
+    "description": "Powered descent and soft touchdown near the lunar South Pole (Shackleton / Malapert plateau). Extreme low-angle grazing solar illumination with permanent shadows in crater floors.",
+    "scienceGoals": [
+      "Direct drill sampling and isotopic analysis of volatile water ice in PSRs",
+      "In-situ regolith seismic activity and thermal conductivity profiling",
+      "Autonomous landing obstacle avoidance validation on rough crater rims"
+    ],
+    "historicMissions": ["Chandrayaan-3", "Apollo 11/17", "Chang'e-5", "Surveyor 7"],
+    "defaultOrbitId": "lunar-surface"
+  },
+  {
+    "id": "dest-mars",
+    "name": "Mars Transfer & Orbit",
+    "bodyId": "mars",
+    "category": "interplanetary",
+    "distanceAU": 1.524,
+    "typicalDeltaVKmS": 14.5,
+    "oneWayLightTimeMinutes": 12.5,
+    "solarFluxW_M2": 586.0,
+    "blackbodyTempK": 226,
+    "radiationEnvironment": "Interplanetary galactic cosmic rays during cruise + unshielded Martian solar wind (1.5 - 2.5 krad/year).",
+    "description": "Heliocentric hyperbolic transfer across 225 million kilometers followed by propulsive capture into Low Mars Orbit. Solar flux is reduced to 43% of Earth levels, demanding enlarged solar arrays.",
+    "scienceGoals": [
+      "Atmospheric loss rates and solar wind stripping dynamics via UV spectroscopy",
+      "Sub-meter stereo imaging of paleolakes, deltas, and ancient riverbeds",
+      "High-gain telecommunications relay for robotic rovers on the surface"
+    ],
+    "historicMissions": ["MRO", "MAVEN", "Mars Express", "Hope", "Viking 1/2"],
+    "defaultOrbitId": "lmo-400"
+  },
+  {
+    "id": "dest-europa",
+    "name": "Jovian Moon Europa Flyby",
+    "bodyId": "europa",
+    "category": "outer-system",
+    "distanceAU": 5.204,
+    "typicalDeltaVKmS": 18.8,
+    "oneWayLightTimeMinutes": 43.2,
+    "solarFluxW_M2": 50.3,
+    "blackbodyTempK": 122,
+    "radiationEnvironment": "Extreme relativistic trapped electrons in Jupiter's magnetosphere (>300 krad/year behind titanium vault).",
+    "description": "Outer solar system trajectory into the intense radiation belts of Jupiter to perform multi-pass flybys of ice-covered moon Europa. Solar flux drops to 3.7% of Earth, requiring ultra-large arrays or RTGs.",
+    "scienceGoals": [
+      "Ice-penetrating radar sounding of outer brittle ice shell thickness",
+      "Surface composition mapping for salts, organics, and active plume cryovolcanism",
+      "Induced magnetic field confirmation of a global sub-surface liquid ocean"
+    ],
+    "historicMissions": ["Europa Clipper", "Galileo", "Juno", "JUICE", "Voyager 1/2"],
+    "defaultOrbitId": "europa-flyby"
+  }
+]

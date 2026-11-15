@@ -6,6 +6,10 @@ import {
   orbits,
   scenarios,
   glossary,
+  destinations,
+  exoplanets,
+  spaceWeather,
+  realMissions,
   getCatalogLookup,
 } from "./index";
 import { evaluateMission, type MissionDesignConfig } from "../engine/evaluate";
@@ -26,6 +30,61 @@ describe("Data Integrity & Schema Validation Tests", () => {
     checkUnique(orbits, "orbits");
     checkUnique(scenarios, "scenarios");
     checkUnique(glossary, "glossary");
+    checkUnique(destinations, "destinations");
+    checkUnique(exoplanets, "exoplanets");
+    checkUnique(spaceWeather, "spaceWeather");
+    checkUnique(realMissions, "realMissions");
+  });
+
+  it("has 8 playable destinations covering terrestrial, lagrange, lunar, and interplanetary regimes", () => {
+    expect(destinations.length).toBe(8);
+    const orbitIds = new Set(orbits.map((o) => o.id));
+    for (const dest of destinations) {
+      expect(orbitIds.has(dest.defaultOrbitId), `Missing default orbit ${dest.defaultOrbitId}`).toBe(true);
+      expect(dest.typicalDeltaVKmS).toBeGreaterThan(0);
+      expect(dest.solarFluxW_M2).toBeGreaterThan(0);
+      expect(dest.scienceGoals.length).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("all 8 scenarios are fully playable with budget, deadline, and valid targets", () => {
+    expect(scenarios.length).toBe(8);
+    for (const scenario of scenarios) {
+      expect(scenario.playable).toBe(true);
+      expect(scenario.budgetCapM).toBeGreaterThan(150);
+      expect(scenario.deadlineMonths).toBeGreaterThan(30);
+      expect(scenario.requirementsList.length).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  it("exoplanet catalog contains 5 verified NASA worlds with transit and atmospheric metrics", () => {
+    expect(exoplanets.length).toBe(5);
+    for (const planet of exoplanets) {
+      expect(planet.orbitalPeriodDays).toBeGreaterThan(0);
+      expect(planet.radiusEarthRadii).toBeGreaterThan(0);
+      expect(planet.transitDepthPpm).toBeGreaterThan(0);
+      expect(planet.atmosphereSignatures.length).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it("space weather catalog contains 3 historic severe storms with Kp 9 data", () => {
+    expect(spaceWeather.length).toBe(3);
+    for (const storm of spaceWeather) {
+      expect(storm.kpIndex).toBe(9);
+      expect(storm.cmeSpeedKmS).toBeGreaterThan(1000);
+      expect(storm.spacecraftCountermeasures.length).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it("real missions catalog links all 8 scenarios to NASA/ESA flight twins", () => {
+    expect(realMissions.length).toBe(8);
+    const scenarioIds = new Set(scenarios.map((s) => s.id));
+    for (const mission of realMissions) {
+      expect(scenarioIds.has(mission.scenarioId), `Missing scenario link for ${mission.id}`).toBe(true);
+      expect(mission.totalCostM).toBeGreaterThan(50);
+      expect(mission.launchMassKg).toBeGreaterThan(300);
+      expect(mission.nasaArchiveUrl).toMatch(/^https?:\/\//);
+    }
   });
 
   it("glossary contains at least 30 terms with plain explanations", () => {

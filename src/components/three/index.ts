@@ -1,6 +1,7 @@
 export { Spacecraft } from "./Spacecraft";
 export { Earth } from "./Earth";
 export { OrbitView } from "./OrbitView";
+export { SolarSystemView } from "./SolarSystemView";
 export { Launch } from "./Launch";
 export { CameraRig } from "./CameraRig";
 export type { CameraPreset } from "./CameraRig";

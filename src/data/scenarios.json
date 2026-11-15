@@ -58,11 +58,11 @@
     "briefing": "Station an early-warning heliophysics platform at the Sun-Earth L1 Lagrange point (1.5M km upstream) to provide real-time alerts of coronal mass ejections and solar energetic proton storms.",
     "targetOrbitId": "l1-halo",
     "targetLifeYears": 5.0,
-    "budgetCapM": 210.0,
+    "budgetCapM": 220.0,
     "deadlineMonths": 54,
     "annualOpsCostM": 5.5,
     "recommendedInstruments": ["inst-hyperspectral"],
-    "playable": false,
+    "playable": true,
     "difficulty": "ADVANCED",
     "minLevel": "ADVANCED",
     "requirementsList": [
@@ -74,6 +74,52 @@
     "realWorldContext": "Satellites at L1 observe the solar wind ~15 to 45 minutes before it impacts Earth's magnetosphere, giving critical warning to electrical grids and astronaut crews."
   },
   {
+    "id": "deep-space-telescope",
+    "title": "Cosmic Origins Observatory",
+    "subtitle": "Cryogenic Sun-Earth L2 Deep Space Observatory",
+    "analogue": "NASA James Webb Space Telescope (JWST)",
+    "briefing": "Deploy an infrared space observatory to the Sun-Earth L2 Lagrange point to peer 13.5 billion years into cosmic history and characterize exoplanet atmospheres. Requires deep cryogenic cooling (<50K) and sub-arcsecond star tracking.",
+    "targetOrbitId": "l2-halo",
+    "targetLifeYears": 5.0,
+    "budgetCapM": 340.0,
+    "deadlineMonths": 60,
+    "annualOpsCostM": 6.5,
+    "recommendedInstruments": ["inst-stellar-spectrograph", "inst-coronagraph"],
+    "playable": true,
+    "difficulty": "ADVANCED",
+    "minLevel": "ADVANCED",
+    "requirementsList": [
+      "Insertion into Sun-Earth L2 Quasi-Periodic Halo Orbit",
+      "Cryocooler Active Thermal Cooling Support for Near-IR Payloads",
+      "ADCS Precision Pointing Accuracy <= 0.005°",
+      "Radiation Hardened Avionics for Deep Space Cruise"
+    ],
+    "realWorldContext": "At Sun-Earth L2, Earth, Sun, and Moon are perpetually located in the same hemisphere, allowing a single multi-layer sunshield to protect the telescope from both direct solar irradiance and terrestrial thermal glow."
+  },
+  {
+    "id": "geo-telecom-relay",
+    "title": "Global Telecom Relay",
+    "subtitle": "Geostationary High-Throughput Orbital Node",
+    "analogue": "NASA Tracking and Data Relay Satellite (TDRS)",
+    "briefing": "Place a heavy-capacity communication satellite into geostationary orbit to provide continuous high-throughput Ku/Ka-band links for human spaceflight missions and remote science assets.",
+    "targetOrbitId": "geo-35786",
+    "targetLifeYears": 10.0,
+    "budgetCapM": 260.0,
+    "deadlineMonths": 48,
+    "annualOpsCostM": 3.0,
+    "recommendedInstruments": ["inst-sar-radar"],
+    "playable": true,
+    "difficulty": "INTERMEDIATE",
+    "minLevel": "INTERMEDIATE",
+    "requirementsList": [
+      "Geostationary Equatorial Orbit (35,786 km, 0° inclination)",
+      "High-Power Solar Array Generation >= 1500 W",
+      "Station-Keeping Propellant Budget for >= 10.0 Year Operational Life",
+      "Continuous Dedicated Ground Network Link"
+    ],
+    "realWorldContext": "Geostationary communication satellites require approximately 1,500 m/s of delta-V from standard transfer orbit to circularize and adjust orbital inclination to zero."
+  },
+  {
     "id": "lunar-pathfinder",
     "title": "Lunar Pathfinder",
     "subtitle": "Polar Volatiles & Topographic Mapping",
@@ -81,11 +127,11 @@
     "briefing": "Insert a high-inclination reconnaissance spacecraft into a low circular orbit around the Moon to locate water ice in permanently shadowed polar craters and certify Artemis landing sites.",
     "targetOrbitId": "llo-100",
     "targetLifeYears": 3.0,
-    "budgetCapM": 190.0,
+    "budgetCapM": 210.0,
     "deadlineMonths": 48,
     "annualOpsCostM": 4.5,
     "recommendedInstruments": ["inst-highres-pan", "inst-sar-radar"],
-    "playable": false,
+    "playable": true,
     "difficulty": "ADVANCED",
     "minLevel": "ADVANCED",
     "requirementsList": [
@@ -95,6 +141,29 @@
       "Farside Data Recording Buffer During Earth Blackouts"
     ],
     "realWorldContext": "LRO has mapped the lunar surface for over a decade from a 50-100 km polar orbit, braving extreme thermal swings between lunar noon and night."
+  },
+  {
+    "id": "lunar-south-pole",
+    "title": "Artemis Shackleton Lander",
+    "subtitle": "Lunar South Pole Powered Descent",
+    "analogue": "ISRO Chandrayaan-3 & NASA Artemis CLPS",
+    "briefing": "Execute a trans-lunar trajectory, polar lunar insertion, and closed-loop powered descent to soft-land scientific instruments near Shackleton Crater at the lunar South Pole.",
+    "targetOrbitId": "lunar-surface",
+    "targetLifeYears": 1.0,
+    "budgetCapM": 220.0,
+    "deadlineMonths": 42,
+    "annualOpsCostM": 4.0,
+    "recommendedInstruments": ["inst-multispectral", "inst-thermal-ir"],
+    "playable": true,
+    "difficulty": "ADVANCED",
+    "minLevel": "ADVANCED",
+    "requirementsList": [
+      "High-Thrust Propulsion Sizing for Powered Lunar Deceleration",
+      "Cryogenic Thermal Insulation for Polar Night Shadow Survival",
+      "Direct Earth High-Gain X/Ka Telemetry Antenna",
+      "Total Project Cost under $220M Funding Cap"
+    ],
+    "realWorldContext": "Soft-landing on the Moon requires complete elimination of 1.7 km/s orbital velocity using rocket propulsion with zero atmospheric drag assistance."
   },
   {
     "id": "red-planet-relay",
@@ -108,7 +177,7 @@
     "deadlineMonths": 60,
     "annualOpsCostM": 7.0,
     "recommendedInstruments": ["inst-highres-pan", "inst-hyperspectral"],
-    "playable": false,
+    "playable": true,
     "difficulty": "ADVANCED",
     "minLevel": "ADVANCED",
     "requirementsList": [
