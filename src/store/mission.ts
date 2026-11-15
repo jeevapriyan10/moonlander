@@ -8,6 +8,7 @@ import {
 } from "../engine/evaluate";
 import { generateSeedCode } from "../engine/rng";
 import { getCatalogLookup } from "../data";
+import type { SimulationResult } from "../engine/ops/types";
 
 export type DifficultyLevel = "YOUTH" | "INTERMEDIATE" | "ADVANCED";
 
@@ -15,11 +16,13 @@ export interface MissionStoreState {
   currentMission: MissionDesignConfig;
   savedMissions: Record<string, MissionDesignConfig>;
   evaluation: MissionEvaluation;
+  opsResult: SimulationResult | null;
 
   // Actions
   updateDesign: (patch: Partial<MissionDesignConfig>) => void;
   applyFix: (patch: Record<string, unknown>) => void;
   setDifficulty: (difficulty: DifficultyLevel) => void;
+  setOpsResult: (result: SimulationResult | null) => void;
   createMission: (
     scenarioId: string,
     difficulty: DifficultyLevel,
@@ -329,6 +332,9 @@ export const useMissionStore = create<MissionStoreState>()(
         [initialConfig.id]: initialConfig,
       },
       evaluation: initialEval,
+      opsResult: null,
+
+      setOpsResult: (result) => set({ opsResult: result }),
 
       recalculate: () => {
         const { currentMission } = get();

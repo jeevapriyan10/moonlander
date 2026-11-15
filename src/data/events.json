@@ -1,0 +1,284 @@
+[
+  {
+    "id": "evt-solar-storm",
+    "title": "Severe Coronal Mass Ejection Warning",
+    "description": "Upstream solar wind observatory at L1 reports an earth-directed CME traveling at 2,200 km/s. Proton flux expected to exceed 10,000 pfu within 4 hours, posing severe risk of memory upsets and sensor degradation.",
+    "triggerDay": 18,
+    "category": "solar-storm",
+    "severity": "high",
+    "resolved": false,
+    "options": [
+      {
+        "id": "safe-hold",
+        "label": "Enter Hardened Safe Mode (NASA SOP)",
+        "description": "Stow high-gain antenna, power down scientific instruments, and orient solar arrays edge-on to incoming proton stream.",
+        "riskDescription": "Suspends science collection for 48 hours; zero hardware damage expected.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 0.85,
+        "propellantCostKg": 2.0,
+        "batteryDrainPercent": 15,
+        "failureChance": 0.02,
+        "outcomeMessage": "Spacecraft successfully weathered CME shockwave in Safe Mode. Subsystems restored to nominal state after proton flux decayed."
+      },
+      {
+        "id": "shield-attitude",
+        "label": "Orient Heavy Bus Heat Shield Sunward",
+        "description": "Keep flight computer active but point reinforced bus shielding toward Sun, throttling payloads to low-power background monitoring.",
+        "riskDescription": "Moderate SEU risk to avionics; captures unique space weather science data.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 1.1,
+        "propellantCostKg": 4.5,
+        "batteryDrainPercent": 25,
+        "failureChance": 0.15,
+        "outcomeMessage": "Spacecraft gathered unprecedented in-situ coronal shock data. Two single-event upsets corrected by EDAC memory scrubber."
+      },
+      {
+        "id": "maintain-ops",
+        "label": "Maintain Full Scientific Operations",
+        "description": "Ignore warnings and keep optical and radar payloads observing target targets without attitude adjustments.",
+        "riskDescription": "Severe risk of latch-up, sensor pixel blinding, and battery thermal strain.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 1.25,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 40,
+        "failureChance": 0.65,
+        "outcomeMessage": "CME proton strike blinded star tracker CMOS sensors, forcing an emergency autonomous reboot and permanent 4% solar cell degradation."
+      }
+    ]
+  },
+  {
+    "id": "evt-star-tracker-seu",
+    "title": "Flight Computer Single Event Upset & Star Tracker Lock Loss",
+    "description": "Cosmic ray ionization induced a bit-flip in the primary flight computer attitude determination memory buffer. ADCS reported temporary loss of inertial 3-axis pointing lock.",
+    "triggerDay": 42,
+    "category": "seu",
+    "severity": "medium",
+    "resolved": false,
+    "options": [
+      {
+        "id": "reboot-ephem",
+        "label": "Execute Soft Warm Boot & Ephemeris Resync (NASA SOP)",
+        "description": "Perform controlled processor warm restart, clear volatile cache, and request terrestrial ephemeris refresh via ground pass.",
+        "riskDescription": "Brief 45-minute pointing blackout during reboot; completely cleans corrupted memory registers.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 0.98,
+        "propellantCostKg": 0.5,
+        "batteryDrainPercent": 5,
+        "failureChance": 0.03,
+        "outcomeMessage": "Warm boot nominal. Star tracker re-acquired celestial reference frame within 12 minutes."
+      },
+      {
+        "id": "switch-redundant-fc",
+        "label": "Switch to Redundant Standby Flight Computer",
+        "description": "Command bus arbiter to hand over primary control authority to secondary flight computer unit.",
+        "riskDescription": "Leaves mission with zero remaining backup flight computers for remainder of lifetime.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.95,
+        "propellantCostKg": 1.0,
+        "batteryDrainPercent": 8,
+        "failureChance": 0.08,
+        "outcomeMessage": "Secondary flight computer online and validated. Primary unit isolated for diagnostic memory dump."
+      },
+      {
+        "id": "manual-gyro-override",
+        "label": "Force Gyroscope Open-Loop Attitude Hold",
+        "description": "Bypass star tracker and maintain orientation purely using inertial measurement unit (IMU) fiber-optic gyroscopes.",
+        "riskDescription": "Gyroscope drift (~0.05°/hour) gradually degrades payload optical alignment.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.88,
+        "propellantCostKg": 1.5,
+        "batteryDrainPercent": 6,
+        "failureChance": 0.25,
+        "outcomeMessage": "Gyro drift resulted in blurred science exposures until manual star catalog uplink completed 18 hours later."
+      }
+    ]
+  },
+  {
+    "id": "evt-reaction-wheel-friction",
+    "title": "Reaction Wheel #2 Bearing Friction Anomaly",
+    "description": "Telemetry reports motor current spike and temperature rise on Reaction Wheel #2 assembly, indicating lubrication depletion or bearing cage micro-wear.",
+    "triggerDay": 85,
+    "category": "reaction-wheel",
+    "severity": "medium",
+    "resolved": false,
+    "options": [
+      {
+        "id": "momentum-desat",
+        "label": "Desaturate via RCS Thrusters & Thermal Relubrication (NASA SOP)",
+        "description": "Fire reaction control thrusters to offload stored angular momentum, then run low-RPM thermal conditioning to redistribute bearing lubricant.",
+        "riskDescription": "Consumes 3.5 kg of propellant; extends wheel operational lifetime by years.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 0.97,
+        "propellantCostKg": 3.5,
+        "batteryDrainPercent": 4,
+        "failureChance": 0.04,
+        "outcomeMessage": "Bearing friction returned to baseline nominal levels. Lubrication profile verified nominal."
+      },
+      {
+        "id": "speed-bias",
+        "label": "Apply Continuous Speed Bias Offset",
+        "description": "Shift wheel baseline speed to avoid the resonant friction speed band, avoiding thruster fuel consumption.",
+        "riskDescription": "Wheel runs hotter; elevated micro-vibration noise on optical bench.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.94,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 10,
+        "failureChance": 0.2,
+        "outcomeMessage": "Wheel speed shifted away from friction notch. Minor high-frequency jitter noted in telescope guidance."
+      },
+      {
+        "id": "isolate-wheel",
+        "label": "Shut Down Wheel #2 (Degraded 3-Wheel Mode)",
+        "description": "Power off wheel completely and operate on remaining three tetrahedral wheels.",
+        "riskDescription": "Loss of reaction wheel redundancy; spacecraft cannot survive another wheel failure.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.9,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 0,
+        "failureChance": 0.3,
+        "outcomeMessage": "Wheel #2 isolated. Spacecraft attitude stability maintained in degraded 3-wheel configuration."
+      }
+    ]
+  },
+  {
+    "id": "evt-conjunction-debris",
+    "title": "Orbital Debris Conjunction Alert (<150m Miss Distance)",
+    "description": "Space Surveillance Network detects defunct upper stage rocket fragment on a near-collision trajectory. Probability of collision (Pc) calculated at 1.8 x 10^-3, exceeding red-line collision threshold.",
+    "triggerDay": 134,
+    "category": "debris",
+    "severity": "critical",
+    "resolved": false,
+    "options": [
+      {
+        "id": "cam-burn",
+        "label": "Execute Prograde Collision Avoidance Burn (NASA SOP)",
+        "description": "Perform calibrated 1.2 m/s delta-v burn 6 hours prior to conjunction to raise orbital altitude and increase miss distance to >15 km.",
+        "riskDescription": "Consumes 2.8 kg propellant and slightly alters orbital revisit geometry.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 0.99,
+        "propellantCostKg": 2.8,
+        "batteryDrainPercent": 8,
+        "failureChance": 0.01,
+        "outcomeMessage": "Maneuver executed flawlessly. Debris passed at a verified safe distance of 18.4 kilometers."
+      },
+      {
+        "id": "cross-track-burn",
+        "label": "Execute Out-of-Plane Cross-Track Burn",
+        "description": "Perform inclination plane-change burn to clear orbital intersection point.",
+        "riskDescription": "Higher propellant penalty (5.2 kg) due to out-of-plane orbital dynamics.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.98,
+        "propellantCostKg": 5.2,
+        "batteryDrainPercent": 12,
+        "failureChance": 0.02,
+        "outcomeMessage": "Cross-track maneuver shifted orbital node cleanly away from debris track."
+      },
+      {
+        "id": "risk-conjunction",
+        "label": "Do Not Burn (Accept Risk)",
+        "description": "Maintain orbit without propellant consumption, gambling on 99.8% miss probability.",
+        "riskDescription": "Catastrophic loss of mission if fragment impacts spacecraft bus or propellant tank.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 1.0,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 0,
+        "failureChance": 0.45,
+        "outcomeMessage": "Debris streaked past at high velocity within 95 meters. Spacecraft survived, but near-miss triggered automatic review by flight director."
+      }
+    ]
+  },
+  {
+    "id": "evt-battery-cold-soak",
+    "title": "Deep Eclipse Battery Thermal Undervoltage Alarm",
+    "description": "Longest annual eclipse season pushes battery cell temperatures down to -8°C. Internal chemical resistance increased by 30%, causing transient bus voltage dips during payload peak operations.",
+    "triggerDay": 190,
+    "category": "thermal",
+    "severity": "medium",
+    "resolved": false,
+    "options": [
+      {
+        "id": "pre-warm-battery",
+        "label": "Pre-Warm Battery Cells Prior to Eclipse Entry (NASA SOP)",
+        "description": "Energize survival bus heaters 30 minutes before shadow immersion using surplus solar power.",
+        "riskDescription": "Depletes zero eclipse battery reserve; keeps cell core temperature above +5°C.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 0.99,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 5,
+        "failureChance": 0.02,
+        "outcomeMessage": "Pre-warming protocol maintained nominal +8°C cell temperatures throughout 36-minute darkness pass."
+      },
+      {
+        "id": "shed-payload-load",
+        "label": "Shed Non-Critical Payload Loads in Eclipse",
+        "description": "Power down high-rate transmitters and instruments during eclipse to reduce discharge rate to C/20.",
+        "riskDescription": "Loss of nighttime Earth imaging data; guarantees zero battery stress.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.92,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 2,
+        "failureChance": 0.01,
+        "outcomeMessage": "Reduced discharge load prevented undervoltage. Instruments safely powered up at orbital sunrise."
+      },
+      {
+        "id": "bypass-heaters",
+        "label": "Bypass Heaters & Maintain Full Payload Operations",
+        "description": "Draw full peak power through cold cells without thermal management.",
+        "riskDescription": "Risk of lithium plating, permanent capacity fade, or bus voltage trip.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 1.05,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 35,
+        "failureChance": 0.4,
+        "outcomeMessage": "Voltage dipped to 24.1V, triggering low-voltage payload shutdown. Battery permanently lost 6% rated capacity."
+      }
+    ]
+  },
+  {
+    "id": "evt-ground-station-outage",
+    "title": "Primary Polar Ground Station Uplink Hardware Fault",
+    "description": "Antarctic ground tracking dish experiences azimuth motor gear failure. All scheduled contact passes for the next 72 hours are cancelled, causing science buffer fill levels to climb to 92%.",
+    "triggerDay": 245,
+    "category": "ground-loss",
+    "severity": "high",
+    "resolved": false,
+    "options": [
+      {
+        "id": "commercial-reroute",
+        "label": "Re-route via Commercial Backup Ground Network (NASA SOP)",
+        "description": "Contract immediate emergency tracking passes with secondary commercial mid-latitude station network.",
+        "riskDescription": "Slight cost expenditure ($0.2M); prevents onboard storage buffer overflow.",
+        "nasaSopRecommended": true,
+        "scienceMultiplier": 1.0,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 8,
+        "failureChance": 0.02,
+        "outcomeMessage": "Commercial network acquired downlink carrier cleanly, dumping 480 GB of buffered science telemetry."
+      },
+      {
+        "id": "compress-buffer",
+        "label": "Enable High-Ratio Lossless Onboard Data Compression",
+        "description": "Switch onboard flight computer to gzip/wavelet compression algorithm to compress stored telemetry by 2.4x.",
+        "riskDescription": "High CPU utilization increases computer power draw by 18W.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.96,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 14,
+        "failureChance": 0.05,
+        "outcomeMessage": "Data compression preserved buffer headroom until primary polar station restored operations."
+      },
+      {
+        "id": "overwrite-oldest",
+        "label": "Permit Circular Buffer Overwrite",
+        "description": "Allow newly acquired science observations to overwrite oldest un-downlinked data.",
+        "riskDescription": "Permanent loss of approximately 3 days of scientific observations.",
+        "nasaSopRecommended": false,
+        "scienceMultiplier": 0.82,
+        "propellantCostKg": 0.0,
+        "batteryDrainPercent": 0,
+        "failureChance": 0.1,
+        "outcomeMessage": "Buffer overflow resulted in 68 GB of lost land surface spectroscopy imagery."
+      }
+    ]
+  }
+]
