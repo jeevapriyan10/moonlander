@@ -10,6 +10,7 @@ import { WorkspaceSkeleton } from "@/components/ui/WorkspaceSkeleton";
 import { TopBar } from "@/components/hud/TopBar";
 import { Dashboard } from "@/components/hud/Dashboard";
 import { Advisor } from "@/components/hud/Advisor";
+import { Coach } from "@/components/hud/Coach";
 import { CatalogPanel } from "@/components/design/CatalogPanel";
 import { ObjectiveStage } from "@/components/design/ObjectiveStage";
 import { RequirementsStage } from "@/components/design/RequirementsStage";
@@ -275,6 +276,9 @@ export default function MissionWorkspacePage() {
             >
               <Advisor />
             </div>
+
+            {/* Contextual CAPCOM Coach */}
+            <Coach />
           </div>
         )}
 

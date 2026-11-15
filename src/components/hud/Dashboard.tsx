@@ -6,7 +6,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Gauge } from "@/components/ui/Gauge";
 import { StatReadout } from "@/components/ui/StatReadout";
 import { Badge } from "@/components/ui/Badge";
-import { Term } from "@/components/ui/Term";
+import { Explain } from "@/components/ui/Explain";
 import {
   Weight,
   Zap,
@@ -67,7 +67,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
             size="sm"
           />
           <StatReadout
-            label="Growth Margin"
+            label={<Explain id="mass-margin">Growth Margin</Explain>}
             value={`+${mass.growthMarginPercent}%`}
             unit="AIAA"
             subtext={`${mass.growthMarginKg.toFixed(1)} kg`}
@@ -91,7 +91,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
         <div className="flex items-center justify-between gap-2">
           <Gauge
             variant="arc"
-            label="Power Margin"
+            label={<Explain id="power-margin">Power Margin</Explain>}
             value={power.powerMarginPercent}
             min={-20}
             max={80}
@@ -103,14 +103,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
           />
           <div className="flex flex-col gap-1.5 flex-1">
             <StatReadout
-              label="Eclipse Pass"
+              label={<Explain id="eclipse-fraction">Eclipse Pass</Explain>}
               value={(power.eclipseDurationSeconds / 60).toFixed(0)}
               unit="min"
               size="sm"
               subtext={`${(evaluation.orbit.eclipseFraction * 100).toFixed(0)}% of orbit`}
             />
             <StatReadout
-              label="Battery DoD"
+              label={<Explain id="depth-of-discharge">Battery DoD</Explain>}
               value={(power.depthOfDischargeUsed * 100).toFixed(0)}
               unit="%"
               size="sm"
@@ -120,7 +120,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
         </div>
 
         <Gauge
-          label="Battery Capacity Storage"
+          label={<Explain id="li-ion-battery">Battery Capacity Storage</Explain>}
           value={power.batteryCapacityWhInstalled}
           max={Math.max(power.batteryCapacityWhInstalled, power.batteryCapacityWhRequired) * 1.25}
           unit="Wh"
@@ -182,13 +182,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
       >
         <div className="grid grid-cols-2 gap-1.5">
           <StatReadout
-            label="Return Fraction"
+            label={<Explain id="ground-station-pass">Return Fraction</Explain>}
             value={`${(comms.dataReturnFraction * 100).toFixed(0)}%`}
             size="sm"
             status={comms.dataReturnFraction >= 0.9 ? "nominal" : "warning"}
           />
           <StatReadout
-            label="Storage Buffer"
+            label={<Explain id="buffer-overflow">Storage Buffer</Explain>}
             value={comms.storageBufferDays.toFixed(1)}
             unit="days"
             size="sm"
@@ -211,7 +211,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ className, onProceedToOrbi
         <div className="flex items-center justify-between gap-2">
           <Gauge
             variant="arc"
-            label="Mission Risk"
+            label={<Explain id="fdir">Mission Risk</Explain>}
             value={risk.score}
             min={0}
             max={100}

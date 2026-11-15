@@ -246,3 +246,27 @@ export const GlossaryTermSchema = z.object({
   ]),
   formula: z.string().optional(),
 });
+
+export const CodexCategorySchema = z.enum([
+  "subsystems",
+  "orbits",
+  "environment",
+  "operations",
+  "real-missions",
+  "physics",
+]);
+
+export const CodexEntrySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  plainLanguageName: z.string().optional(),
+  category: CodexCategorySchema,
+  summary: z.string(),
+  technicalDefinition: z.string(),
+  historicalExample: z.string(),
+  gameplayImpact: z.string(),
+  formula: z.string().optional(),
+  diagramUrl: z.string().optional(),
+  externalUrl: z.string().optional(),
+  relatedIds: z.array(z.string()).default([]),
+});

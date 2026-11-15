@@ -20,6 +20,7 @@ import {
   GroundNetworkDataSchema,
   ScenarioDataSchema,
   GlossaryTermSchema,
+  CodexEntrySchema,
 } from "./schemas";
 
 import busesRaw from "./buses.json";
@@ -30,6 +31,7 @@ import orbitsRaw from "./orbits.json";
 import groundNetworksRaw from "./groundNetworks.json";
 import scenariosRaw from "./scenarios.json";
 import glossaryRaw from "./glossary.json";
+import codexRaw from "./codex.json";
 
 import type { CatalogLookup } from "../engine/evaluate";
 
@@ -49,6 +51,7 @@ export const orbits = z.array(OrbitDataSchema).parse(orbitsRaw);
 export const groundNetworks = z.array(GroundNetworkDataSchema).parse(groundNetworksRaw);
 export const scenarios = z.array(ScenarioDataSchema).parse(scenariosRaw);
 export const glossary = z.array(GlossaryTermSchema).parse(glossaryRaw);
+export const codex = z.array(CodexEntrySchema).parse(codexRaw);
 
 // Export types derived from validated schemas
 export type BusClass = z.infer<typeof BusClassDataSchema>;
@@ -66,6 +69,7 @@ export type Orbit = z.infer<typeof OrbitDataSchema>;
 export type GroundNetwork = z.infer<typeof GroundNetworkDataSchema>;
 export type Scenario = z.infer<typeof ScenarioDataSchema>;
 export type GlossaryTerm = z.infer<typeof GlossaryTermSchema>;
+export type CodexEntry = z.infer<typeof CodexEntrySchema>;
 
 // Build typed catalog lookup object for pure evaluation engine
 export function getCatalogLookup(): CatalogLookup {

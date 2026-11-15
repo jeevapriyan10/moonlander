@@ -20,6 +20,9 @@ import { Tabs } from "@/components/ui/Tabs";
 import { Slider } from "@/components/ui/Slider";
 import { Badge } from "@/components/ui/Badge";
 import { Term } from "@/components/ui/Term";
+import { Button } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
+import { autoDesign, type AutoDesignPreference } from "@/engine/autodesign";
 import {
   Sparkles,
   Box,
@@ -30,11 +33,34 @@ import {
   Radio,
   Check,
   Lock,
+  Wand2,
+  DollarSign,
+  Shield,
+  Star,
 } from "lucide-react";
 
 export const CatalogPanel: React.FC<{ className?: string }> = ({ className }) => {
   const { currentMission, updateDesign } = useMissionStore();
-  const { designTab, setDesignTab } = useUIStore();
+  const { designTab, setDesignTab, addToast } = useUIStore();
+  const [autoModalOpen, setAutoModalOpen] = React.useState(false);
+  const [lastRationale, setLastRationale] = React.useState<string[] | null>(null);
+
+  const handleRunAutoDesign = (preference: AutoDesignPreference) => {
+    const result = autoDesign(
+      currentMission.scenarioId,
+      currentMission.difficulty,
+      preference,
+      currentMission.seed
+    );
+
+    updateDesign(result.config);
+    setLastRationale(result.rationaleSummary);
+    addToast({
+      type: "success",
+      title: `Auto-Design Applied (${preference.toUpperCase()})`,
+      message: `Spacecraft architecture synthesized with certified launch readiness.`,
+    });
+  };
 
   const tabs = [
     { id: "payload", label: "Payload", icon: <Sparkles className="w-3.5 h-3.5" /> },
@@ -63,6 +89,20 @@ export const CatalogPanel: React.FC<{ className?: string }> = ({ className }) =>
 
   return (
     <div className={`flex flex-col h-full bg-space-panel/95 border-r border-space-border overflow-hidden select-none ${className ?? ""}`}>
+      {/* Auto-Design Quick Assist Header */}
+      <div className="px-3 py-1.5 border-b border-space-border/60 bg-black/30 flex items-center justify-between">
+        <span className="font-mono text-[10px] text-slate-400">SUBSYSTEM SUITE</span>
+        <button
+          type="button"
+          onClick={() => setAutoModalOpen(true)}
+          className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-telemetry-amber/50 bg-telemetry-amber/10 hover:bg-telemetry-amber/20 text-telemetry-amber text-[11px] font-heading uppercase tracking-wider transition-colors shadow-glow-amber/5"
+          title="Synthesize certified spacecraft configuration automatically"
+        >
+          <Wand2 className="w-3 h-3 text-telemetry-amber" />
+          <span>Auto-Design</span>
+        </button>
+      </div>
+
       {/* Subsystem Navigation Tabs */}
       <Tabs
         tabs={tabs}
@@ -484,6 +524,105 @@ export const CatalogPanel: React.FC<{ className?: string }> = ({ className }) =>
           </div>
         )}
       </div>
+
+      {/* Auto-Design Systems Engineering Modal */}
+      <Modal
+        isOpen={autoModalOpen}
+        onClose={() => setAutoModalOpen(false)}
+        title="Autonomous Spacecraft Systems Engineering"
+        subtitle="Synthesize a certified, flight-ready configuration optimized for your priority objective."
+        maxWidth="lg"
+      >
+        <div className="flex flex-col gap-4 text-xs font-mono">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {/* Cheapest */}
+            <button
+              type="button"
+              onClick={() => {
+                handleRunAutoDesign("cheapest");
+                setAutoModalOpen(false);
+              }}
+              className="p-3.5 rounded border border-space-border hover:border-telemetry-green bg-black/40 hover:bg-space-panel text-left flex flex-col transition-all group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="p-2 rounded bg-telemetry-green/10 text-telemetry-green border border-telemetry-green/30 group-hover:scale-105 transition-transform">
+                  <DollarSign className="w-4 h-4" />
+                </div>
+                <Badge variant="nominal" size="sm" className="text-[10px]">
+                  ECONOMICAL
+                </Badge>
+              </div>
+              <h4 className="font-heading uppercase text-sm font-bold text-white mb-1 group-hover:text-telemetry-green transition-colors">
+                Cheapest
+              </h4>
+              <p className="text-[11px] text-slate-300 font-body leading-relaxed">
+                Minimizes lifecycle cost and launch vehicle expense while meeting all mandatory mission requirements.
+              </p>
+            </button>
+
+            {/* Safest */}
+            <button
+              type="button"
+              onClick={() => {
+                handleRunAutoDesign("safest");
+                setAutoModalOpen(false);
+              }}
+              className="p-3.5 rounded border border-telemetry-amber/50 hover:border-telemetry-amber bg-black/40 hover:bg-space-panel text-left flex flex-col transition-all group shadow-glow-amber/5"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="p-2 rounded bg-telemetry-amber/10 text-telemetry-amber border border-telemetry-amber/30 group-hover:scale-105 transition-transform">
+                  <Shield className="w-4 h-4" />
+                </div>
+                <Badge variant="amber" size="sm" className="text-[10px]">
+                  HIGH MARGINS
+                </Badge>
+              </div>
+              <h4 className="font-heading uppercase text-sm font-bold text-white mb-1 group-hover:text-telemetry-amber transition-colors">
+                Safest / Redundant
+              </h4>
+              <p className="text-[11px] text-slate-300 font-body leading-relaxed">
+                Maximizes mass &amp; power headroom with dual fault-tolerant avionics and heavy-lift launcher certification.
+              </p>
+            </button>
+
+            {/* Best Science */}
+            <button
+              type="button"
+              onClick={() => {
+                handleRunAutoDesign("best-science");
+                setAutoModalOpen(false);
+              }}
+              className="p-3.5 rounded border border-space-border hover:border-telemetry-purple bg-black/40 hover:bg-space-panel text-left flex flex-col transition-all group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="p-2 rounded bg-telemetry-purple/10 text-telemetry-purple border border-telemetry-purple/30 group-hover:scale-105 transition-transform">
+                  <Star className="w-4 h-4" />
+                </div>
+                <Badge variant="info" size="sm" className="text-[10px]">
+                  MAX SCIENCE
+                </Badge>
+              </div>
+              <h4 className="font-heading uppercase text-sm font-bold text-white mb-1 group-hover:text-telemetry-purple transition-colors">
+                Best Science
+              </h4>
+              <p className="text-[11px] text-slate-300 font-body leading-relaxed">
+                Maximizes instrument suites, fine pointing stability, and high-throughput Ka-band telemetry return.
+              </p>
+            </button>
+          </div>
+
+          {lastRationale && (
+            <div className="p-3 rounded bg-space-bg border border-space-border text-[11px] text-slate-300 flex flex-col gap-1">
+              <span className="font-heading uppercase text-telemetry-amber font-semibold block mb-0.5">
+                LAST SYNTHESIS SUMMARY:
+              </span>
+              {lastRationale.map((line, idx) => (
+                <div key={idx}>{line}</div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

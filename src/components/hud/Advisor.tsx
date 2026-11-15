@@ -33,6 +33,28 @@ export const Advisor: React.FC<{ className?: string }> = ({ className }) => {
     });
   };
 
+  const handleFixAll = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const combinedPatch: Record<string, unknown> = {};
+    const appliedFixes: string[] = [];
+
+    for (const issue of validation) {
+      if (issue.fixes && issue.fixes.length > 0 && issue.fixes[0]) {
+        Object.assign(combinedPatch, issue.fixes[0].patch);
+        appliedFixes.push(issue.fixes[0].label);
+      }
+    }
+
+    if (appliedFixes.length > 0) {
+      applyFix(combinedPatch);
+      addToast({
+        type: "success",
+        title: "All Automated Fixes Applied",
+        message: `Applied ${appliedFixes.length} engineering fixes: ${appliedFixes.slice(0, 2).join(", ")}${appliedFixes.length > 2 ? "..." : ""}`,
+      });
+    }
+  };
+
   return (
     <footer
       className={`border-t border-space-border bg-space-panel/95 backdrop-blur-md flex flex-col transition-all duration-200 select-none ${
@@ -76,6 +98,19 @@ export const Advisor: React.FC<{ className?: string }> = ({ className }) => {
         </div>
 
         <div className="flex items-center gap-3">
+          {errors.length > 0 && (
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={handleFixAll}
+              className="h-7 text-[11px] gap-1.5 px-2.5 font-heading uppercase tracking-wider"
+              title="Apply all recommended engineering fixes simultaneously"
+            >
+              <Wrench className="w-3 h-3" />
+              <span>Fix All Issues ({errors.length})</span>
+            </Button>
+          )}
+
           <span className="text-[11px] font-mono text-gray-400 hidden sm:inline">
             {launchReady
               ? "FLIGHT STATUS: GO FOR ORBITAL INSERTION"

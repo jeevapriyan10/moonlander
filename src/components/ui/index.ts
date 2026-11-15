@@ -11,4 +11,8 @@ export * from "./Tooltip";
 export * from "./Popover";
 export * from "./Toast";
 export * from "./Term";
+export * from "./Explain";
+export * from "./OnboardingModal";
+export * from "./Wordmark";
+export * from "./WorkspaceSkeleton";
 export * from "./StageRail";

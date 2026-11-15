@@ -13,10 +13,14 @@ import {
   Radio,
   Clock,
   Sparkles,
+  GraduationCap,
+  Zap,
 } from "lucide-react";
 import { useMissionStore } from "@/store/mission";
+import { useSettingsStore } from "@/store/settings";
 import { Button } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
+import { OnboardingModal } from "@/components/ui/OnboardingModal";
 
 // Dynamically import Three.js Canvas with ssr: false
 const CanvasWrapper = dynamic(
@@ -34,8 +38,10 @@ const Earth = dynamic(
 
 export default function TitlePage() {
   const { currentMission } = useMissionStore();
+  const { hasCompletedOnboarding } = useSettingsStore();
   const [utcTime, setUtcTime] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [onboardingOpen, setOnboardingOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -47,6 +53,13 @@ export default function TitlePage() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Prompt onboarding on very first visit
+  useEffect(() => {
+    if (mounted && !hasCompletedOnboarding) {
+      setOnboardingOpen(true);
+    }
+  }, [mounted, hasCompletedOnboarding]);
 
   return (
     <div className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-space-bg">
@@ -103,8 +116,8 @@ export default function TitlePage() {
         </p>
 
         {/* Primary Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md">
-          <Link href="/mission/new" className="w-full">
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-lg">
+          <Link href="/mission/new" className="w-full sm:w-1/2">
             <Button
               variant="primary"
               size="lg"
@@ -115,25 +128,56 @@ export default function TitlePage() {
             </Button>
           </Link>
 
+          <Link href="/academy" className="w-full sm:w-1/2">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full flex items-center justify-center gap-2 text-sm tracking-wider border-telemetry-amber/50 hover:border-telemetry-amber text-telemetry-amber"
+            >
+              <GraduationCap className="w-4 h-4 text-telemetry-amber" />
+              <span>QUICK START (5 MIN)</span>
+            </Button>
+          </Link>
+
           {mounted && currentMission.id && (
-            <Link href={`/mission/${currentMission.id}`} className="w-full">
+            <Link href={`/mission/${currentMission.id}`} className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
                 className="w-full flex items-center justify-center gap-2 text-sm tracking-wider"
               >
                 <Play className="w-4 h-4 text-telemetry-cyan" />
-                <span>RESUME ({currentMission.name.slice(0, 14)})</span>
+                <span className="truncate">RESUME</span>
               </Button>
             </Link>
           )}
         </div>
 
         {/* Secondary Navigation */}
-        <div className="flex items-center gap-6 mt-8">
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-8 font-mono text-xs">
+          <Link
+            href="/academy"
+            className="flex items-center gap-1.5 text-slate-300 hover:text-telemetry-amber transition-colors"
+          >
+            <GraduationCap className="w-3.5 h-3.5 text-telemetry-amber" />
+            <span>SPACE ACADEMY (6 LESSONS)</span>
+          </Link>
+
+          <span className="text-space-border">•</span>
+
+          <Link
+            href="/codex"
+            className="flex items-center gap-1.5 text-slate-300 hover:text-telemetry-cyan transition-colors"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-telemetry-cyan" />
+            <span>SPACE CODEX (92 TOPICS)</span>
+          </Link>
+
+          <span className="text-space-border">•</span>
+
           <Link
             href="/sandbox"
-            className="flex items-center gap-1.5 font-mono text-xs text-slate-400 hover:text-telemetry-cyan transition-colors"
+            className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
           >
             <Layers className="w-3.5 h-3.5" />
             <span>SANDBOX STUDIO</span>
@@ -141,15 +185,21 @@ export default function TitlePage() {
 
           <span className="text-space-border">•</span>
 
-          <Link
-            href="/learn"
-            className="flex items-center gap-1.5 font-mono text-xs text-slate-400 hover:text-telemetry-amber transition-colors"
+          <button
+            type="button"
+            onClick={() => setOnboardingOpen(true)}
+            className="text-slate-400 hover:text-white transition-colors underline decoration-dotted"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>ORBITAL LEXICON (35)</span>
-          </Link>
+            DIFFICULTY / SETTINGS
+          </button>
         </div>
       </div>
+
+      {/* Onboarding Modal */}
+      <OnboardingModal
+        isOpen={onboardingOpen}
+        onClose={() => setOnboardingOpen(false)}
+      />
 
       {/* Footer telemetry bar */}
       <footer className="relative z-10 w-full border-t border-space-border bg-space-panel/90 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">

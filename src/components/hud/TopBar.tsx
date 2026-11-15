@@ -20,7 +20,11 @@ import {
   HelpCircle,
   Copy,
   Check,
+  GraduationCap,
+  Sparkles,
+  Radio,
 } from "lucide-react";
+import { OnboardingModal } from "@/components/ui/OnboardingModal";
 
 export const TopBar: React.FC = () => {
   const {
@@ -42,12 +46,17 @@ export const TopBar: React.FC = () => {
     setReducedMotion,
     bloomEnabled,
     setBloomEnabled,
+    plainLanguage,
+    setPlainLanguage,
+    coachMode,
+    setCoachMode,
   } = useSettingsStore();
 
   const [isEditingName, setIsEditingName] = React.useState(false);
   const [missionName, setMissionName] = React.useState(currentMission.name);
   const [shareModalOpen, setShareModalOpen] = React.useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = React.useState(false);
+  const [onboardingOpen, setOnboardingOpen] = React.useState(false);
   const [importJsonText, setImportJsonText] = React.useState("");
   const [copiedShare, setCopiedShare] = React.useState(false);
   const [shareCodeInput, setShareCodeInput] = React.useState("");
@@ -186,10 +195,34 @@ export const TopBar: React.FC = () => {
             <span className="hidden sm:inline">Share / Export</span>
           </Button>
 
-          <Link href="/learn" target="_blank">
-            <Button variant="ghost" size="sm" title="Aerospace Glossary (/learn)">
-              <BookOpen className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Learn</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setPlainLanguage(!plainLanguage);
+              addToast({
+                type: "info",
+                title: !plainLanguage ? "Plain English Mode Activated" : "Engineering Mode Activated",
+                message: !plainLanguage ? "Technical jargon translated to plain-English descriptions." : "Standard NASA/AIAA units and engineering acronyms restored.",
+              });
+            }}
+            title="Toggle between Engineering Mode and Plain English Mode"
+          >
+            <Sparkles className={`w-3.5 h-3.5 ${plainLanguage ? "text-telemetry-green" : "text-slate-400"}`} />
+            <span className="hidden lg:inline text-xs">{plainLanguage ? "Plain English" : "Eng Mode"}</span>
+          </Button>
+
+          <Link href="/academy" target="_blank">
+            <Button variant="ghost" size="sm" title="Space Academy Lessons (/academy)">
+              <GraduationCap className="w-3.5 h-3.5 text-telemetry-amber" />
+              <span className="hidden md:inline">Academy</span>
+            </Button>
+          </Link>
+
+          <Link href="/codex" target="_blank">
+            <Button variant="ghost" size="sm" title="Space Codex (/codex)">
+              <BookOpen className="w-3.5 h-3.5 text-telemetry-cyan" />
+              <span className="hidden md:inline">Codex</span>
             </Button>
           </Link>
 
@@ -364,8 +397,72 @@ export const TopBar: React.FC = () => {
               {bloomEnabled ? "Enabled" : "Disabled"}
             </Button>
           </div>
+
+          <div className="flex items-center justify-between p-3 rounded bg-black/30 border border-space-border">
+            <div>
+              <span className="font-heading uppercase tracking-wider text-gray-200 font-semibold block">
+                Plain English Mode
+              </span>
+              <span className="text-gray-400 font-mono text-[11px]">
+                Translates technical aerospace jargon (ADCS, Isp, Delta-V) into intuitive plain language.
+              </span>
+            </div>
+            <Button
+              size="sm"
+              variant={plainLanguage ? "primary" : "outline"}
+              onClick={() => setPlainLanguage(!plainLanguage)}
+            >
+              {plainLanguage ? "Enabled" : "Disabled"}
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-between p-3 rounded bg-black/30 border border-space-border">
+            <div>
+              <span className="font-heading uppercase tracking-wider text-gray-200 font-semibold block">
+                CAPCOM Coach Guidance
+              </span>
+              <span className="text-gray-400 font-mono text-[11px]">
+                Configures real-time hints and guidance from the Flight Director.
+              </span>
+            </div>
+            <div className="flex gap-1">
+              {(["all", "errors-only", "off"] as const).map((mode) => (
+                <Button
+                  key={mode}
+                  size="sm"
+                  variant={coachMode === mode ? "primary" : "outline"}
+                  onClick={() => setCoachMode(mode)}
+                  className="capitalize text-[10px]"
+                >
+                  {mode === "all" ? "All" : mode === "errors-only" ? "Errors" : "Off"}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-space-border flex justify-between items-center">
+            <span className="text-[11px] font-mono text-slate-400">
+              Need to re-evaluate your flight experience?
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                setSettingsModalOpen(false);
+                setOnboardingOpen(true);
+              }}
+            >
+              Re-run Onboarding
+            </Button>
+          </div>
         </div>
       </Modal>
+
+      {/* Experience Level Onboarding Modal */}
+      <OnboardingModal
+        isOpen={onboardingOpen}
+        onClose={() => setOnboardingOpen(false)}
+      />
     </>
   );
 };

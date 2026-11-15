@@ -1,0 +1,1543 @@
+[
+  {
+    "id": "adcs",
+    "name": "Attitude Determination and Control System (ADCS)",
+    "plainLanguageName": "Steering & Pointing Control",
+    "category": "subsystems",
+    "summary": "The spacecraft steering system that determines orientation in space and fires thrusters or spins wheels to keep antennas and telescopes pointed accurately.",
+    "technicalDefinition": "Subsystem integrating sensors (sun sensors, earth sensors, star trackers, gyroscopes) and actuators (reaction wheels, control moment gyroscopes, magnetorquers, cold gas/chemical thrusters) to measure and manipulate 3-axis rotational orientation relative to an inertial reference frame.",
+    "historicalExample": "When two of the Kepler Space Telescope's four reaction wheels failed in 2013, NASA engineers used solar radiation pressure balanced across the symmetrical solar array to stabilize the spacecraft, creating the extended K2 mission.",
+    "gameplayImpact": "High-resolution optical telescopes and narrow-beam Ka-band antennas require tight pointing stability (down to 0.001°). Choosing inadequate ADCS results in severe pointing jitter and blocked launch validation.",
+    "formula": "τ = I · α + ω × (I · ω)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-1/",
+    "relatedIds": [
+      "reaction-wheels",
+      "star-tracker",
+      "magnetorquer",
+      "wheel-desaturation"
+    ]
+  },
+  {
+    "id": "reaction-wheels",
+    "name": "Reaction Wheels & Momentum Control",
+    "plainLanguageName": "Internal Spinning Gyro Wheels",
+    "category": "subsystems",
+    "summary": "Electric flywheels spun inside the spacecraft; accelerating a wheel causes the spacecraft to gently turn in the opposite direction without consuming fuel.",
+    "technicalDefinition": "Flywheels driven by brushless DC electric motors that exchange angular momentum with the spacecraft chassis via Newton's third law. Over time, environmental torques (solar pressure, atmospheric drag) cause wheels to reach their maximum RPM ('saturation'), requiring thrusters or magnetorquers to desaturate.",
+    "historicalExample": "Hubble Space Telescope carries six reaction wheels spinning up to 5,300 RPM. Astronauts on Servicing Mission 4 replaced all six to guarantee pointing stability for deep-field exposures.",
+    "gameplayImpact": "Reaction wheels offer ultra-precise, zero-propellant slewing. However, you must pair them with thrusters or magnetorquers to periodically dump accumulated momentum.",
+    "formula": "H_total = I_sc · ω_sc + Σ(I_w · Ω_w)",
+    "externalUrl": "https://hubblesite.org/contents/media/images/2019/54/4597-Image",
+    "relatedIds": [
+      "adcs",
+      "star-tracker",
+      "wheel-desaturation"
+    ]
+  },
+  {
+    "id": "star-tracker",
+    "name": "Autonomous Celestial Star Tracker",
+    "plainLanguageName": "Digital Star Compass Camera",
+    "category": "subsystems",
+    "summary": "A high-sensitivity digital camera that matches star patterns against an onboard catalog to calculate orientation with arcsecond accuracy.",
+    "technicalDefinition": "Optical sensor combining a wide-field lens, CCD/CMOS focal plane, and dedicated DSP running pattern recognition algorithms (e.g. Lost-In-Space algorithms) to output an inertial quaternion attitude with precision typically between 1 and 10 arcseconds.",
+    "historicalExample": "NASA's James Webb Space Telescope uses three autonomous star trackers mounted directly to the carbon-fiber composite optical bench to point its 6.5-meter beryllium mirror with sub-arcsecond accuracy.",
+    "gameplayImpact": "Mandatory for missions requiring pointing accuracy finer than 0.01°. Without a star tracker, spacecraft relying solely on coarse sun sensors cannot achieve science-grade telescope pointing.",
+    "formula": "σ_angle ≈ (FWHM / SNR) · (1 / sqrt(N_stars))",
+    "externalUrl": "https://www.nasa.gov/mission_pages/webb/main/index.html",
+    "relatedIds": [
+      "adcs",
+      "reaction-wheels"
+    ]
+  },
+  {
+    "id": "magnetorquer",
+    "name": "Magnetic Torquer Coils (Magnetorquers)",
+    "plainLanguageName": "Earth-Magnetic Steering Coils",
+    "category": "subsystems",
+    "summary": "Electromagnetic coils that push against Earth's magnetic field to gently turn the satellite and dump wheel momentum without using thruster fuel.",
+    "technicalDefinition": "Electromagnetic coils or permeable core rods that generate a controlled magnetic dipole moment (m). The interaction between this dipole and the planetary magnetic field (B) produces an external mechanical torque (τ = m × B).",
+    "historicalExample": "Virtually all Low Earth Orbit cubesats and the Fermi Gamma-ray Space Telescope rely on magnetorquers for daily momentum dumping, operating fuel-free for over 15 years.",
+    "gameplayImpact": "Extremely cost- and mass-effective for LEO orbits; operates entirely on solar electricity. Ineffective at GEO, Lunar, or deep-space distances where planetary magnetic fields drop near zero.",
+    "formula": "τ = m × B_earth",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-1/",
+    "relatedIds": [
+      "adcs",
+      "reaction-wheels",
+      "wheel-desaturation"
+    ]
+  },
+  {
+    "id": "cold-gas",
+    "name": "Cold Gas Propulsion System",
+    "plainLanguageName": "Compressed Gas Microthrusters",
+    "category": "subsystems",
+    "summary": "Simple thrusters that squirt unheated compressed nitrogen or helium gas to provide small, clean, precise pushes.",
+    "technicalDefinition": "Propulsion system storing inert gas (typically GN2 or freon replacement) under high pressure (200–300 bar) and expanding it through converging-diverging nozzles. Delivers low specific impulse (60–80 s) but ultra-low minimum impulse bits with zero plume contamination.",
+    "historicalExample": "The Apollo Command/Service Module and Mars Pathfinder rover lander entry capsules utilized cold gas reaction control thrusters for clean, plume-safe orientation control.",
+    "gameplayImpact": "Low cost and zero chemical contamination risk for optical lenses, but very low fuel efficiency (Isp 70s). Heavy tanks required for significant delta-v.",
+    "formula": "F = q_m · v_e + (p_e - p_a) · A_e",
+    "externalUrl": "https://www.nasa.gov/smallsat-alliance/propulsion-state-of-the-art/",
+    "relatedIds": [
+      "hydrazine-monoprop",
+      "specific-impulse"
+    ]
+  },
+  {
+    "id": "hydrazine-monoprop",
+    "name": "Monopropellant Hydrazine Thrusters",
+    "plainLanguageName": "Hydrazine Rocket Thrusters",
+    "category": "subsystems",
+    "summary": "Chemical rocket thrusters that flow hydrazine fuel over a catalyst bed to generate hot gas for orbital insertion and attitude maneuvers.",
+    "technicalDefinition": "Decomposition propulsion system where anhydrous hydrazine (N2H4) is pressurized by gaseous nitrogen or helium and decomposed exothermically over an iridium-coated alumina catalyst bed (Shell 405), generating nitrogen, hydrogen, and ammonia gas at ~1,000°C with Isp around 210–235 s.",
+    "historicalExample": "The Mars Reconnaissance Orbiter carries 20 monopropellant hydrazine thrusters for orbital correction burns and reaction wheel desaturation, firing reliably since 2005.",
+    "gameplayImpact": "The industry workhorse for mid-size satellites. Delivers solid delta-v per kilogram and rapid impulse response with low mechanical complexity.",
+    "formula": "N2H4 (l) → N2 (g) + 2 H2 (g) + heat",
+    "externalUrl": "https://mars.nasa.gov/mro/mission/spacecraft/propulsion/",
+    "relatedIds": [
+      "bipropellant",
+      "hall-effect-thruster",
+      "specific-impulse"
+    ]
+  },
+  {
+    "id": "bipropellant",
+    "name": "Dual-Mode Hypergolic Bipropellant System",
+    "plainLanguageName": "High-Power Hypergolic Rocket Engine",
+    "category": "subsystems",
+    "summary": "Liquid rocket engine combining fuel and oxidizer that ignite instantly on contact, providing high thrust and strong fuel efficiency.",
+    "technicalDefinition": "High-thrust chemical propulsion system utilizing hypergolic propellants (e.g., Monomethylhydrazine MMH and Mixed Oxides of Nitrogen MON-3) that ignite spontaneously on contact. Achieves specific impulse of 310–325 s.",
+    "historicalExample": "The Cassini-Huygens spacecraft used two 445 N hypergolic bipropellant engines to perform the historic 96-minute Saturn Orbital Insertion (SOI) burn in 2004.",
+    "gameplayImpact": "Essential for heavy spacecraft requiring large delta-v maneuvers (e.g. Geostationary apogee insertion or interplanetary braking). Higher mass and complexity than monopropellant.",
+    "formula": "Δv = I_sp · g_0 · ln(m_wet / m_dry)",
+    "externalUrl": "https://science.nasa.gov/mission/cassini/spacecraft/cassini-orbiter/",
+    "relatedIds": [
+      "hydrazine-monoprop",
+      "specific-impulse",
+      "delta-v"
+    ]
+  },
+  {
+    "id": "hall-effect-thruster",
+    "name": "Hall-Effect Electric Propulsion (HET)",
+    "plainLanguageName": "Electric Ion Plasma Engine",
+    "category": "subsystems",
+    "summary": "An electric engine that uses magnetic fields and electricity to blast xenon or krypton plasma out at extreme speed, giving extraordinary fuel efficiency.",
+    "technicalDefinition": "Electrostatic ion engine that traps electrons in a radial magnetic field within an annular channel. The resulting azimuthal Hall current ionizes neutral xenon or krypton gas and accelerates the cations through a strong axial electric field, delivering Isp from 1,500 to 2,200 s.",
+    "historicalExample": "ESA's SMART-1 lunar mission and NASA's Psyche asteroid spacecraft use Hall-effect electric propulsion to spiral through planetary gravity wells on negligible fuel masses.",
+    "gameplayImpact": "Delivers unmatched delta-v per kilogram of propellant (Isp 1,600s vs 220s for hydrazine). However, it consumes substantial electrical power (800W–2kW) and produces low thrust, requiring long burn durations.",
+    "formula": "v_exhaust = sqrt(2 · q · V_acc / m_ion)",
+    "externalUrl": "https://www.nasa.gov/mission_pages/psyche/spacecraft/electric-propulsion/",
+    "relatedIds": [
+      "specific-impulse",
+      "triple-junction-gaas",
+      "delta-v"
+    ]
+  },
+  {
+    "id": "triple-junction-gaas",
+    "name": "Triple-Junction Gallium Arsenide (GaAs) Solar Arrays",
+    "plainLanguageName": "High-Efficiency Space Solar Panels",
+    "category": "subsystems",
+    "summary": "Advanced layered solar cells that absorb multiple wavelengths of sunlight, providing roughly 30% electrical efficiency even in harsh space radiation.",
+    "technicalDefinition": "Multi-junction photovoltaic cells stacking GaInP, GaInAs, and Ge p-n junctions in series. Each bandgap is tuned to a distinct spectral band of solar irradiance, achieving 28–32% AM0 efficiency and superior resistance to high-energy electron/proton displacement damage.",
+    "historicalExample": "The International Space Station's new IROSA roll-out solar arrays and NASA's Orion spacecraft utilize triple-junction GaAs technology to maximize power-to-area yield.",
+    "gameplayImpact": "Generates ~380 W/m² in Earth orbit compared to ~190 W/m² for silicon. Reduces array surface area and aerodynamic drag, though at higher procurement cost.",
+    "formula": "P_gen = S_flux · A · η_cell · cos(θ_sun)",
+    "externalUrl": "https://www.nasa.gov/feature/glenn/2021/space-station-roll-out-solar-arrays",
+    "relatedIds": [
+      "silicon-solar-array",
+      "solar-flux",
+      "li-ion-battery"
+    ]
+  },
+  {
+    "id": "silicon-solar-array",
+    "name": "Silicon Photovoltaic Solar Arrays",
+    "plainLanguageName": "Standard Silicon Solar Panels",
+    "category": "subsystems",
+    "summary": "Traditional silicon solar cells offering reliable power generation at lower manufacturing cost, but requiring more physical area.",
+    "technicalDefinition": "Single-junction crystalline silicon photovoltaic cells converting solar flux into DC power at approximately 16–18% AM0 efficiency. Heavier and more prone to radiation degradation over 5+ year mission lifetimes than multi-junction cells.",
+    "historicalExample": "Early Hubble Space Telescope solar arrays and historic interplanetary probes from the 1980s and 1990s relied on large silicon cell blankets.",
+    "gameplayImpact": "The budget-friendly choice for low-cost missions. Requires roughly double the physical panel area of GaAs to deliver identical watts, increasing mass and drag.",
+    "formula": "P_gen = S_flux · A · η_si · cos(θ_sun)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-2/",
+    "relatedIds": [
+      "triple-junction-gaas",
+      "solar-flux"
+    ]
+  },
+  {
+    "id": "li-ion-battery",
+    "name": "Lithium-Ion Spaceflight Battery Storage",
+    "plainLanguageName": "Rechargeable Space Battery Bank",
+    "category": "subsystems",
+    "summary": "High-density rechargeable batteries that keep the spacecraft alive and running when passing through planetary shadow (eclipse).",
+    "technicalDefinition": "Rechargeable battery pack of hermetically sealed Li-ion or LiFePO4 cells configured in series-parallel strings. Capable of 30,000+ charge-discharge cycles in LEO provided Depth of Discharge (DOD) is managed below recommended operational limits (typically 20–40%).",
+    "historicalExample": "NASA replaced all 48 nickel-hydrogen batteries on the exterior truss of the International Space Station with 24 high-capacity lithium-ion units between 2017 and 2021.",
+    "gameplayImpact": "Sizing your battery capacity to match eclipse duration and mission life is critical. Exceeding maximum DOD will trigger rapid battery degradation and mission failure.",
+    "formula": "DOD = (P_eclipse · t_eclipse) / (C_batt · V_bus)",
+    "externalUrl": "https://www.nasa.gov/mission_pages/station/research/news/station-lithium-ion-batteries",
+    "relatedIds": [
+      "depth-of-discharge",
+      "eclipse-fraction",
+      "triple-junction-gaas"
+    ]
+  },
+  {
+    "id": "heat-pipes",
+    "name": "Ammonia Heat Pipes and Thermal Radiators",
+    "plainLanguageName": "Thermal Cooling Pipes & Radiators",
+    "category": "subsystems",
+    "summary": "Sealed metal tubes circulating fluid to suck waste heat away from hot electronics and radiate it safely into deep space.",
+    "technicalDefinition": "Closed two-phase fluid transport loop utilizing capillary action in porous wick structures (aluminum-ammonia or copper-water). Vaporizes working fluid at heat sources and condenses it at deep-space optical radiator panels with high thermal emissivity (ε ≥ 0.85).",
+    "historicalExample": "NASA's James Webb Space Telescope uses ammonia loop heat pipes to duct heat away from NIRCam and NIRSpec instrument electronics to cold radiators facing deep space.",
+    "gameplayImpact": "Essential for high-power electronics, transmitters, and radar payloads. Without adequate radiators, internal electronics rapidly exceed maximum operational temperatures.",
+    "formula": "Q_radiated = ε · σ · A_rad · (T_rad^4 - T_space^4)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-3/",
+    "relatedIds": [
+      "cryocooler",
+      "multi-layer-insulation",
+      "stefan-boltzmann"
+    ]
+  },
+  {
+    "id": "cryocooler",
+    "name": "Active Pulse-Tube Cryocooler",
+    "plainLanguageName": "Deep-Freeze Cryogenic Refrigerator",
+    "category": "subsystems",
+    "summary": "A mechanical refrigeration unit that chills infrared detectors and sensors down to cryogenic temperatures near absolute zero to eliminate thermal image noise.",
+    "technicalDefinition": "Mechanical closed-cycle refrigerator (Pulse Tube or Stirling cycle) using oscillating helium gas to absorb thermal energy at temperatures below 80 Kelvin (often 6–10 K for mid-IR detectors) without moving cold parts that cause vibration.",
+    "historicalExample": "NASA's James Webb Space Telescope MIRI instrument utilizes an active closed-cycle helium loop pulse-tube cryocooler to chill its arsenic-doped silicon detectors to just 6.7 Kelvin.",
+    "gameplayImpact": "Mandatory for thermal infrared sensors and high-contrast coronagraphs. Demands large electrical power (100–180 W continuous) and dedicated thermal rejection radiators.",
+    "formula": "COP = Q_cold / W_input",
+    "externalUrl": "https://webb.nasa.gov/content/about/innovations/cryocooler.html",
+    "relatedIds": [
+      "heat-pipes",
+      "multi-layer-insulation"
+    ]
+  },
+  {
+    "id": "multi-layer-insulation",
+    "name": "Multi-Layer Insulation (MLI) Thermal Blanket",
+    "plainLanguageName": "Gold/Mylar Foil Space Blanket",
+    "category": "subsystems",
+    "summary": "Layered reflective sheets of aluminized Mylar and Kapton that shield the spacecraft from blistering direct sunlight and freezing deep space.",
+    "technicalDefinition": "Passive thermal insulation composed of multiple lightweight radiation barriers (aluminized Mylar, Kapton, or silvered Teflon) separated by low-conductivity Dacron netting, operating in vacuum to prevent radiative and conductive heat transfer.",
+    "historicalExample": "The distinctive golden-amber foil covering the Apollo Lunar Module, Mars rovers, and James Webb Space Telescope bus is embossed Kapton and Mylar MLI blankets.",
+    "gameplayImpact": "The fundamental baseline for spacecraft thermal design. Drastically dampens internal temperature swings across day/night orbital passes with minimal mass penalty.",
+    "formula": "q = σ · ε_eff · (T_hot^4 - T_cold^4)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-3/",
+    "relatedIds": [
+      "heat-pipes",
+      "thermal-cycling"
+    ]
+  },
+  {
+    "id": "x-band-transceiver",
+    "name": "X-Band High-Gain Telemetry Transceiver",
+    "plainLanguageName": "Deep-Space Radio Transceiver",
+    "category": "subsystems",
+    "summary": "The standard spaceflight communications radio operating at 8 GHz, reliably sending commands and scientific data across millions of kilometers.",
+    "technicalDefinition": "RF communications subsystem operating in the 7.145–7.235 GHz (uplink) and 8.40–8.50 GHz (downlink) frequency bands. Offers balanced atmospheric penetration, low rain attenuation, and high link efficiency for LEO downlinks and deep-space missions.",
+    "historicalExample": "The Voyager 1 and 2 probes continue to transmit telemetry from interstellar space over 24 billion kilometers away using 8.4 GHz X-band traveling-wave tube amplifiers.",
+    "gameplayImpact": "The reliable standard for satellite data return. Delivers 50–150 Mbps in LEO and maintains continuous link margin over NASA's Deep Space Network.",
+    "formula": "P_rx = P_tx · G_tx · G_rx · (λ / (4 · π · d))^2",
+    "externalUrl": "https://www.nasa.gov/directorates/somd/space-communications-navigation-program/",
+    "relatedIds": [
+      "ka-band-transceiver",
+      "link-margin",
+      "free-space-path-loss"
+    ]
+  },
+  {
+    "id": "ka-band-transceiver",
+    "name": "Ka-Band High-Throughput Telemetry Link",
+    "plainLanguageName": "Ultra-High-Speed Satellite Radio",
+    "category": "subsystems",
+    "summary": "A high-frequency radio link (26–40 GHz) capable of beaming massive volumes of raw scientific data and 4K video back to Earth rapidly.",
+    "technicalDefinition": "Microwave communications subsystem operating in the 26.5–40 GHz band. Yields data transmission rates exceeding 1 Gbps with compact directional dish reflectors, but suffers higher atmospheric water vapor and rain fade attenuation.",
+    "historicalExample": "NASA's Lunar Reconnaissance Orbiter (LRO) downlinks hundreds of terabytes of lunar surface topographical imagery every year via its 26 GHz Ka-band transmitter.",
+    "gameplayImpact": "Provides massive data downlink throughput (300+ Mbps), clearing onboard image buffers rapidly during short ground station passes. Demands precise pointing accuracy.",
+    "formula": "C = B · log2(1 + S / N)",
+    "externalUrl": "https://www.nasa.gov/directorates/somd/space-communications-navigation-program/",
+    "relatedIds": [
+      "x-band-transceiver",
+      "link-margin",
+      "buffer-overflow"
+    ]
+  },
+  {
+    "id": "uhf-vhf-transceiver",
+    "name": "UHF/VHF Omni-Directional TT&C Transceiver",
+    "plainLanguageName": "Backup Omni-Directional Radio",
+    "category": "subsystems",
+    "summary": "A robust, low-frequency radio with antennas that broadcast in all directions, ensuring contact even if the spacecraft is tumbling or lost.",
+    "technicalDefinition": "Ultra-High Frequency (400–450 MHz) and Very High Frequency (130–150 MHz) transceiver connected to broad-beam patch or monopole antennas. Provides low bit-rate telemetry and command (TT&C) capability with zero pointing requirements.",
+    "historicalExample": "Every cubesat deployed from the ISS and spacecraft like Mars Odyssey carry UHF transceivers to receive emergency ground commands when primary directional dishes cannot lock.",
+    "gameplayImpact": "Guarantees command reception during emergency safe mode or initial post-separation tumbling. Limited data rate (9.6–128 kbps) makes it unsuitable for large science imagery.",
+    "formula": "λ = c / f",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter10-1/",
+    "relatedIds": [
+      "x-band-transceiver",
+      "safe-mode"
+    ]
+  },
+  {
+    "id": "rad-hard-computer",
+    "name": "Radiation-Hardened Single-Board Computer",
+    "plainLanguageName": "Radiation-Shielded Flight Computer",
+    "category": "subsystems",
+    "summary": "A specialized computer built with silicon-on-insulator chips that survive cosmic rays and high radiation belts without crashing or rebooting.",
+    "technicalDefinition": "Embedded processor architecture (such as RAD750 or SPARC LEON3) manufactured on radiation-hardened substrates with epitaxial shielding. Certified to tolerate total ionizing doses (TID) exceeding 100 krad(Si) and immune to single-event latchups (SEL).",
+    "historicalExample": "NASA's Curiosity rover, Perseverance rover, Kepler, and the Lunar Reconnaissance Orbiter all run on the BAE RAD750 flight computer, operating continuously without radiation lockups.",
+    "gameplayImpact": "Substantially lowers mission risk and software reboots in Van Allen radiation zones and polar orbits. Slightly higher mass and cost than commercial off-the-shelf units.",
+    "formula": "TID = Energy / Mass = 100 J/kg = 10 krad",
+    "externalUrl": "https://mars.nasa.gov/mer/mission/spacecraft_surface_computer.html",
+    "relatedIds": [
+      "fault-tolerant-computer",
+      "seu",
+      "tid"
+    ]
+  },
+  {
+    "id": "fault-tolerant-computer",
+    "name": "Triple-Modular Redundant (TMR) Fault-Tolerant Computer",
+    "plainLanguageName": "Self-Healing Backup Flight Computer",
+    "category": "subsystems",
+    "summary": "A computing system that runs three identical computers in parallel; if one gets hit by a cosmic ray, the other two outvote it instantly without interruption.",
+    "technicalDefinition": "Fault-tolerant architecture where three identical processor cores execute instructions concurrently. Majority voting hardware registers compare outputs every clock cycle; any single-event bit flip is detected, masked, and scrubbed in hardware with zero software interruption.",
+    "historicalExample": "The Space Shuttle General Purpose Computers (AP-101) and the Orion spacecraft onboard avionics employ multi-channel redundant voting architectures for life-critical safety.",
+    "gameplayImpact": "The ultimate reliability upgrade for mission-critical science and advanced difficulty runs. Reduces spacecraft system risk metrics to near zero.",
+    "formula": "P_system = 3 · R^2 - 2 · R^3",
+    "externalUrl": "https://www.nasa.gov/orion/spacecraft/avionics",
+    "relatedIds": [
+      "rad-hard-computer",
+      "seu",
+      "fdir"
+    ]
+  },
+  {
+    "id": "solid-state-recorder",
+    "name": "High-Capacity Solid-State Mass Memory (SSR)",
+    "plainLanguageName": "Onboard High-Speed SSD Storage",
+    "category": "subsystems",
+    "summary": "Radiation-screened flash memory that stores camera pictures and sensor readings until the satellite flies over an Earth ground station.",
+    "technicalDefinition": "Non-volatile NAND or SRAM mass data storage system equipped with Error Detection and Correction (EDAC) controllers and wear-leveling algorithms. Buffers high-rate payload data during uncontacted portions of the orbit.",
+    "historicalExample": "NASA's Landsat 9 carries a 3.14-terabit solid-state recorder capable of receiving 3.2 Gbps of continuous raw imagery from OLI-2 and TIRS-2 simultaneously.",
+    "gameplayImpact": "If your storage capacity is too small or downlink passes are infrequent, the buffer fills up and your spacecraft is forced to discard valuable scientific data.",
+    "formula": "Buffer_fill = (Rate_gen · t_orbit) - (Rate_downlink · t_pass)",
+    "externalUrl": "https://landsat.gsfc.nasa.gov/satellites/landsat-9/",
+    "relatedIds": [
+      "ka-band-transceiver",
+      "ground-station-pass",
+      "buffer-overflow"
+    ]
+  },
+  {
+    "id": "leo",
+    "name": "Low Earth Orbit (LEO)",
+    "plainLanguageName": "Low Earth Orbit (Close-in)",
+    "category": "orbits",
+    "summary": "Orbits situated between 160 and 2,000 km altitude, offering rapid 90-minute revolutions and crystal-clear views of Earth's surface.",
+    "technicalDefinition": "Geocentric orbit with an altitude between the Karman line/thermosphere (160 km) and the lower edge of the inner Van Allen radiation belt (2,000 km). Orbital velocities range from 7.1 to 7.8 km/s with periods between 88 and 127 minutes.",
+    "historicalExample": "The International Space Station, Hubble Space Telescope, and Starlink constellation all operate in LEO to maximize high-resolution visibility and minimize launch energy.",
+    "gameplayImpact": "Lowest launch vehicle cost and highest payload mass capacity. However, satellites experience frequent 35-minute eclipses every orbit and short 10-minute ground station passes.",
+    "formula": "v = sqrt(G · M_earth / (R_earth + h))",
+    "externalUrl": "https://earthobservatory.nasa.gov/features/OrbitsCatalog",
+    "relatedIds": [
+      "sso",
+      "atmospheric-drag",
+      "eclipse-fraction"
+    ]
+  },
+  {
+    "id": "sso",
+    "name": "Sun-Synchronous Orbit (SSO)",
+    "plainLanguageName": "Constant-Sunlight Polar Orbit",
+    "category": "orbits",
+    "summary": "A polar orbit tilted just enough that Earth's bulge twists the orbit to match the Sun's motion, keeping the ground lighting angle identical year-round.",
+    "technicalDefinition": "Retrograde near-polar orbit (~96°–99° inclination) whose nodal precession rate exactly matches Earth's mean orbital angular velocity around the Sun (~0.9856°/day). Achieved by balancing inclination against semi-major axis using the Earth's J2 gravitational harmonic.",
+    "historicalExample": "NASA's Landsat series, Terra, Aqua, and European Sentinel-2 satellites rely exclusively on Sun-Synchronous orbits to ensure shadows and sun angles remain consistent in every photo.",
+    "gameplayImpact": "The gold standard for Earth-observation and climate science missions. Consistent lighting eliminates illumination variations and allows solar arrays to produce predictable power.",
+    "formula": "dΩ/dt = - (3/2) · J2 · (R_e / p)^2 · n · cos(i) = 2π / 365.25 days",
+    "externalUrl": "https://earthobservatory.nasa.gov/features/OrbitsCatalog",
+    "relatedIds": [
+      "j2-perturbation",
+      "inclination",
+      "leo"
+    ]
+  },
+  {
+    "id": "geo",
+    "name": "Geostationary Earth Orbit (GEO)",
+    "plainLanguageName": "Stationary Earth Orbit (24h)",
+    "category": "orbits",
+    "summary": "A circular orbit at 35,786 km altitude directly over the equator where the satellite's speed matches Earth's rotation, appearing frozen in the sky.",
+    "technicalDefinition": "Circular geosynchronous orbit with 0° inclination and semi-major axis of 42,164 km. Orbital period matches Earth's sidereal rotation period (23 hours, 56 minutes, 4.1 seconds), resulting in zero apparent motion relative to an observer on the ground.",
+    "historicalExample": "NOAA's GOES weather satellites and commercial broadcast communications spacecraft hover continuously over fixed hemispheres in GEO.",
+    "gameplayImpact": "Allows unbroken 24/7 communications without ground tracking antennas. However, reaching GEO requires massive delta-v (over 4,000 m/s from LEO) and fairing mass penalties.",
+    "formula": "r_geo = cbrt(G · M_earth · T_sidereal^2 / (4 · π^2)) ≈ 42,164 km",
+    "externalUrl": "https://www.nasa.gov/topics/earth/features/goes-r-orbit.html",
+    "relatedIds": [
+      "gto",
+      "delta-v",
+      "free-space-path-loss"
+    ]
+  },
+  {
+    "id": "gto",
+    "name": "Geostationary Transfer Orbit (GTO)",
+    "plainLanguageName": "Geostationary Transfer Highway",
+    "category": "orbits",
+    "summary": "An elongated oval orbit stretching from low Earth altitude up to 35,786 km, used by rockets to drop off satellites bound for GEO.",
+    "technicalDefinition": "Highly eccentric elliptical orbit with perigee typically in LEO (200–500 km) and apogee at or near geostationary altitude (~35,786 km). A circularization burn at apogee (requiring ~1,500 m/s delta-v and plane change) places the spacecraft into GEO.",
+    "historicalExample": "Commercial SpaceX Falcon 9 and Ariane 5 rockets deliver telecommunications satellites directly to GTO, where the satellite's onboard liquid apogee engine finishes the trip.",
+    "gameplayImpact": "Standard launcher drop-off destination for high-altitude missions. The spacecraft must carry its own propulsion and propellant to circularize.",
+    "formula": "v_apogee = sqrt(μ · (2/r_apogee - 1/a_gto))",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "geo",
+      "hohmann-transfer",
+      "delta-v"
+    ]
+  },
+  {
+    "id": "molniya-orbit",
+    "name": "Molniya High-Eccentricity Orbit (HEO)",
+    "plainLanguageName": "High Oval Northern Orbit",
+    "category": "orbits",
+    "summary": "A high oval orbit tilted at 63.4° that slows down near its high point, letting satellites hover over polar and northern regions for 8 hours at a time.",
+    "technicalDefinition": "Highly elliptical orbit with a 12-hour period, eccentricity around 0.72, and inclination locked to the critical angle of 63.4° (where the rate of apsidal drift due to Earth's J2 perturbation is zero). By Kepler's second law, the spacecraft lingers at apogee over high latitudes for ~8 of its 12 hours.",
+    "historicalExample": "Developed by the Soviet Union to provide unbroken satellite communications and early-warning missile tracking over Siberian and Arctic territories inaccessible from GEO.",
+    "gameplayImpact": "Outstanding for northern celestial observation, deep-space astronomical surveys, and Arctic weather monitoring. Avoids GEO eclipse penalties while staying above the dense atmosphere.",
+    "formula": "dω/dt ∝ (5 · cos^2(i) - 1) = 0  =>  i = 63.435°",
+    "externalUrl": "https://earthobservatory.nasa.gov/features/OrbitsCatalog",
+    "relatedIds": [
+      "eccentricity",
+      "argument-of-periapsis",
+      "j2-perturbation"
+    ]
+  },
+  {
+    "id": "lunar-transfer",
+    "name": "Trans-Lunar Injection (TLI) Trajectory",
+    "plainLanguageName": "Moon Transfer Highway",
+    "category": "orbits",
+    "summary": "A powerful rocket burn that boosts a spacecraft out of Earth orbit into an elliptical loop that intersects the Moon's gravity 384,000 km away.",
+    "technicalDefinition": "Orbital maneuver accelerating a spacecraft from parking orbit (velocity ~7.8 km/s) to ~10.9 km/s (a delta-v of ~3,150 m/s), placing its apogee beyond the lunar orbit. At lunar arrival, a retrograde burn (Lunar Orbit Insertion, ~850 m/s) captures into lunar orbit.",
+    "historicalExample": "The Apollo Saturn V third stage (S-IVB) and NASA's Artemis I Space Launch System executed TLI burns to dispatch Orion toward the Moon.",
+    "gameplayImpact": "Unlocks lunar missions and deep-space science. Requires heavy launchers certified for high-energy orbital injection.",
+    "formula": "Δv_tli = sqrt(2 · μ_e / r_park - μ_e / a_trans) - v_park",
+    "externalUrl": "https://www.nasa.gov/feature/artemis-i-flight-trajectory",
+    "relatedIds": [
+      "tsiolkovsky-rocket-equation",
+      "delta-v",
+      "escape-velocity"
+    ]
+  },
+  {
+    "id": "mars-transfer",
+    "name": "Trans-Mars Injection (TMI) Trajectory",
+    "plainLanguageName": "Mars Interplanetary Transfer",
+    "category": "orbits",
+    "summary": "An interplanetary trajectory launching outward from Earth to catch Mars in its orbit roughly 7 to 9 months later.",
+    "technicalDefinition": "Hohmann heliocentric transfer trajectory departing Earth's sphere of influence with a characteristic hyperbolic excess velocity (C3 typically 10–20 km²/s²). Requires alignment of Earth and Mars occurring once every 26 months (synodic period).",
+    "historicalExample": "NASA's Perseverance rover and Mars Reconnaissance Orbiter departed on precise TMI burn vectors calculated to intercept Mars at its orbital node.",
+    "gameplayImpact": "Requires strict adherence to planetary launch windows. Demands solar arrays designed for reduced solar flux at 1.5 AU or RTG nuclear power.",
+    "formula": "C3 = v_infinity^2",
+    "externalUrl": "https://mars.nasa.gov/mars2020/timeline/cruise/",
+    "relatedIds": [
+      "hohmann-transfer",
+      "solar-flux",
+      "launch-window"
+    ]
+  },
+  {
+    "id": "lagrange-l1",
+    "name": "Sun-Earth Lagrange Point 1 (L1)",
+    "plainLanguageName": "Sun-Earth Gravity Balance 1",
+    "category": "orbits",
+    "summary": "A gravitational equilibrium point 1.5 million km toward the Sun where satellites enjoy an uninterrupted, 24/7 view of the solar face.",
+    "technicalDefinition": "Collinear Lagrangian equilibrium point between the Sun and Earth where gravitational pull and orbital centrifugal force cancel out. Spacecraft orbit around L1 in quasi-periodic Halo or Lissajous trajectories.",
+    "historicalExample": "NASA/ESA SOHO and DSCOVR reside at L1, providing early warnings of incoming coronal mass ejections roughly 45 minutes before they strike Earth.",
+    "gameplayImpact": "Zero eclipses and constant solar generation. Requires minor stationkeeping delta-v (~5 m/s per year) to maintain the halo orbit.",
+    "formula": "r_L1 ≈ R_se · cbrt(M_earth / (3 · M_sun))",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter5-1/",
+    "relatedIds": [
+      "lagrange-l2",
+      "space-weather-cme",
+      "solar-flux"
+    ]
+  },
+  {
+    "id": "lagrange-l2",
+    "name": "Sun-Earth Lagrange Point 2 (L2)",
+    "plainLanguageName": "Deep Space Shadow Pocket 2",
+    "category": "orbits",
+    "summary": "A balance point 1.5 million km behind Earth, shielded from sunlight reflections, making it the ideal deep-space home for giant infrared space telescopes.",
+    "technicalDefinition": "Collinear equilibrium point located 1.5 million km outside Earth's orbit away from the Sun. Allows a spacecraft to keep the Sun, Earth, and Moon simultaneously behind its thermal sunshield while gazing into cold cosmic darkness.",
+    "historicalExample": "NASA's James Webb Space Telescope and ESA's Gaia astrometry spacecraft orbit L2, keeping their cryogenic infrared optics cooled to 40 K.",
+    "gameplayImpact": "The ultimate vantage point for astrophysics and deep exoplanet surveys. Demands long-range high-gain antennas and DSN ground station support.",
+    "formula": "r_L2 ≈ R_se · cbrt(M_earth / (3 · M_sun))",
+    "externalUrl": "https://webb.nasa.gov/content/about/orbit.html",
+    "relatedIds": [
+      "lagrange-l1",
+      "jwst",
+      "cryocooler"
+    ]
+  },
+  {
+    "id": "hohmann-transfer",
+    "name": "Hohmann Orbital Transfer",
+    "plainLanguageName": "Most Fuel-Efficient Orbit Shift",
+    "category": "orbits",
+    "summary": "The most fuel-efficient path between two circular orbits, using two engine burns at opposite ends of an oval ellipse.",
+    "technicalDefinition": "Two-impulse orbital transfer connecting two coplanar circular orbits via an elliptical transfer orbit whose periapsis is tangent to the inner orbit and apoapsis is tangent to the outer orbit.",
+    "historicalExample": "Named after German engineer Walter Hohmann in 1925, this maneuver is used for satellite orbit raising, lunar transfers, and interplanetary missions across the solar system.",
+    "gameplayImpact": "Minimizes propellant mass consumption for orbit adjustments. The foundational calculation for launch vehicle and upper-stage sizing.",
+    "formula": "Δv_1 = sqrt(μ/r_1) · (sqrt(2·r_2 / (r_1 + r_2)) - 1)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "delta-v",
+      "bi-elliptic-transfer",
+      "tsiolkovsky-rocket-equation"
+    ]
+  },
+  {
+    "id": "bi-elliptic-transfer",
+    "name": "Bi-Elliptic Transfer Orbit",
+    "plainLanguageName": "Three-Burn Deep Space Orbit Shift",
+    "category": "orbits",
+    "summary": "A three-burn orbital transfer that swings far out into space before dropping into the final orbit, consuming less fuel than a Hohmann transfer when orbits differ by a factor of 12 or more.",
+    "technicalDefinition": "Three-impulse transfer maneuver consisting of two half-elliptic orbits. When the ratio of initial to final orbital radius exceeds 11.94, a bi-elliptic transfer consumes less total delta-v than a standard Hohmann transfer, at the expense of longer flight duration.",
+    "historicalExample": "Used for high-altitude geostationary inclination changes and interplanetary orbital insertions where a high apogee burn drastically reduces fuel penalties.",
+    "gameplayImpact": "An advanced maneuver for deep-space missions and major plane changes. Saves precious delta-v on large orbit adjustments.",
+    "formula": "r_final / r_initial > 11.938",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "hohmann-transfer",
+      "delta-v",
+      "plane-change"
+    ]
+  },
+  {
+    "id": "plane-change",
+    "name": "Orbital Inclination Plane Change",
+    "plainLanguageName": "Orbit Tilt Steering Burn",
+    "category": "orbits",
+    "summary": "Firing thrusters sideways relative to the orbital motion to tilt the angle of the orbit relative to the equator.",
+    "technicalDefinition": "Impulsive maneuver executed at an orbital node to alter orbital inclination (i) or RAAN (Ω). Because delta-v scales directly with current orbital velocity, plane changes are exponentially cheaper when performed at high apogees where speed is lowest.",
+    "historicalExample": "Satellites launched from Cape Canaveral (28.5° latitude) bound for equatorial GEO perform their 28.5° inclination plane change at GTO apogee, saving thousands of meters per second of fuel.",
+    "gameplayImpact": "One of the most fuel-expensive maneuvers in orbital mechanics. Perform plane changes at the highest possible altitude to preserve propellant margin.",
+    "formula": "Δv = 2 · v · sin(Δi / 2)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "inclination",
+      "delta-v",
+      "gto"
+    ]
+  },
+  {
+    "id": "orbital-elements",
+    "name": "Classical Keplerian Orbital Elements",
+    "plainLanguageName": "The 6 Orbit Coordinates",
+    "category": "orbits",
+    "summary": "The six mathematical numbers (semi-major axis, eccentricity, inclination, RAAN, argument of periapsis, and true anomaly) that uniquely define an orbit in 3D space.",
+    "technicalDefinition": "The six independent parameters that define the geometry, size, 3D orientation, and instantaneous position of an orbiting body: a (size), e (shape), i (tilt), Ω (node longitude), ω (periapsis orientation), and ν (position angle along orbit).",
+    "historicalExample": "Johannes Kepler formulated orbital shapes in 1609; modern satellite tracking networks (NORAD/Space Force) publish Two-Line Element sets (TLEs) derived from these six variables.",
+    "gameplayImpact": "The mathematical backbone of MoonLander's physics engine. Tuning these parameters dictates ground coverage, eclipse times, and comms windows.",
+    "formula": "[a, e, i, Ω, ω, ν]",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "semi-major-axis",
+      "eccentricity",
+      "inclination"
+    ]
+  },
+  {
+    "id": "semi-major-axis",
+    "name": "Semi-Major Axis (a)",
+    "plainLanguageName": "Average Orbit Radius",
+    "category": "orbits",
+    "summary": "Half the long diameter of an elliptical orbit; directly determines how fast the satellite travels and the length of its orbital period.",
+    "technicalDefinition": "One-half of the major axis of an elliptical orbit. For a circular orbit, it equals orbital radius (Earth radius + altitude). Governs total specific mechanical energy (ε = -μ / 2a) and orbital period via Kepler's third law.",
+    "historicalExample": "GPS constellation satellites are positioned at a semi-major axis of 26,560 km, giving them an exact 12-hour orbital period.",
+    "gameplayImpact": "Defines the scale and period of your orbit. Higher altitude increases coverage footprint and ground station pass time, but requires more launch energy.",
+    "formula": "T = 2 · π · sqrt(a^3 / μ)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "kepler-third-law",
+      "eccentricity",
+      "leo"
+    ]
+  },
+  {
+    "id": "eccentricity",
+    "name": "Orbital Eccentricity (e)",
+    "plainLanguageName": "Orbit Oval Stretch (0=Circle)",
+    "category": "orbits",
+    "summary": "A measure of how circular or stretched an orbit is, ranging from 0 (a perfect circle) up to 1 (an elongated oval).",
+    "technicalDefinition": "Dimensionless parameter describing orbital geometry: e = 0 is a circle, 0 < e < 1 is an ellipse, e = 1 is a parabolic escape trajectory, and e > 1 is a hyperbolic flyby.",
+    "historicalExample": "Most Earth-observation satellites keep e < 0.001 to ensure consistent ground imaging distance, while communications satellites in Molniya orbits maintain e ≈ 0.72.",
+    "gameplayImpact": "High eccentricity causes massive differences in solar flux, thermal load, and ground resolution between perigee and apogee.",
+    "formula": "e = (r_apogee - r_perigee) / (r_apogee + r_perigee)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "semi-major-axis",
+      "molniya-orbit"
+    ]
+  },
+  {
+    "id": "inclination",
+    "name": "Orbital Inclination (i)",
+    "plainLanguageName": "Orbit Tilt Angle vs Equator",
+    "category": "orbits",
+    "summary": "The tilt angle between the orbital plane and the Earth's equator, determining how far north and south the satellite flies.",
+    "technicalDefinition": "Angle between the orbital angular momentum vector and the celestial North pole (or Earth's equatorial plane). An inclination of 0° is equatorial, 90° is polar, and >90° is retrograde.",
+    "historicalExample": "The International Space Station flies at 51.6° inclination, allowing Russian Soyuz rockets launched from Baikonur (45.9°N) and US launches from Florida (28.5°N) to reach it.",
+    "gameplayImpact": "Dictates the maximum latitude your satellite can view on Earth. Launching into an inclination lower than your launchpad's latitude requires costly plane changes.",
+    "formula": "cos(i) = h_z / |h|",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "plane-change",
+      "sso"
+    ]
+  },
+  {
+    "id": "raan",
+    "name": "Right Ascension of the Ascending Node (RAAN / Ω)",
+    "plainLanguageName": "Orbit East-West Orientation",
+    "category": "orbits",
+    "summary": "The angle that describes which direction the orbital plane faces in space relative to the distant stars.",
+    "technicalDefinition": "Angle measured eastward in the equatorial plane from the First Point of Aries (vernal equinox) to the ascending node (where the satellite crosses the equator moving northward).",
+    "historicalExample": "Constellations like Iridium and Starlink space their orbital planes with evenly distributed RAAN angles (e.g. 60° apart) to ensure continuous global coverage.",
+    "gameplayImpact": "In Sun-Synchronous orbits, RAAN controls the local solar time of equatorial crossings (e.g., 10:30 AM descending node for morning imagery).",
+    "formula": "Ω = arccos(n_x / |n|)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "sso",
+      "j2-perturbation",
+      "orbital-elements"
+    ]
+  },
+  {
+    "id": "argument-of-periapsis",
+    "name": "Argument of Periapsis (ω)",
+    "plainLanguageName": "Lowest Point Angle",
+    "category": "orbits",
+    "summary": "The orientation of the orbit's closest approach point (perigee) within the orbital plane.",
+    "technicalDefinition": "Angle measured along the orbital plane from the ascending node to the periapsis point in the direction of the satellite's motion.",
+    "historicalExample": "Molniya satellites pin ω at 270° so their apogee (highest altitude) is fixed directly over the Northern Hemisphere.",
+    "gameplayImpact": "Vital for elliptical science orbits. Ensures closest approach occurs directly over the target surface features of scientific interest.",
+    "formula": "ω = arccos(n · e / (|n| · |e|))",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "molniya-orbit",
+      "orbital-elements"
+    ]
+  },
+  {
+    "id": "true-anomaly",
+    "name": "True Anomaly (ν / θ)",
+    "plainLanguageName": "Current Orbit Position Angle",
+    "category": "orbits",
+    "summary": "The angle showing exactly where the satellite is located along its orbital path right now, measured from the closest point (perigee).",
+    "technicalDefinition": "Geometric angle measured at the primary gravitational focus between periapsis and the current position vector of the orbiting spacecraft.",
+    "historicalExample": "Kepler's famous problem of calculating true anomaly as a function of time (Kepler's Equation: M = E - e·sin(E)) spurred the development of modern numerical analysis.",
+    "gameplayImpact": "Drives real-time simulation position, ground track visualization, and eclipse ingress/egress triggers in MoonLander.",
+    "formula": "cos(ν) = (e · r - a · (1 - e^2)) / (e · r)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "orbital-elements",
+      "kepler-third-law"
+    ]
+  },
+  {
+    "id": "j2-perturbation",
+    "name": "Earth Oblateness J2 Perturbation",
+    "plainLanguageName": "Earth Bulge Gravity Wobble",
+    "category": "orbits",
+    "summary": "The slight gravitational bulge around Earth's equator that constantly tugs on orbits, slowly twisting their orientation over days and months.",
+    "technicalDefinition": "The second zonal harmonic (J2 ≈ 1.08263 × 10^-3) of Earth's gravitational potential field, caused by centrifugal equatorial flattening. Induces secular precession of both RAAN (nodal regression) and the argument of perigee (apsidal drift).",
+    "historicalExample": "Space engineers exploit J2 intentionally: setting inclination to ~98° at 700 km altitude causes RAAN to precess by exactly 0.9856°/day, creating Sun-Synchronous orbits.",
+    "gameplayImpact": "The natural mechanism that makes Sun-Synchronous Earth observation possible. Without J2 modeling, polar orbits would drift out of solar alignment.",
+    "formula": "dΩ/dt = - (3/2) · n · J2 · (R_e / p)^2 · cos(i)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "sso",
+      "raan",
+      "inclination"
+    ]
+  },
+  {
+    "id": "solar-flux",
+    "name": "Solar Radiation Flux & Solar Constant",
+    "plainLanguageName": "Sunlight Power Intensity",
+    "category": "environment",
+    "summary": "The amount of solar energy pouring through space per square meter (roughly 1,361 Watts per square meter at Earth distance).",
+    "technicalDefinition": "Electromagnetic energy emitted by the Sun received per unit area perpendicular to the rays at a given astronomical distance. At 1 AU (Earth distance), the solar constant G_sc is approximately 1,361 W/m². Drops with the square of distance (1/r²).",
+    "historicalExample": "At Mars (1.52 AU), solar flux drops to 43% of Earth's value (~590 W/m²); at Jupiter (5.2 AU), it plunges to just 3.7% (~50 W/m²), forcing missions like Juno to use football-field-sized solar arrays.",
+    "gameplayImpact": "Directly calculates how many watts your solar arrays produce. Traveling to Mars or deep space demands larger solar wings or nuclear power sources.",
+    "formula": "S(d) = S_0 · (d_0 / d)^2",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter3-1/",
+    "relatedIds": [
+      "triple-junction-gaas",
+      "eclipse-fraction",
+      "inverse-square-law"
+    ]
+  },
+  {
+    "id": "eclipse-fraction",
+    "name": "Orbital Eclipse Fraction",
+    "plainLanguageName": "Percentage of Orbit in Darkness",
+    "category": "environment",
+    "summary": "The portion of each orbit where the planet blocks the Sun, cutting off solar power and plunging the spacecraft into deep cold.",
+    "technicalDefinition": "The fraction of an orbital period spent within the planetary umbra (full shadow cylinder). In Low Earth Orbit (400–800 km), satellites spend roughly 35–40% (~35 minutes) of every 90-minute orbit in eclipse.",
+    "historicalExample": "The International Space Station passes through 16 eclipses every single day, relying entirely on massive lithium-ion batteries during each night pass.",
+    "gameplayImpact": "Dictates the minimum battery capacity needed to prevent spacecraft shutdown and powers survival heaters against freezing.",
+    "formula": "f_eclipse = (1 / π) · arccos( sqrt(h^2 + 2·R_e·h) / ((R_e + h)·cos(β)) )",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-2/",
+    "relatedIds": [
+      "beta-angle",
+      "li-ion-battery",
+      "depth-of-discharge"
+    ]
+  },
+  {
+    "id": "beta-angle",
+    "name": "Solar Beta Angle (β)",
+    "plainLanguageName": "Orbit Sunlight Exposure Angle",
+    "category": "environment",
+    "summary": "The angle between a satellite's orbital plane and the direction to the Sun, dictating how much time is spent in sunlight versus shadow.",
+    "technicalDefinition": "The angle between the orbital plane and the Earth-Sun vector. When β = 0°, the satellite passes directly through the densest center of Earth's shadow. When |β| exceeds the critical angle β*, the orbit never enters shadow, experiencing 100% continuous sunlight.",
+    "historicalExample": "Space Shuttle missions had strict flight rules regarding beta angle; high beta angles caused intense thermal overheating on payload bay doors.",
+    "gameplayImpact": "Governs thermal heat rejection and solar power generation. High beta angle eliminates eclipse battery drain but increases radiator heat rejection challenges.",
+    "formula": "sin(β) = cos(δ_sun) · sin(i) · sin(Ω - α_sun) + sin(δ_sun) · cos(i)",
+    "externalUrl": "https://www.nasa.gov/mission_pages/station/structure/elements/solar-arrays-overview",
+    "relatedIds": [
+      "eclipse-fraction",
+      "thermal-cycling"
+    ]
+  },
+  {
+    "id": "van-allen-belts",
+    "name": "Van Allen Radiation Belts",
+    "plainLanguageName": "Earth Radiation Belts",
+    "category": "environment",
+    "summary": "Two donut-shaped zones of high-energy protons and electrons trapped by Earth's magnetic field that can fry unshielded electronics.",
+    "technicalDefinition": "Zones of energetic charged particles trapped by Earth's geomagnetic field. The inner belt (1,000–6,000 km) is dominated by high-energy protons (>100 MeV); the outer belt (13,000–25,000 km) consists primarily of relativistic electrons.",
+    "historicalExample": "Discovered by James Van Allen in 1958 aboard Explorer 1; satellites crossing these belts require radiation-hardened components and tantalum shielding.",
+    "gameplayImpact": "Orbits intersecting the belts suffer rapid electronic degradation, high SEU rates, and shortened solar cell lifespan.",
+    "formula": "Dose ∝ ∫ Φ_particles(E) · S(E) dE",
+    "externalUrl": "https://science.nasa.gov/earth/van-allen-belts/",
+    "relatedIds": [
+      "south-atlantic-anomaly",
+      "seu",
+      "tid"
+    ]
+  },
+  {
+    "id": "south-atlantic-anomaly",
+    "name": "South Atlantic Anomaly (SAA)",
+    "plainLanguageName": "Low-Altitude Radiation Hotspot",
+    "category": "environment",
+    "summary": "A geographic region over South America where Earth's magnetic field dips closest to the surface, bathing low-orbit satellites in high radiation.",
+    "technicalDefinition": "Geomagnetic dip where the inner Van Allen radiation belt dips down to altitudes of ~200 km due to the eccentricity and tilt of Earth's magnetic dipole axis relative to its rotational axis.",
+    "historicalExample": "Hubble Space Telescope shuts down its sensitive instruments (like the Advanced Camera for Surveys) whenever passing through the SAA to prevent sensor noise and bit flips.",
+    "gameplayImpact": "Spikes single-event upsets in LEO. Spacecraft without radiation-tolerant flight computers may experience spontaneous reboots during SAA passes.",
+    "formula": "B_local < B_mean",
+    "externalUrl": "https://science.nasa.gov/missions/hubble/hubble-passes-through-the-south-atlantic-anomaly/",
+    "relatedIds": [
+      "van-allen-belts",
+      "seu",
+      "rad-hard-computer"
+    ]
+  },
+  {
+    "id": "seu",
+    "name": "Single Event Upset (SEU)",
+    "plainLanguageName": "Cosmic Ray Bit Flip",
+    "category": "environment",
+    "summary": "A glitch caused when a single high-energy cosmic ray punches through a microchip and flips a digital 0 into a 1.",
+    "technicalDefinition": "Non-destructive radiation-induced soft error where a heavy ion or proton deposits charge in a sensitive semiconductor junction, toggling memory state in registers, flip-flops, or SRAM.",
+    "historicalExample": "Galileo and Cassini logged hundreds of cosmic ray SEUs during their voyages, relying on Error Detection and Correction (EDAC) firmware to scrub memory words.",
+    "gameplayImpact": "Triggers unexpected reboots or corrupted data. Prevented by selecting radiation-hardened computers or triple-modular redundancy.",
+    "formula": "Rate_SEU = σ_cross · Φ_flux",
+    "externalUrl": "https://www.nasa.gov/feature/radiation-effects-on-spacecraft-avionics",
+    "relatedIds": [
+      "tid",
+      "rad-hard-computer",
+      "fault-tolerant-computer"
+    ]
+  },
+  {
+    "id": "tid",
+    "name": "Total Ionizing Dose (TID)",
+    "plainLanguageName": "Lifetime Radiation Wear",
+    "category": "environment",
+    "summary": "The cumulative radiation absorbed by satellite electronics over years in space, which gradually wears out transistors and degrades performance.",
+    "technicalDefinition": "Cumulative ionizing radiation energy deposited per unit mass of target semiconductor material, measured in rads or grays (1 Gy = 100 rad = 1 J/kg). High TID increases transistor leakage currents and shifts threshold voltages.",
+    "historicalExample": "NASA's Europa Clipper mission is shielded with a thick aluminum-zinc vault to survive the intense multi-megarad radiation belt of Jupiter.",
+    "gameplayImpact": "Directly determines the operational lifespan of your mission. Spacecraft operating in high-radiation orbits require radiation-hardened components to survive their multi-year charter.",
+    "formula": "TID = ∫ D_rate(t) dt  [krad]",
+    "externalUrl": "https://www.nasa.gov/feature/radiation-effects-on-spacecraft-avionics",
+    "relatedIds": [
+      "seu",
+      "van-allen-belts",
+      "rad-hard-computer"
+    ]
+  },
+  {
+    "id": "thermal-cycling",
+    "name": "Orbital Thermal Cycling",
+    "plainLanguageName": "Day/Night Extreme Temperature Shifts",
+    "category": "environment",
+    "summary": "The brutal temperature swing from +120°C in direct sunlight to -150°C in shadow, stressing metal joints and solar panels every 90 minutes.",
+    "technicalDefinition": "Repeated cyclic expansion and contraction of spacecraft structures caused by passing between direct solar irradiance (+100°C to +150°C) and planetary shadow (-100°C to -160°C). Over tens of thousands of cycles, thermal fatigue causes microcracks in solder joints and composite panels.",
+    "historicalExample": "Hubble Space Telescope's original solar panels bent and shuddered violently whenever passing into sunlight, introducing jitter into Hubble's imagery until replaced in 1993.",
+    "gameplayImpact": "Demands robust thermal insulation (MLI) and thermostatically controlled heaters to protect batteries and delicate optical sensors.",
+    "formula": "ΔL = α · L_0 · ΔT",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-3/",
+    "relatedIds": [
+      "multi-layer-insulation",
+      "heat-pipes",
+      "eclipse-fraction"
+    ]
+  },
+  {
+    "id": "atmospheric-drag",
+    "name": "Upper Atmospheric Drag & Orbital Decay",
+    "plainLanguageName": "Air Resistance Orbit Decay",
+    "category": "environment",
+    "summary": "The thin wisp of upper atmosphere that gently slows down satellites below 600 km altitude, causing their orbits to slowly spiral down to Earth.",
+    "technicalDefinition": "Aerodynamic resistance experienced by spacecraft in low planetary orbits (100–600 km) from the thermosphere and exosphere. Drag bleeds orbital energy, reducing semi-major axis and eventually leading to destructive re-entry.",
+    "historicalExample": "Space station Skylab re-entered in 1979 due to heightened solar activity that heated and expanded Earth's upper atmosphere, drastically increasing drag.",
+    "gameplayImpact": "Forces low-orbit satellites to periodically fire propulsion thrusters to re-boost altitude, consuming propellant and dictating operational mission lifespan.",
+    "formula": "F_drag = (1/2) · ρ · v^2 · C_d · A",
+    "externalUrl": "https://earthobservatory.nasa.gov/features/OrbitsCatalog",
+    "relatedIds": [
+      "leo",
+      "delta-v",
+      "semi-major-axis"
+    ]
+  },
+  {
+    "id": "solar-radiation-pressure",
+    "name": "Solar Radiation Pressure (SRP)",
+    "plainLanguageName": "Sunlight Push Force",
+    "category": "environment",
+    "summary": "The physical push exerted by stream of sunlight photons striking the spacecraft's reflective surfaces.",
+    "technicalDefinition": "Mechanical pressure exerted upon surfaces exposed to electromagnetic radiation from the Sun due to photon momentum transfer (P = S / c ≈ 4.56 × 10^-6 N/m² at 1 AU for total absorption, doubled for reflection).",
+    "historicalExample": "NASA's Kepler space telescope used solar radiation pressure balanced against its tilted solar panels to replace failed reaction wheels and stabilize pointing during the K2 mission.",
+    "gameplayImpact": "Introduces slow disturbance torques that accumulate angular momentum in reaction wheels, requiring thruster desaturation burns.",
+    "formula": "P_srp = (S_flux / c) · (1 + R)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter3-1/",
+    "relatedIds": [
+      "solar-flux",
+      "adcs",
+      "wheel-desaturation"
+    ]
+  },
+  {
+    "id": "space-debris-mmod",
+    "name": "Micrometeoroids and Orbital Debris (MMOD)",
+    "plainLanguageName": "Space Junk & Micro-Impacts",
+    "category": "environment",
+    "summary": "Tiny flecks of natural space dust and human-made paint flecks or shrapnel orbiting at 8 km/s that can punch through solar panels and fuel tanks.",
+    "technicalDefinition": "Hypervelocity particle environment consisting of natural meteoroid streams and anthropogenic orbital debris (spent rocket stages, fragmentation debris). Impacts at 7–14 km/s carry immense kinetic energy.",
+    "historicalExample": "The ISS is shielded with Whipple bumper shields, and space agencies maintain continuous radar tracking to steer satellites away from tracked debris pieces.",
+    "gameplayImpact": "Increases baseline mission risk for satellites in crowded LEO bands (700–900 km).",
+    "formula": "KE = (1/2) · m · v^2",
+    "externalUrl": "https://www.nasa.gov/mission_pages/station/news/orbital_debris.html",
+    "relatedIds": [
+      "leo",
+      "safe-mode"
+    ]
+  },
+  {
+    "id": "atomic-oxygen",
+    "name": "Low Earth Orbit Atomic Oxygen (AO)",
+    "plainLanguageName": "Corrosive Space Atmosphere",
+    "category": "environment",
+    "summary": "Single oxygen atoms in upper orbit that react aggressively with plastic, silver, and carbon fiber, eroding spacecraft coatings over time.",
+    "technicalDefinition": "Monatomic oxygen (O) created by UV photodissociation of O2 in the thermosphere (200–700 km). Ram-direction collisions at 7.8 km/s induce severe oxidation and erosion of polymer films like Kapton and silver solar cell interconnects.",
+    "historicalExample": "The Long Duration Exposure Facility (LDEF) recovered by Space Shuttle Columbia revealed that unprotected Kapton blankets were completely eroded away by atomic oxygen.",
+    "gameplayImpact": "Limits the choice of exterior coatings and requires protective silica or aluminum coatings on MLI blankets for missions operating below 500 km.",
+    "formula": "Fluence = ∫ n_O · v_ram dt",
+    "externalUrl": "https://www.nasa.gov/feature/glenn/atomic-oxygen-testing",
+    "relatedIds": [
+      "leo",
+      "multi-layer-insulation",
+      "atmospheric-drag"
+    ]
+  },
+  {
+    "id": "plasma-sheath",
+    "name": "Spacecraft Surface Charging & Plasma Sheath",
+    "plainLanguageName": "Static Electricity in Space",
+    "category": "environment",
+    "summary": "Electrical charge buildup on the outside of satellites from space plasma, which can cause sudden static electricity sparks and fry instruments.",
+    "technicalDefinition": "Accumulation of negative electric charge on dielectric spacecraft surfaces from ambient magnetospheric plasma electrons. Differential charging between shadowed and illuminated surfaces can exceed several thousand volts, sparking damaging arc discharges.",
+    "historicalExample": "Several commercial communications satellites in geostationary orbit suffered catastrophic payload failures during intense geomagnetic substorms due to electrostatic discharges.",
+    "gameplayImpact": "Mitigated by grounding all external blankets and metallic structures to a common chassis bus.",
+    "formula": "I_plasma + I_photo + I_secondary = 0",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter3-1/",
+    "relatedIds": [
+      "van-allen-belts",
+      "space-weather-cme"
+    ]
+  },
+  {
+    "id": "space-weather-cme",
+    "name": "Coronal Mass Ejections (CMEs) & Solar Storms",
+    "plainLanguageName": "Solar Storms & Flares",
+    "category": "environment",
+    "summary": "Massive explosions of magnetic plasma blasted from the Sun that trigger geomagnetic storms, radio blackouts, and intense radiation spikes across the solar system.",
+    "technicalDefinition": "Ejections of billions of tons of magnetized plasma from the solar corona traveling between 250 and 3,000 km/s. When encountering planetary magnetospheres, CMEs induce geomagnetic storms, compress radiation belts, and dramatically increase upper atmospheric density.",
+    "historicalExample": "The March 1989 solar storm caused high atmospheric expansion that scrambled orbital tracking for thousands of satellites and collapsed Quebec's power grid.",
+    "gameplayImpact": "Triggers emergency autonomous safe-mode events in MoonLander mission operations. Players must orient solar panels and shut down delicate payloads.",
+    "formula": "E_cme ≈ 10^24 to 10^25 Joules",
+    "externalUrl": "https://www.swpc.noaa.gov/",
+    "relatedIds": [
+      "solar-flux",
+      "van-allen-belts",
+      "safe-mode"
+    ]
+  },
+  {
+    "id": "ground-station-pass",
+    "name": "Ground Station Visibility Pass",
+    "plainLanguageName": "Overflight Communication Window",
+    "category": "operations",
+    "summary": "The brief 8-to-12 minute window when an orbiting satellite flies over a ground tracking antenna on Earth to downlink its science data.",
+    "technicalDefinition": "Geometric contact window during which a satellite's line of sight rises above the minimum elevation angle (typically 5°–10°) of a terrestrial tracking ground antenna.",
+    "historicalExample": "NASA's Near Space Network (NSN) uses tracking stations in Svalbard, Alaska, and White Sands to communicate with polar orbiting spacecraft on each orbit.",
+    "gameplayImpact": "Limits how much data you can dump each day. If your ground network has too few stations, your onboard storage buffer will overflow.",
+    "formula": "t_pass ≈ (2 · R_e / v) · arccos(cos(λ_max) / cos(L))",
+    "externalUrl": "https://www.nasa.gov/directorates/somd/space-communications-navigation-program/",
+    "relatedIds": [
+      "contact-minutes",
+      "ka-band-transceiver",
+      "buffer-overflow"
+    ]
+  },
+  {
+    "id": "link-margin",
+    "name": "RF Telemetry Link Margin",
+    "plainLanguageName": "Signal Strength Safety Buffer",
+    "category": "operations",
+    "summary": "The extra signal strength buffer above the bare minimum required to maintain a clear, error-free radio connection to Earth.",
+    "technicalDefinition": "Difference (in decibels, dB) between the received Carrier-to-Noise spectral density (Eb/N0) and the minimum threshold required by the receiver's demodulator to maintain a target Bit Error Rate (typically 3 dB for nominal ops, 6 dB for emergency link).",
+    "historicalExample": "NASA's Deep Space Network requires at least a +3 dB link margin on all science telemetry downlinks from Mars and outer-planet probes.",
+    "gameplayImpact": "If your transmitter power is too weak or antenna too small, link margin drops negative and all communications fail.",
+    "formula": "Margin [dB] = (E_b / N_0)_received - (E_b / N_0)_threshold",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter10-1/",
+    "relatedIds": [
+      "free-space-path-loss",
+      "bit-error-rate",
+      "x-band-transceiver"
+    ]
+  },
+  {
+    "id": "free-space-path-loss",
+    "name": "Free-Space Path Loss (FSPL)",
+    "plainLanguageName": "Radio Signal Weakening over Distance",
+    "category": "operations",
+    "summary": "The natural spreading out of radio waves as they travel through space, making signals dramatically weaker as distance increases.",
+    "technicalDefinition": "Attenuation of electromagnetic wave power density as it propagates through vacuum, proportional to the square of the distance and frequency. Signal strength drops by 6 dB every time distance doubles.",
+    "historicalExample": "Signals received from Voyager 1 at 24 billion km distance are less than a billionth of a trillionth of a watt (10^-21 W), requiring the 70-meter DSN dish to detect.",
+    "gameplayImpact": "Deep-space missions require giant dish antennas and high transmitter power to overcome immense path loss.",
+    "formula": "FSPL = (4 · π · d / λ)^2 = (4 · π · d · f / c)^2",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter10-1/",
+    "relatedIds": [
+      "link-margin",
+      "x-band-transceiver"
+    ]
+  },
+  {
+    "id": "bit-error-rate",
+    "name": "Bit Error Rate (BER)",
+    "plainLanguageName": "Signal Transmission Noise",
+    "category": "operations",
+    "summary": "The fraction of data bits scrambled by background space radio noise during transmission to Earth.",
+    "technicalDefinition": "Ratio of errored bits received to total transmitted bits across a communications channel. Typically targeted at 10^-5 for voice/telemetry and 10^-6 or lower for science data, mitigated using forward error correction (Reed-Solomon, LDPC codes).",
+    "historicalExample": "Deep-space probes utilize advanced turbo codes and Low-Density Parity Check (LDPC) coding to reconstruct crystal-clear pictures even from weak signals.",
+    "gameplayImpact": "High bit error rates corrupt science downlinks and trigger mission score penalties.",
+    "formula": "BER = Q( sqrt(2 · E_b / N_0) )",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter10-1/",
+    "relatedIds": [
+      "link-margin",
+      "ka-band-transceiver"
+    ]
+  },
+  {
+    "id": "depth-of-discharge",
+    "name": "Battery Depth of Discharge (DOD)",
+    "plainLanguageName": "Battery Drain Percentage",
+    "category": "operations",
+    "summary": "The percentage of total battery capacity consumed during each trip through planetary shadow.",
+    "technicalDefinition": "The percentage of rated electrical battery capacity discharged during an operational cycle. For long-life LEO missions (30,000+ cycles), DOD is strictly restricted to 20–30% to preserve lithium-ion cell chemistry.",
+    "historicalExample": "NASA kept Hubble's original nickel-hydrogen batteries below 10% DOD, enabling them to operate continuously for over 19 years before replacement.",
+    "gameplayImpact": "Allowing DOD to exceed 40% will rapidly degrade battery health, trigger electrical brownouts, and lead to early mission termination.",
+    "formula": "DOD = (Energy_discharged / Total_rated_capacity) × 100%",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-2/",
+    "relatedIds": [
+      "li-ion-battery",
+      "eclipse-fraction"
+    ]
+  },
+  {
+    "id": "mass-margin",
+    "name": "Aerospace Mass Growth Allowance & Margin",
+    "plainLanguageName": "Extra Rocket Weight Buffer",
+    "category": "operations",
+    "summary": "The safety cushion reserved between your spacecraft's estimated weight and the rocket's maximum lift capacity.",
+    "technicalDefinition": "Standard systems engineering margin defined by AIAA/NASA (ANSI/AIAA S-120-2006). Early design stages require 20–30% unallocated mass margin to accommodate design maturation, harness routing, and structural growth.",
+    "historicalExample": "Every historic space mission has gained dry mass between concept and launch; without an initial 20% margin, spacecraft are forced to drop science instruments.",
+    "gameplayImpact": "MoonLander evaluates mass margin against launcher limits. An unallocated margin below 15% generates warning advisories; negative margin prevents launch certification.",
+    "formula": "Mass_margin = (M_launcher_capacity - M_wet) / M_wet",
+    "externalUrl": "https://ntrs.nasa.gov/citations/20120008170",
+    "relatedIds": [
+      "tsiolkovsky-rocket-equation",
+      "power-margin"
+    ]
+  },
+  {
+    "id": "power-margin",
+    "name": "Electrical Power Generation Margin",
+    "plainLanguageName": "Extra Electricity Buffer",
+    "category": "operations",
+    "summary": "The excess solar power generated beyond the spacecraft's total load, ensuring batteries can recharge while all payloads operate.",
+    "technicalDefinition": "Ratio of net solar array generation to total spacecraft electrical power consumption under worst-case operational attitudes and end-of-life (EOL) solar cell degradation.",
+    "historicalExample": "NASA requires a minimum 20% electrical power margin at Preliminary Design Review to safeguard against unforeseen payload power spikes.",
+    "gameplayImpact": "Negative power margin means batteries steadily drain even in full sunlight, causing spacecraft brownouts.",
+    "formula": "Power_margin = (P_generation - P_load) / P_load",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-2/",
+    "relatedIds": [
+      "triple-junction-gaas",
+      "li-ion-battery",
+      "mass-margin"
+    ]
+  },
+  {
+    "id": "wheel-desaturation",
+    "name": "Reaction Wheel Momentum Desaturation",
+    "plainLanguageName": "Flywheel Speed Reset (Momentum Dump)",
+    "category": "operations",
+    "summary": "Firing small thrusters or magnetic coils to brake spinning reaction wheels when they reach maximum speed.",
+    "technicalDefinition": "Operation to remove stored angular momentum from reaction wheels spinning near their maximum RPM limit. External torque produced by thrusters or magnetorquers opposes the wheels as they decelerate, preventing chassis rotation.",
+    "historicalExample": "The Hubble Space Telescope performs automated momentum dumps every few orbits using magnetic torquer coils pushing against Earth's magnetic field.",
+    "gameplayImpact": "Without desaturation capability, reaction wheels saturate at top speed and become unable to control pointing.",
+    "formula": "ΔH = ∫ τ_external dt",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-1/",
+    "relatedIds": [
+      "reaction-wheels",
+      "magnetorquer",
+      "hydrazine-monoprop"
+    ]
+  },
+  {
+    "id": "safe-mode",
+    "name": "Autonomous Spacecraft Safe Mode",
+    "plainLanguageName": "Low-Power Survival Mode",
+    "category": "operations",
+    "summary": "An emergency survival program the satellite triggers automatically when something goes wrong: shuts off instruments, aims solar arrays at the Sun, and waits for Earth help.",
+    "technicalDefinition": "Autonomous operational state entered upon detection of a critical system fault (loss of attitude lock, severe battery undervoltage, computer reboot). The flight computer disables non-essential payloads, turns toward the Sun, and transmits low-rate emergency beacon telemetry.",
+    "historicalExample": "NASA's Mars Reconnaissance Orbiter and Kepler entered safe mode multiple times during major solar flare events or gyro hiccups, successfully saving the missions.",
+    "gameplayImpact": "During mission operations, sudden space weather or anomalies will place your spacecraft in safe mode until you diagnose and resolve the issue.",
+    "formula": "State = SAFE_HOLD",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter13-1/",
+    "relatedIds": [
+      "fdir",
+      "uhf-vhf-transceiver",
+      "rad-hard-computer"
+    ]
+  },
+  {
+    "id": "fdir",
+    "name": "Fault Detection, Isolation, and Recovery (FDIR)",
+    "plainLanguageName": "Automatic Emergency Recovery System",
+    "category": "operations",
+    "summary": "Automated software checks that constantly monitor spacecraft health, instantly shutting down broken parts and switching to backups.",
+    "technicalDefinition": "Hierarchical autonomy architecture implemented across hardware watchdogs, operating system threads, and application monitors that detects telemetry violations, isolates failing components, and switches to redundant backups within milliseconds.",
+    "historicalExample": "Deep-space probes operating hours away by radio travel time (such as New Horizons at Pluto) rely 100% on autonomous FDIR algorithms to survive critical flybys.",
+    "gameplayImpact": "Choosing redundant avionics and computers enables your spacecraft to automatically recover from random anomalies without failing the mission charter.",
+    "formula": "Response_time < T_critical",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter13-1/",
+    "relatedIds": [
+      "safe-mode",
+      "fault-tolerant-computer"
+    ]
+  },
+  {
+    "id": "launch-window",
+    "name": "Orbital Alignment Launch Window",
+    "plainLanguageName": "Takeoff Window",
+    "category": "operations",
+    "summary": "The precise time interval during which a rocket must lift off to match the target orbit or rendezvous with another planet.",
+    "technicalDefinition": "Time interval during which a launch vehicle must lift off so that the launch site's rotation through the inertial target orbital plane allows direct ascent without out-of-plane steering fuel penalties.",
+    "historicalExample": "Planetary missions to Mars have launch windows that open for only a few weeks every 26 months when planetary alignments minimize travel delta-v.",
+    "gameplayImpact": "Missing your launch deadline causes schedule slip penalties and budget cost overruns.",
+    "formula": "t_window = f(Ω_target, Latitude, Inclination)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "plane-change",
+      "mars-transfer"
+    ]
+  },
+  {
+    "id": "launch-fairing",
+    "name": "Payload Fairing Envelope & Acoustic Loads",
+    "plainLanguageName": "Rocket Nosecone Shield",
+    "category": "operations",
+    "summary": "The aerodynamic clamshell nosecone that protects the satellite from roaring winds and acoustic noise during the atmospheric climb into space.",
+    "technicalDefinition": "Jettisonable aerodynamic fairing assembly enclosing the payload during atmospheric ascent. Protects against aerodynamic drag, aerodynamic heating (>300°C), and acoustic vibration levels exceeding 140 dB. Jettisoned once altitude exceeds ~100 km.",
+    "historicalExample": "The James Webb Space Telescope was folded origami-style to fit inside the 5-meter diameter payload fairing of an Ariane 5 rocket.",
+    "gameplayImpact": "Your spacecraft bus and instruments must fit inside the chosen launcher's fairing diameter. Exceeding fairing limits will block launch authorization.",
+    "formula": "Volume_sc < Volume_fairing_static_envelope",
+    "externalUrl": "https://www.esa.int/Enabling_Support/Space_Transportation/Ariane_5",
+    "relatedIds": [
+      "mass-margin",
+      "tsiolkovsky-rocket-equation"
+    ]
+  },
+  {
+    "id": "contact-minutes",
+    "name": "Ground Network Contact Time Budget",
+    "plainLanguageName": "Daily Talk Time to Earth",
+    "category": "operations",
+    "summary": "The total number of minutes per day your satellite spends in direct radio contact with ground stations.",
+    "technicalDefinition": "Sum of all ground station overflight contact intervals across a 24-hour period for a given orbit and ground station network architecture.",
+    "historicalExample": "Polar orbiting weather satellites using commercial networks like KSAT in Svalbard can contact Earth up to 14 times a day, totaling ~150 contact minutes.",
+    "gameplayImpact": "Directly caps total daily downlink data return: Total Bits = Contact Minutes × 60 × Data Rate.",
+    "formula": "Data_daily = Σ (t_contact · Rate_downlink)",
+    "externalUrl": "https://www.nasa.gov/directorates/somd/space-communications-navigation-program/",
+    "relatedIds": [
+      "ground-station-pass",
+      "ka-band-transceiver",
+      "buffer-overflow"
+    ]
+  },
+  {
+    "id": "buffer-overflow",
+    "name": "Onboard Solid-State Memory Overflow",
+    "plainLanguageName": "Data Storage Overflow",
+    "category": "operations",
+    "summary": "When instruments collect more pictures and data than can be downlinked to Earth, filling the memory drive and causing new data to be lost.",
+    "technicalDefinition": "Condition where cumulative payload data generation exceeds the storage capacity of the Solid State Recorder (SSR) before ground station downlink contact passes can clear the buffer.",
+    "historicalExample": "Planetary probes during close encounters (like New Horizons at Pluto) fill their memory buffers to 100% and spend the next 15 months slowly transmitting the data home.",
+    "gameplayImpact": "Overfilling the storage buffer permanently drops scientific observation return fraction, lowering your final mission score.",
+    "formula": "Buffer_state = ∫ (Rate_gen - Rate_downlink) dt",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-4/",
+    "relatedIds": [
+      "solid-state-recorder",
+      "ground-station-pass",
+      "ka-band-transceiver"
+    ]
+  },
+  {
+    "id": "landsat-9",
+    "name": "Landsat 9 Earth Imaging Observatory",
+    "plainLanguageName": "Landsat 9 Earth Satellite",
+    "category": "real-missions",
+    "summary": "NASA and USGS's premier land-monitoring satellite, imaging all of Earth's land every 16 days in visible and infrared light from a Sun-synchronous polar orbit.",
+    "technicalDefinition": "Joint NASA/USGS Earth-observation satellite launched in September 2021 into a 705 km, 98.2° Sun-synchronous orbit with a 10:00 AM descending node. Carries OLI-2 (30m multispectral) and TIRS-2 (100m thermal infrared) sensors.",
+    "historicalExample": "Landsat satellites provide an unbroken 50-year record of Earth's land use, wildfire damage, glacial retreat, and agricultural crop health since 1972.",
+    "gameplayImpact": "Direct real-world analogue for MoonLander's 'Earth Watch' scenario. Teaches optimal pairing of multispectral and thermal instruments with SSO orbits.",
+    "formula": "Swath = 185 km, Resolution = 30 m",
+    "externalUrl": "https://landsat.gsfc.nasa.gov/satellites/landsat-9/",
+    "relatedIds": [
+      "sso",
+      "landsat-9",
+      "solid-state-recorder"
+    ]
+  },
+  {
+    "id": "kepler-telescope",
+    "name": "Kepler Space Telescope Exoplanet Survey",
+    "plainLanguageName": "Kepler Planet Hunter Telescope",
+    "category": "real-missions",
+    "summary": "NASA's historic space telescope that stared at 150,000 stars simultaneously to discover over 2,600 planets orbiting distant stars using the transit method.",
+    "technicalDefinition": "Earth-trailing heliocentric space telescope launched in 2009 with a 0.95-meter Schmidt camera and a 95-megapixel photometer array covering 105 square degrees of sky.",
+    "historicalExample": "Kepler proved for the first time that planets are more numerous than stars in our Milky Way galaxy, discovering worlds in habitable zones where liquid water could exist.",
+    "gameplayImpact": "The direct real-world analogue for the 'Exoplanet Hunter' mission scenario, demonstrating transit photometry and extreme pointing stability requirements.",
+    "formula": "ΔF / F ≈ (R_planet / R_star)^2",
+    "externalUrl": "https://science.nasa.gov/mission/kepler/",
+    "relatedIds": [
+      "adcs",
+      "reaction-wheels",
+      "lagrange-l2"
+    ]
+  },
+  {
+    "id": "jwst",
+    "name": "James Webb Space Telescope (JWST)",
+    "plainLanguageName": "James Webb Space Telescope",
+    "category": "real-missions",
+    "summary": "The largest and most powerful space science telescope ever built, looking 13.5 billion years back in time using a 6.5-meter gold-coated mirror at Sun-Earth L2.",
+    "technicalDefinition": "Cryogenic infrared space observatory launched in December 2021. Features a 6.5-meter segmented beryllium primary mirror, a 5-layer Kapton tennis-court-sized sunshield, and four infrared instruments orbiting Sun-Earth Lagrange point 2.",
+    "historicalExample": "JWST has revealed the earliest galaxies formed after the Big Bang, analyzed atmospheres of exoplanets for water and methane, and captured unprecedented star-birth vistas.",
+    "gameplayImpact": "Showcases the pinnacle of cryogenic thermal engineering, deployable sunshields, and Lagrange L2 deep-space orbital mechanics.",
+    "formula": "T_cold_side ≈ 40 K (MIRI cooled to 6.7 K)",
+    "externalUrl": "https://webb.nasa.gov/",
+    "relatedIds": [
+      "lagrange-l2",
+      "cryocooler",
+      "multi-layer-insulation"
+    ]
+  },
+  {
+    "id": "voyager-1",
+    "name": "Voyager 1 Interstellar Probe",
+    "plainLanguageName": "Voyager 1 Interstellar Probe",
+    "category": "real-missions",
+    "summary": "The farthest human-made object from Earth, launched in 1977 and now traveling through interstellar space over 24 billion kilometers away.",
+    "technicalDefinition": "Interplanetary probe launched in September 1977 on a Titan IIIE rocket. Used gravity assists at Jupiter and Saturn to achieve hyperbolic interstellar escape velocity of ~17 km/s relative to the Sun. Powered by Radioisotope Thermoelectric Generators (RTGs).",
+    "historicalExample": "In August 2012, Voyager 1 crossed the heliopause into interstellar space, continuing to transmit magnetic field and cosmic ray measurements via its 3.7-meter X-band antenna.",
+    "gameplayImpact": "The ultimate lesson in deep-space communications link budget, hyperbolic escape velocities, and decades-long mission reliability.",
+    "formula": "v_escape = sqrt(2 · G · M_sun / r)",
+    "externalUrl": "https://voyager.jpl.nasa.gov/",
+    "relatedIds": [
+      "escape-velocity",
+      "x-band-transceiver",
+      "free-space-path-loss"
+    ]
+  },
+  {
+    "id": "mro",
+    "name": "Mars Reconnaissance Orbiter (MRO)",
+    "plainLanguageName": "Mars Reconnaissance Orbiter",
+    "category": "real-missions",
+    "summary": "A heavy Martian orbiter carrying the giant HiRISE camera, snapping ultra-detailed surface photos and relaying data from rovers on Mars back to Earth.",
+    "technicalDefinition": "2,180 kg spacecraft launched in 2005 into a low-altitude polar Martian orbit (255 × 320 km). Features the 0.5-meter HiRISE optical telescope (0.3m/pixel resolution) and a 3-meter high-gain antenna operating in X-band and Ka-band.",
+    "historicalExample": "MRO has returned hundreds of terabytes of Martian imagery, discovered recurring slope lineae (possible seasonal brine flows), and relayed 80% of all data from the Curiosity and Perseverance rovers.",
+    "gameplayImpact": "Exemplifies the deep-space communications relay archetype, high-resolution orbital imaging, and planetary orbit insertion burns.",
+    "formula": "Resolution = 0.3 m/pixel from 300 km altitude",
+    "externalUrl": "https://mars.nasa.gov/mro/",
+    "relatedIds": [
+      "mars-transfer",
+      "ka-band-transceiver",
+      "bipropellant"
+    ]
+  },
+  {
+    "id": "parker-solar-probe",
+    "name": "Parker Solar Probe",
+    "plainLanguageName": "Parker Solar Probe",
+    "category": "real-missions",
+    "summary": "NASA's historic spacecraft that flies directly through the Sun's corona at speeds up to 700,000 km/h, shielded behind a carbon-composite heat shield.",
+    "technicalDefinition": "Solar research probe launched in August 2018. Uses seven Venus gravity assists to lower its perihelion to just 6.1 million km (8.8 solar radii) from the Sun's photosphere, where solar flux exceeds 475 times Earth's value.",
+    "historicalExample": "Parker is the fastest human-made object in history, directly sampling the solar wind's origin and magnetic switchbacks inside the solar corona.",
+    "gameplayImpact": "Illustrates the extreme limits of solar flux, orbital mechanics, gravity assists, and advanced thermal shielding.",
+    "formula": "Flux = 475 · S_0 ≈ 650 kW/m²",
+    "externalUrl": "https://science.nasa.gov/mission/parker-solar-probe/",
+    "relatedIds": [
+      "solar-flux",
+      "gravity-assist",
+      "stefan-boltzmann"
+    ]
+  },
+  {
+    "id": "iss",
+    "name": "International Space Station (ISS)",
+    "plainLanguageName": "International Space Station",
+    "category": "real-missions",
+    "summary": "A continuously crewed orbital laboratory the size of a football field, orbiting Earth every 90 minutes at 400 km altitude since 1998.",
+    "technicalDefinition": "Modular 420-ton space station in Low Earth Orbit (418 km, 51.6° inclination). Generates up to 120 kW of electrical power via eight massive solar array wings with total surface area exceeding 2,400 m².",
+    "historicalExample": "Has hosted over 270 astronauts from 21 nations, conducting tens of thousands of microgravity experiments in human physiology, biology, and materials science.",
+    "gameplayImpact": "The benchmark for large-scale orbital systems engineering, showing the balance of mass, electrical power generation, and thermal radiator dissipation.",
+    "formula": "Mass ≈ 420,000 kg, Orbit period ≈ 92.6 minutes",
+    "externalUrl": "https://www.nasa.gov/international-space-station/",
+    "relatedIds": [
+      "leo",
+      "triple-junction-gaas",
+      "atmospheric-drag"
+    ]
+  },
+  {
+    "id": "cassini-huygens",
+    "name": "Cassini-Huygens Saturn Explorer",
+    "plainLanguageName": "Cassini-Huygens Saturn Mission",
+    "category": "real-missions",
+    "summary": "A 5.7-ton robotic spacecraft that orbited Saturn for 13 years, discovering liquid methane lakes on Titan and water ice geysers erupting from Enceladus.",
+    "technicalDefinition": "Flagship-class outer planet mission launched in 1997. Completed Venus-Venus-Earth-Jupiter gravity assists before entering Saturn orbit in 2004. Carried 12 science instruments and the European Huygens Titan probe.",
+    "historicalExample": "Cassini's 2017 'Grand Finale' dove 22 times between Saturn's cloud tops and its innermost rings before safely disintegrating in Saturn's atmosphere to protect icy moons.",
+    "gameplayImpact": "The gold standard for multi-year deep-space planetary missions balancing propellant margins, gravity assists, and multiple science instruments.",
+    "formula": "Total Δv expended > 2,000 m/s",
+    "externalUrl": "https://science.nasa.gov/mission/cassini/",
+    "relatedIds": [
+      "bipropellant",
+      "gravity-assist",
+      "delta-v"
+    ]
+  },
+  {
+    "id": "new-horizons",
+    "name": "New Horizons Pluto & Kuiper Belt Flyby",
+    "plainLanguageName": "New Horizons Pluto Probe",
+    "category": "real-missions",
+    "summary": "The fastest spacecraft ever launched from Earth, speeding past Pluto in July 2015 to take the first crisp photos of its nitrogen glaciers and heart-shaped plains.",
+    "technicalDefinition": "478 kg probe launched in January 2006 directly into an interplanetary trajectory with launch speed of 16.26 km/s. Used a Jupiter gravity assist to fly by Pluto at 13.8 km/s, then went on to explore Arrokoth in the Kuiper Belt.",
+    "historicalExample": "New Horizons discovered mountains of water ice and flowing nitrogen ice glaciers on Pluto, proving that small outer worlds remain geologically active.",
+    "gameplayImpact": "Demonstrates high-speed flyby imaging, payload pointing constraints during close approach, and RTG power design for deep space.",
+    "formula": "v_launch = 16.26 km/s (C3 = 157.6 km²/s²)",
+    "externalUrl": "https://science.nasa.gov/mission/new-horizons/",
+    "relatedIds": [
+      "escape-velocity",
+      "gravity-assist",
+      "buffer-overflow"
+    ]
+  },
+  {
+    "id": "europa-clipper",
+    "name": "Europa Clipper Jovian Moon Mission",
+    "plainLanguageName": "Europa Clipper Ocean World Mission",
+    "category": "real-missions",
+    "summary": "NASA's flagship mission to investigate Jupiter's icy moon Europa, which hides a global liquid ocean with twice the water of all Earth's oceans combined.",
+    "technicalDefinition": "6,000 kg spacecraft launched in October 2024. Carries ice-penetrating radar, surface dust analyzers, and cameras. Features 30-meter solar array wings (the largest ever on a planetary probe) to generate power in Jupiter's weak sunlight.",
+    "historicalExample": "Will perform nearly 50 close flybys of Europa as low as 25 km altitude while ducking out of Jupiter's intense radiation belts between passes.",
+    "gameplayImpact": "Direct inspiration for MoonLander's advanced outer planet missions, highlighting radiation shielding, massive solar arrays, and high-gain comms.",
+    "formula": "Solar flux at Jupiter ≈ 50 W/m² (vs 1361 W/m² at Earth)",
+    "externalUrl": "https://science.nasa.gov/mission/europa-clipper/",
+    "relatedIds": [
+      "solar-flux",
+      "van-allen-belts",
+      "tid"
+    ]
+  },
+  {
+    "id": "chandra",
+    "name": "Chandra X-ray Observatory",
+    "plainLanguageName": "Chandra X-ray Space Telescope",
+    "category": "real-missions",
+    "summary": "NASA's flagship X-ray telescope that orbits high above Earth's radiation belts to photograph black holes, supernova explosions, and colliding galaxies.",
+    "technicalDefinition": "NASA Great Observatory launched in 1999 into a high elliptical orbit (14,000 × 133,000 km, 64-hour period). Utilizes four nested pairs of iridium-coated Wolter Type-I grazing incidence mirrors to focus high-energy X-ray photons.",
+    "historicalExample": "Chandra provided the first direct observational evidence of dark matter by mapping colliding galaxy clusters (the Bullet Cluster) in X-ray light.",
+    "gameplayImpact": "Illustrates the advantages of high-eccentricity elliptical orbits for continuous astronomical viewing outside Earth's radiation interference.",
+    "formula": "Grazing angle θ < 1°",
+    "externalUrl": "https://chandra.harvard.edu/",
+    "relatedIds": [
+      "molniya-orbit",
+      "van-allen-belts"
+    ]
+  },
+  {
+    "id": "chandrayaan-3",
+    "name": "Chandrayaan-3 Lunar South Pole Lander",
+    "plainLanguageName": "Chandrayaan-3 Moon Lander",
+    "category": "real-missions",
+    "summary": "India's historic lunar mission that performed the world's first successful soft landing near the Moon's South Pole in August 2023.",
+    "technicalDefinition": "ISRO mission comprising a propulsion module, the Vikram lander, and the Pragyan rover. Raised Earth orbit gradually before performing Lunar Orbit Insertion and a powered descent landing near 69.37°S latitude.",
+    "historicalExample": "Made India the fourth country to soft-land on the Moon and the first to explore the South Pole region, detecting sulfur and measuring lunar soil temperatures.",
+    "gameplayImpact": "The namesake inspiration for MoonLander's lunar landing challenges, showing powered descent braking and lunar transfer delta-v budgets.",
+    "formula": "Landing Coordinates: 69.37° S, 32.35° E",
+    "externalUrl": "https://www.isro.gov.in/Chandrayaan3.html",
+    "relatedIds": [
+      "lunar-transfer",
+      "delta-v",
+      "bipropellant"
+    ]
+  },
+  {
+    "id": "tsiolkovsky-rocket-equation",
+    "name": "Tsiolkovsky Rocket Equation",
+    "plainLanguageName": "The Rocket Equation",
+    "category": "physics",
+    "summary": "The fundamental law of spaceflight: to go faster, you must burn fuel, but carrying fuel makes the rocket heavier, creating an exponential challenge.",
+    "technicalDefinition": "Derived by Konstantin Tsiolkovsky in 1903 from conservation of linear momentum: Δv = v_exhaust · ln(m_initial / m_final) = I_sp · g_0 · ln(m_wet / m_dry). Shows that required propellant mass scales exponentially with target velocity change.",
+    "historicalExample": "This equation explains why the 3,000-ton Saturn V rocket was needed to send a tiny 5-ton Apollo Command Module capsule back to Earth.",
+    "gameplayImpact": "The central mathematical equation powering MoonLander's propulsion sizing. Double the delta-v requires squaring the propellant mass ratio.",
+    "formula": "Δv = I_sp · g_0 · ln(m_wet / m_dry)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "specific-impulse",
+      "delta-v",
+      "mass-margin"
+    ]
+  },
+  {
+    "id": "specific-impulse",
+    "name": "Specific Impulse (Isp)",
+    "plainLanguageName": "Engine Fuel Efficiency (Isp)",
+    "category": "physics",
+    "summary": "The miles-per-gallon measure of a rocket engine: how much push (thrust) it produces per pound of fuel burned each second.",
+    "technicalDefinition": "The impulse delivered per unit weight flow of propellant, expressed in seconds: Isp = F / (m_dot · g_0). Higher Isp means more delta-v delivered per kilogram of fuel carried.",
+    "historicalExample": "Chemical rockets achieve Isp of 220s (hydrazine) to 450s (liquid hydrogen/oxygen), whereas Hall-effect ion thrusters exceed 1,600s by accelerating xenon ions to extreme velocities.",
+    "gameplayImpact": "Upgrading to a high-Isp engine drastically cuts the fuel mass needed to achieve your mission's delta-v requirement.",
+    "formula": "I_sp = F_thrust / (m_dot · g_0) = v_exhaust / g_0",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter14-1/",
+    "relatedIds": [
+      "tsiolkovsky-rocket-equation",
+      "delta-v",
+      "hall-effect-thruster"
+    ]
+  },
+  {
+    "id": "delta-v",
+    "name": "Delta-V (Δv) Orbital Velocity Currency",
+    "plainLanguageName": "Maneuver Fuel Budget (Δv)",
+    "category": "physics",
+    "summary": "The total change in velocity a spacecraft can perform; the fundamental budget or 'currency' spent to change orbits, reach destinations, and land.",
+    "technicalDefinition": "Scalar measure of the impulse per unit mass required to perform orbital maneuvers (launch, insertion, rendezvous, station-keeping, deorbit). Expressed in meters per second (m/s) or km/s.",
+    "historicalExample": "Reaching Low Earth Orbit requires ~9,400 m/s from the ground; transferring from LEO to the Moon requires ~3,150 m/s; landing on the Moon takes another ~1,700 m/s.",
+    "gameplayImpact": "Every mission scenario assigns a required delta-v based on its destination orbit. If your propulsion system provides insufficient delta-v, the mission cannot reach its target.",
+    "formula": "Δv = ∫ |F_thrust / m(t)| dt",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "tsiolkovsky-rocket-equation",
+      "specific-impulse",
+      "hohmann-transfer"
+    ]
+  },
+  {
+    "id": "kepler-third-law",
+    "name": "Kepler's Third Law of Planetary Motion",
+    "plainLanguageName": "Orbit Altitude vs Time Law",
+    "category": "physics",
+    "summary": "The square of a planet's or satellite's orbital period is directly proportional to the cube of its average distance from the center.",
+    "technicalDefinition": "Formulated by Johannes Kepler in 1619 and expanded by Newton: T^2 = (4·π^2 / (G·(M + m))) · a^3. Demonstrates that orbital period depends strictly on the semi-major axis, not the satellite's mass.",
+    "historicalExample": "Used to compute that the Moon takes 27.3 days to orbit at 384,000 km, while the ISS takes just 92 minutes at 400 km altitude.",
+    "gameplayImpact": "Calculates the exact orbital period and pass timings for every orbit selection in MoonLander.",
+    "formula": "T^2 / a^3 = 4 · π^2 / (G · M)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "semi-major-axis",
+      "vis-viva-equation"
+    ]
+  },
+  {
+    "id": "vis-viva-equation",
+    "name": "Vis-Viva Orbital Energy Equation",
+    "plainLanguageName": "Instant Orbital Speed Formula",
+    "category": "physics",
+    "summary": "The master formula that calculates a satellite's exact speed at any point along its orbit given its altitude and orbit size.",
+    "technicalDefinition": "Derived from conservation of mechanical energy for two-body Keplerian orbits: v^2 = μ · (2/r - 1/a), where μ = G·M is the gravitational parameter, r is current radius, and a is semi-major axis.",
+    "historicalExample": "Used by flight dynamics controllers to compute injection velocities, periapsis speed, and burn requirements for every spacecraft trajectory in history.",
+    "gameplayImpact": "Directly calculates vehicle speed throughout launch ascent, orbital insertion, and planetary transfer stages.",
+    "formula": "v = sqrt( μ · (2 / r - 1 / a) )",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "semi-major-axis",
+      "kepler-third-law",
+      "delta-v"
+    ]
+  },
+  {
+    "id": "universal-gravitation",
+    "name": "Newton's Law of Universal Gravitation",
+    "plainLanguageName": "Gravity Pull Formula",
+    "category": "physics",
+    "summary": "Every mass in the universe attracts every other mass with a force proportional to their masses and inversely proportional to the square of the distance between them.",
+    "technicalDefinition": "Fundamental law formulated by Sir Isaac Newton in 1687: F = G · (m1 · m2) / r^2, where G = 6.67430 × 10^-11 m³/(kg·s²). Governs all orbital motion in non-relativistic regimes.",
+    "historicalExample": "Newton showed that the same force causing an apple to fall from a tree keeps the Moon locked in its orbit around the Earth.",
+    "gameplayImpact": "The core physics equation that underpins orbital gravitational acceleration across all planets and moons in MoonLander.",
+    "formula": "F = G · (m_1 · m_2) / r^2",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "vis-viva-equation",
+      "escape-velocity"
+    ]
+  },
+  {
+    "id": "stefan-boltzmann",
+    "name": "Stefan-Boltzmann Thermal Radiation Law",
+    "plainLanguageName": "Space Heat Radiation Law",
+    "category": "physics",
+    "summary": "Hot objects radiate thermal energy into vacuum at a rate that skyrockets with the fourth power of their temperature.",
+    "technicalDefinition": "Radiative heat transfer law stating that the total radiant energy emitted per unit surface area of a black body across all wavelengths per unit time is directly proportional to the fourth power of thermodynamic temperature: j* = ε · σ · T^4, where σ ≈ 5.67037 × 10^-8 W/(m²·K⁴).",
+    "historicalExample": "Because there is no air in space to carry heat away by convection, spacecraft can only cool down by radiating heat into the cold vacuum using this exact law.",
+    "gameplayImpact": "Dictates the surface area of thermal radiators needed to dissipate waste heat from avionics, transmitters, and instruments.",
+    "formula": "P_radiated = ε · σ · A · T^4",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter11-3/",
+    "relatedIds": [
+      "heat-pipes",
+      "cryocooler",
+      "multi-layer-insulation"
+    ]
+  },
+  {
+    "id": "inverse-square-law",
+    "name": "Inverse Square Law of Light & Radiation",
+    "plainLanguageName": "Distance Dimming Law",
+    "category": "physics",
+    "summary": "Light and radio signal strength spread out and weaken with the square of distance: double your distance, and power drops to one fourth.",
+    "technicalDefinition": "Geometric law where intensity (I) of a point-source spherical wave is inversely proportional to the square of distance (d) from source: I ∝ 1 / d^2.",
+    "historicalExample": "Explains why solar panels generate 1,361 W/m² at Earth (1 AU), but only ~590 W/m² at Mars (1.52 AU) and ~50 W/m² at Jupiter (5.2 AU).",
+    "gameplayImpact": "Directly controls solar array power yields and radio transmitter signal strength for deep space missions in Stage 2 and Stage 3.",
+    "formula": "I_2 / I_1 = (d_1 / d_2)^2",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter3-1/",
+    "relatedIds": [
+      "solar-flux",
+      "free-space-path-loss"
+    ]
+  },
+  {
+    "id": "shannon-hartley",
+    "name": "Shannon-Hartley Channel Capacity Theorem",
+    "plainLanguageName": "Maximum Data Speed Limit",
+    "category": "physics",
+    "summary": "The mathematical law that defines the maximum speed data can be transmitted through a radio link with background noise.",
+    "technicalDefinition": "Fundamental theorem of information theory establishing maximum error-free channel capacity (C in bits/s) for a given bandwidth (B in Hz) and signal-to-noise ratio (S/N): C = B · log2(1 + S/N).",
+    "historicalExample": "Claude Shannon's 1948 paper laid the groundwork for all modern telecommunications, including NASA deep space data encoding and cell phone networks.",
+    "gameplayImpact": "Underpins the communications downlink calculations: higher transmit power and bigger dish antennas increase S/N and maximize data return.",
+    "formula": "C = B · log_2(1 + S / N)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter10-1/",
+    "relatedIds": [
+      "link-margin",
+      "ka-band-transceiver",
+      "bit-error-rate"
+    ]
+  },
+  {
+    "id": "oberth-effect",
+    "name": "Oberth Rocket Velocity Effect",
+    "plainLanguageName": "Speed Multiplier Rocket Burn",
+    "category": "physics",
+    "summary": "A rocket engine produces far more useful kinetic energy when fired at high speed (like at the lowest point of an orbit) than at slow speed.",
+    "technicalDefinition": "Point-mass propulsion principle discovered by Hermann Oberth: because kinetic energy scales with v^2 (dE_k = m·v·dv), firing a rocket when the vehicle is traveling at its highest velocity generates substantially greater mechanical orbital energy than the same burn performed at low speed.",
+    "historicalExample": "Spacecraft bound for interplanetary destinations fire their departure burn at Low Earth Orbit perigee (where orbital speed is ~11 km/s) rather than at high apogees.",
+    "gameplayImpact": "Timing your departure burns at perigee saves massive propellant mass when breaking out of planetary orbits.",
+    "formula": "ΔE_k = m · v · Δv + (1/2) · m · (Δv)^2",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "tsiolkovsky-rocket-equation",
+      "delta-v",
+      "vis-viva-equation"
+    ]
+  },
+  {
+    "id": "escape-velocity",
+    "name": "Planetary Escape Velocity",
+    "plainLanguageName": "Breakaway Escape Speed",
+    "category": "physics",
+    "summary": "The minimum speed required for a projectile or spacecraft to break free from a planet's gravitational pull and never fall back.",
+    "technicalDefinition": "The velocity at which the specific kinetic energy of an object equals its specific gravitational potential energy, resulting in a parabolic trajectory with zero total orbital energy (ε = 0). For Earth from surface, v_esc ≈ 11.186 km/s; from 200 km LEO, v_esc ≈ 11.02 km/s.",
+    "historicalExample": "Luna 1 was the first human-made object to achieve Earth escape velocity in 1959, breaking out into interplanetary space.",
+    "gameplayImpact": "The velocity threshold that separates orbiting Earth from launching to the Moon, Mars, or deep space.",
+    "formula": "v_esc = sqrt(2 · G · M / r) = sqrt(2) · v_circular",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "vis-viva-equation",
+      "universal-gravitation",
+      "lunar-transfer"
+    ]
+  },
+  {
+    "id": "gravity-assist",
+    "name": "Gravity Assist / Planetary Slingshot",
+    "plainLanguageName": "Planetary Slingshot Boost",
+    "category": "physics",
+    "summary": "Swinging close past a moving planet to steal a tiny fraction of its orbital momentum, gaining speed and changing direction without burning any fuel.",
+    "technicalDefinition": "Orbital slingshot maneuver where a spacecraft flies through the moving gravitational sphere of influence of a planet. In the planet's reference frame, inbound speed equals outbound speed; but in the Sun's heliocentric frame, the vector sum adds planetary orbital velocity to the spacecraft.",
+    "historicalExample": "Voyager 2 used consecutive gravity assists at Jupiter, Saturn, and Uranus to reach Neptune in 1989, saving decades of flight time and millions of kilograms of rocket fuel.",
+    "gameplayImpact": "Enables deep space and outer planet journeys that would otherwise be impossible due to rocket equation limitations.",
+    "formula": "v_out = v_in + 2 · v_planet · sin(δ / 2)",
+    "externalUrl": "https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/",
+    "relatedIds": [
+      "voyager-1",
+      "new-horizons",
+      "delta-v"
+    ]
+  }
+]
