@@ -25,9 +25,33 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MISSIONFORGE // Orbital Mission Simulator",
+  metadataBase: new URL("https://moonlander.space"),
+  title: {
+    default: "MOONLANDER // Deep Space Mission Simulator",
+    template: "%s | MoonLander",
+  },
   description:
-    "Design, launch, and operate deep-space missions. High-fidelity orbital mechanics, systems engineering, and payload trade studies.",
+    "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions. Full-depth orbital mechanics, systems engineering, and payload trade studies.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://moonlander.space",
+    siteName: "MoonLander",
+    title: "MOONLANDER // Deep Space Mission Simulator",
+    description:
+      "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MOONLANDER // Deep Space Mission Simulator",
+    description:
+      "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
+  },
 };
 
 export default function RootLayout({

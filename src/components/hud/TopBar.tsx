@@ -7,6 +7,7 @@ import { useSettingsStore } from "@/store/settings";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Modal } from "@/components/ui/Modal";
+import { Wordmark } from "@/components/ui/Wordmark";
 import Link from "next/link";
 import {
   Rocket,
@@ -120,13 +121,7 @@ export const TopBar: React.FC = () => {
       <header className="h-12 bg-space-bg/95 border-b border-space-border px-3.5 flex items-center justify-between select-none z-30">
         {/* Left: Brand + Mission Name + Seed */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 text-telemetry-amber font-heading uppercase text-lg tracking-widest font-bold hover:opacity-90 transition-opacity"
-          >
-            <Rocket className="w-5 h-5 text-telemetry-amber" />
-            <span>MoonLander</span>
-          </Link>
+          <Wordmark size="sm" asLink href="/" />
 
           <div className="h-4 w-px bg-space-border mx-1" />
 

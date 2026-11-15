@@ -1,6 +1,6 @@
-# MissionForge Data Architecture & Catalog Specification
+# MoonLander Data Architecture & Catalog Specification
 
-This document details the data catalogs, schemas, validation rules, and real-world aerospace analogues used throughout MissionForge (`src/data/`).
+This document details the data catalogs, schemas, validation rules, and real-world aerospace analogues used throughout MoonLander (`src/data/`).
 
 All catalog data is stored in structured JSON files, validated at startup and build time via strict Zod schemas (`src/data/schemas.ts`), and loaded through a typed lookup provider (`src/data/index.ts`).
 

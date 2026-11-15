@@ -64,16 +64,30 @@ export interface CanvasWrapperProps {
   children: ReactNode;
   className?: string;
   enablePostProcessing?: boolean;
+  frameloop?: "always" | "demand" | "never";
 }
 
 export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
   children,
   className = "w-full h-full relative",
   enablePostProcessing = true,
+  frameloop,
 }) => {
   const graphicsQuality = useSettingsStore((s) => s.graphicsQuality);
   const bloomEnabled = useSettingsStore((s) => s.bloomEnabled);
   const dpr: [number, number] = graphicsQuality === "HIGH" ? [1, 2] : [1, 1];
+
+  const [isTabVisible, setIsTabVisible] = React.useState(true);
+
+  React.useEffect(() => {
+    const handleVisibility = () => {
+      setIsTabVisible(document.visibilityState === "visible");
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  const effectiveFrameloop = !isTabVisible ? "never" : (frameloop ?? "always");
 
   return (
     <div className={className}>
@@ -81,10 +95,23 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
         <Suspense fallback={<LoadingPlaceholder />}>
           <Canvas
             dpr={dpr}
+            frameloop={effectiveFrameloop}
             gl={{
               antialias: graphicsQuality === "HIGH",
               powerPreference: "high-performance",
               alpha: false,
+            }}
+            onCreated={({ gl }) => {
+              const dom = gl.domElement;
+              const handleContextLost = (e: Event) => {
+                e.preventDefault();
+                console.warn("[MoonLander] WebGL Context Lost. Re-initialization scheduled.");
+              };
+              const handleContextRestored = () => {
+                console.log("[MoonLander] WebGL Context Restored successfully.");
+              };
+              dom.addEventListener("webglcontextlost", handleContextLost, false);
+              dom.addEventListener("webglcontextrestored", handleContextRestored, false);
             }}
             camera={{ position: [2.5, 1.8, 3.8], fov: 45, near: 0.1, far: 2000 }}
             className="w-full h-full bg-[#05070D]"

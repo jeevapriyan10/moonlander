@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { safeStateStorage, STORAGE_KEYS } from "@/lib/storage";
 
 export interface SettingsState {
   graphicsQuality: "LOW" | "HIGH";
@@ -29,8 +30,16 @@ export const useSettingsStore = create<SettingsState>()(
       setAutoRotate3D: (enabled) => set({ autoRotate3D: enabled }),
     }),
     {
-      name: "moonlander-settings-storage-v1",
-      version: 1,
+      name: STORAGE_KEYS.SETTINGS,
+      version: 2,
+      storage: createJSONStorage(() => safeStateStorage),
+      skipHydration: true,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 1 && persistedState && typeof persistedState === "object") {
+          return persistedState as SettingsState;
+        }
+        return persistedState as SettingsState;
+      },
     }
   )
 );

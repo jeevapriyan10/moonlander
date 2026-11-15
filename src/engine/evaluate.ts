@@ -1,5 +1,5 @@
 /**
- * Main evaluation pipeline for MoonLander / MissionForge.
+ * Main evaluation pipeline for MoonLander.
  *
  * Implements:
  * - Pure, deterministic, zero-allocation evaluation < 5ms

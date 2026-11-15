@@ -15,7 +15,7 @@ export default function SandboxPage() {
     createMission("earth-watch", "ADVANCED", true);
     unlockStage(6); // Sandbox unlocks all stages for free exploration
     setCurrentStage(3); // Jump straight to Design stage
-    router.replace("/mission/sandbox");
+    router.replace("/mission/sandbox?stage=design");
   }, [createMission, setCurrentStage, unlockStage, router]);
 
   return (

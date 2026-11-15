@@ -38,7 +38,7 @@ export default function NewMissionPage() {
     initMission(scenarioId);
     setDifficulty(selectedDifficulty);
     setCurrentStage(1);
-    router.push(`/mission/${scenarioId}`);
+    router.push(`/mission/${scenarioId}?stage=objective`);
   };
 
   return (

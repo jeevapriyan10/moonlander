@@ -1,5 +1,5 @@
 /**
- * Astrodynamics and physical constants for the MoonLander / MissionForge engine.
+ * Astrodynamics and physical constants for the MoonLander engine.
  * Sources:
  * - NASA Reference Publication 1207 / JPL Planetary Ephemeris
  * - WGS-84 Earth Gravitational Model (muEarth, R_E, J2)

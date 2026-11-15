@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useMissionStore } from "@/store/mission";
-import { useUIStore } from "@/store/ui";
+import { useUIStore, type GameStage } from "@/store/ui";
+import { useHasHydrated } from "@/lib/useHasHydrated";
+import { WorkspaceSkeleton } from "@/components/ui/WorkspaceSkeleton";
 import { TopBar } from "@/components/hud/TopBar";
 import { Dashboard } from "@/components/hud/Dashboard";
 import { Advisor } from "@/components/hud/Advisor";
@@ -22,6 +24,24 @@ import {
   Activity,
   AlertCircle,
 } from "lucide-react";
+
+const STAGE_TO_QUERY: Record<GameStage, string> = {
+  1: "objective",
+  2: "requirements",
+  3: "design",
+  4: "orbit",
+  5: "simulate",
+  6: "debrief",
+};
+
+const QUERY_TO_STAGE: Record<string, GameStage> = {
+  objective: 1,
+  requirements: 2,
+  design: 3,
+  orbit: 4,
+  simulate: 5,
+  debrief: 6,
+};
 
 // Dynamic import for 3D Viewport with ssr: false
 const Viewport3D = dynamic(
@@ -47,11 +67,15 @@ const Launch = dynamic(
 
 export default function MissionWorkspacePage() {
   const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const scenarioOrId = (params?.id as string) || "earth-watch";
+  const hasHydrated = useHasHydrated();
 
   const { currentMission } = useMissionStore();
   const {
     currentStage,
+    maxUnlockedStage,
     setCurrentStage,
     unlockStage,
     mobilePane,
@@ -61,11 +85,9 @@ export default function MissionWorkspacePage() {
     setLaunchInProgress,
   } = useUIStore();
 
-  const [mounted, setMounted] = useState(false);
-
   // Initialize mission state if directly routed
   useEffect(() => {
-    setMounted(true);
+    if (!hasHydrated) return;
 
     const missionStore = useMissionStore.getState();
     const uiStore = useUIStore.getState();
@@ -91,17 +113,35 @@ export default function MissionWorkspacePage() {
     } else if (missionStore.currentMission.isSandbox) {
       uiStore.unlockStage(6);
     }
-  }, [scenarioOrId]);
+  }, [hasHydrated, scenarioOrId]);
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-space-bg flex items-center justify-center font-mono text-xs text-telemetry-amber">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full border border-telemetry-amber border-t-transparent animate-spin" />
-          <span>ESTABLISHING GROUND STATION LINK...</span>
-        </div>
-      </div>
-    );
+  // Sync URL query stage (?stage=design) with store state, enforcing stage locks
+  useEffect(() => {
+    if (!hasHydrated) return;
+    const stageQuery = searchParams.get("stage");
+    if (stageQuery && QUERY_TO_STAGE[stageQuery]) {
+      const requested = QUERY_TO_STAGE[stageQuery]!;
+      if (requested <= maxUnlockedStage) {
+        if (requested !== currentStage) {
+          setCurrentStage(requested);
+        }
+      } else {
+        // Enforce stage lock: cannot bypass via URL
+        const safeStage = Math.max(1, maxUnlockedStage) as GameStage;
+        setCurrentStage(safeStage);
+        router.replace(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`);
+      }
+    }
+  }, [hasHydrated, searchParams, maxUnlockedStage, currentStage, scenarioOrId, router, setCurrentStage]);
+
+  const handleSelectStage = (stage: GameStage) => {
+    const safeStage = Math.min(stage, maxUnlockedStage) as GameStage;
+    setCurrentStage(safeStage);
+    router.push(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`, { scroll: false });
+  };
+
+  if (!hasHydrated) {
+    return <WorkspaceSkeleton />;
   }
 
   return (
@@ -116,7 +156,7 @@ export default function MissionWorkspacePage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <StageRail
             currentStage={currentStage}
-            onSelectStage={(stage) => setCurrentStage(stage as 1 | 2 | 3 | 4 | 5 | 6)}
+            onSelectStage={(stage) => handleSelectStage(stage as GameStage)}
           />
         </div>
       </div>
@@ -221,7 +261,7 @@ export default function MissionWorkspacePage() {
                 <Dashboard
                   onProceedToOrbit={() => {
                     unlockStage(4);
-                    setCurrentStage(4);
+                    handleSelectStage(4);
                   }}
                 />
               </div>
@@ -245,11 +285,11 @@ export default function MissionWorkspacePage() {
                 onComplete={() => {
                   setLaunchInProgress(false);
                   unlockStage(5);
-                  setCurrentStage(5);
+                  handleSelectStage(5);
                 }}
                 onReturnToDesign={() => {
                   setLaunchInProgress(false);
-                  setCurrentStage(3);
+                  handleSelectStage(3);
                 }}
               />
             ) : (

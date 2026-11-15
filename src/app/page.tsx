@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useMissionStore } from "@/store/mission";
 import { Button } from "@/components/ui/Button";
+import { Wordmark } from "@/components/ui/Wordmark";
 
 // Dynamically import Three.js Canvas with ssr: false
 const CanvasWrapper = dynamic(
@@ -79,7 +80,7 @@ export default function TitlePage() {
             <span className="font-mono text-slate-200">{utcTime || "00:00:00 UTC"}</span>
           </div>
           <span className="text-space-border">|</span>
-          <span className="text-telemetry-cyan font-mono text-[11px]">SYS REV 1.0.4-STAGE1</span>
+          <span className="text-telemetry-cyan font-mono text-[11px]">SYS REV 2.0.0-STAGE2</span>
         </div>
       </header>
 
@@ -92,12 +93,12 @@ export default function TitlePage() {
           </span>
         </div>
 
-        <h1 className="text-5xl sm:text-7xl md:text-8xl font-heading uppercase font-bold tracking-tight text-white mb-4">
-          MISSION<span className="text-telemetry-amber">FORGE</span>
-        </h1>
+        <div className="mb-6">
+          <Wordmark size="xl" showTagline={true} />
+        </div>
 
         <p className="max-w-xl text-slate-300 font-body text-sm sm:text-base leading-relaxed mb-8">
-          Architect, balance, and launch real-world aerospace missions. Trade off payload mass,
+          Architect, balance, launch, and operate deep-space missions. Trade off payload mass,
           solar flux, thermal dissipation, communications link budgets, and orbital lifespans.
         </p>
 

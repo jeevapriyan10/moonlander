@@ -35,8 +35,8 @@ export const Slider: React.FC<SliderProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalText(e.target.value);
     const parsed = parseFloat(e.target.value);
-    if (!isNaN(parsed)) {
-      onChange(Math.max(min, Math.min(max, parsed)));
+    if (!isNaN(parsed) && parsed >= min && parsed <= max) {
+      onChange(parsed);
     }
   };
 
@@ -49,6 +49,7 @@ export const Slider: React.FC<SliderProps> = ({
       onChange(max);
       setLocalText(max.toString());
     } else {
+      onChange(parsed);
       setLocalText(parsed.toString());
     }
   };

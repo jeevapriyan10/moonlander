@@ -168,7 +168,7 @@ export default function LearnPage() {
 
       {/* Footer */}
       <footer className="max-w-6xl w-full mx-auto pt-6 border-t border-space-border flex items-center justify-between text-xs font-mono text-slate-500">
-        <span>MISSIONFORGE // ASTRODYNAMICS & SYSTEMS ENGINEERING COMPENDIUM</span>
+        <span>MOONLANDER // ASTRODYNAMICS & SYSTEMS ENGINEERING COMPENDIUM</span>
         <Link href="/" className="text-telemetry-cyan hover:underline">
           Back to Command Center →
         </Link>

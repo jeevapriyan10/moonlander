@@ -1,14 +1,14 @@
-# MISSIONFORGE // Orbital Mission Simulator
+# MOONLANDER // Deep Space Mission Simulator
 
-[![CI](https://github.com/missionforge/missionforge/actions/workflows/ci.yml/badge.svg)](https://github.com/missionforge/missionforge/actions/workflows/ci.yml)
+[![CI](https://github.com/moonlander/moonlander/actions/workflows/ci.yml/badge.svg)](https://github.com/moonlander/moonlander/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2-black)](https://nextjs.org/)
 [![TypeScript Strict](https://img.shields.io/badge/TypeScript-Strict%20noUncheckedIndexedAccess-blue)](https://www.typescriptlang.org/)
 [![Three.js](https://img.shields.io/badge/Three.js-R3F%20%2B%20Drei-orange)](https://docs.pmnd.rs/react-three-fiber)
 
-> **Where Kerbal Space Program's planning depth meets NASA mission-control aesthetics.**
+> **Every mission begins with a decision.** Where Kerbal Space Program's planning depth meets NASA mission-control aesthetics.
 
-**MissionForge** is a premium browser-based space mission simulation game where players architect, balance, launch, and operate deep-space missions. Every subsystem—from solar flux and battery depth-of-discharge to Tsiolkovsky delta-v budgets and Keplerian orbit propagation—is backed by real-world astrodynamics and systems engineering physics.
+**MoonLander** is a premium browser-based space mission simulation game where players architect, balance, launch, and operate deep-space missions. Every subsystem—from solar flux and battery depth-of-discharge to Tsiolkovsky delta-v budgets and Keplerian orbit propagation—is backed by real-world astrodynamics and systems engineering physics.
 
 ---
 
@@ -108,8 +108,8 @@ docs/
 
 ```bash
 # Clone repository
-git clone https://github.com/missionforge/missionforge.git
-cd missionforge
+git clone https://github.com/moonlander/moonlander.git
+cd moonlander
 
 # Install pinned dependencies
 npm install
@@ -142,8 +142,8 @@ npm run build
 
 ## Deployment on Vercel
 
-MissionForge is optimized for zero-configuration deployment on Vercel's free edge tier:
-- **Zero Environment Variables:** Stage 1 runs entirely client-side with pure TypeScript evaluation and localStorage persistence.
+MoonLander is optimized for zero-configuration deployment on Vercel's free edge tier:
+- **Zero Environment Variables:** Pure TypeScript evaluation and client-side persistence.
 - **Zero Server Overhead:** All 3D assets and procedural textures are synthesized in-memory on the client.
 - **Dynamic Imports:** All WebGL/Three.js canvases use `ssr: false` to ensure seamless Static Site Generation (SSG) compatibility.
 
@@ -175,4 +175,4 @@ npx vercel
 
 ## License
 
-MIT © 2026 MissionForge Contributors.
+MIT © 2026 MoonLander Contributors.

@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { safeStateStorage, STORAGE_KEYS } from "@/lib/storage";
 import {
   evaluateMission,
   type MissionDesignConfig,
@@ -133,6 +134,31 @@ export function getDefaultMissionConfig(
 const initialConfig = getDefaultMissionConfig();
 const initialEval = evaluateMission(initialConfig, catalog);
 
+function sanitizePatch(patch: Partial<MissionDesignConfig>): Partial<MissionDesignConfig> {
+  const sanitized = { ...patch };
+  if (sanitized.solarArrayAreaM2 !== undefined) {
+    sanitized.solarArrayAreaM2 = Number.isFinite(sanitized.solarArrayAreaM2)
+      ? Math.max(0.1, Math.min(200, sanitized.solarArrayAreaM2))
+      : 2.0;
+  }
+  if (sanitized.batteryCapacityWh !== undefined) {
+    sanitized.batteryCapacityWh = Number.isFinite(sanitized.batteryCapacityWh)
+      ? Math.max(10, Math.min(50000, sanitized.batteryCapacityWh))
+      : 250;
+  }
+  if (sanitized.propellantMassKg !== undefined) {
+    sanitized.propellantMassKg = Number.isFinite(sanitized.propellantMassKg)
+      ? Math.max(0, Math.min(20000, sanitized.propellantMassKg))
+      : 15;
+  }
+  if (sanitized.storageGb !== undefined) {
+    sanitized.storageGb = Number.isFinite(sanitized.storageGb)
+      ? Math.max(1, Math.min(100000, sanitized.storageGb))
+      : 128;
+  }
+  return sanitized;
+}
+
 export const useMissionStore = create<MissionStoreState>()(
   persist(
     (set, get) => ({
@@ -150,7 +176,8 @@ export const useMissionStore = create<MissionStoreState>()(
 
       updateDesign: (patch) => {
         const { currentMission, savedMissions } = get();
-        const updated = { ...currentMission, ...patch };
+        const cleanPatch = sanitizePatch(patch);
+        const updated = { ...currentMission, ...cleanPatch };
         const evalResult = evaluateMission(updated, catalog);
         set({
           currentMission: updated,
@@ -164,7 +191,8 @@ export const useMissionStore = create<MissionStoreState>()(
 
       applyFix: (patch) => {
         const { currentMission, savedMissions } = get();
-        const updated = { ...currentMission, ...patch };
+        const cleanPatch = sanitizePatch(patch);
+        const updated = { ...currentMission, ...cleanPatch };
         const evalResult = evaluateMission(updated, catalog);
         set({
           currentMission: updated,
@@ -287,8 +315,16 @@ export const useMissionStore = create<MissionStoreState>()(
       },
     }),
     {
-      name: "moonlander-mission-storage-v1",
-      version: 1,
+      name: STORAGE_KEYS.MISSION,
+      version: 2,
+      storage: createJSONStorage(() => safeStateStorage),
+      skipHydration: true,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 1 && persistedState && typeof persistedState === "object") {
+          return persistedState as MissionStoreState;
+        }
+        return persistedState as MissionStoreState;
+      },
     }
   )
 );

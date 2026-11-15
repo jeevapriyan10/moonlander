@@ -121,7 +121,7 @@ describe("Design Space Search: At least 3 valid designs per playable scenario", 
     for (const partial of candidateDesigns) {
       const config: MissionDesignConfig = {
         id: `valid-ew-${partial.busId}-${partial.launcherId}-${partial.propulsionId}`,
-        seed: "MF-7K2Q-91",
+        seed: "ML-7K2Q-91",
         name: "Earth Watch Candidate",
         scenarioId,
         difficulty: "ADVANCED",
@@ -202,7 +202,7 @@ describe("Design Space Search: At least 3 valid designs per playable scenario", 
     for (const partial of candidateDesigns) {
       const config: MissionDesignConfig = {
         id: `valid-exo-${partial.busId}-${partial.launcherId}-${partial.propulsionId}`,
-        seed: "MF-TESS-01",
+        seed: "ML-TESS-01",
         name: "Exoplanet Candidate",
         scenarioId,
         difficulty: "ADVANCED",

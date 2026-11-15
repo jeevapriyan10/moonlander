@@ -1,0 +1,17 @@
+{
+  "name": "MoonLander // Deep Space Mission Simulator",
+  "short_name": "MoonLander",
+  "description": "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070D",
+  "theme_color": "#05070D",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

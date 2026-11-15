@@ -25,5 +25,5 @@ export function generateSeedCode(): string {
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
   const part1 = Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
   const part2 = Array.from({ length: 2 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-  return `MF-${part1}-${part2}`;
+  return `ML-${part1}-${part2}`;
 }
