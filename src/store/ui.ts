@@ -47,7 +47,8 @@ export const useUIStore = create<UIState>((set) => ({
 
   setCurrentStage: (stage) =>
     set((state) => ({
-      currentStage: Math.min(stage, state.maxUnlockedStage) as GameStage,
+      maxUnlockedStage: Math.max(state.maxUnlockedStage, stage) as GameStage,
+      currentStage: stage,
     })),
 
   unlockStage: (stage) =>

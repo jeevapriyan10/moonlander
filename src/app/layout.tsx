@@ -38,11 +38,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlowCondensed.variable} ${interTight.variable} ${jetbrainsMono.variable} dark`}
+      className={`${barlowCondensed.variable} ${interTight.variable} ${jetbrainsMono.variable} dark h-full`}
     >
-      <body className="min-h-screen bg-space-bg text-slate-200 antialiased font-body bg-scanline selection:bg-telemetry-amber/30 selection:text-white">
+      <body className="h-full min-h-screen bg-space-bg text-slate-200 antialiased font-body bg-scanline selection:bg-telemetry-amber/30 selection:text-white flex flex-col">
         <div className="fixed inset-0 pointer-events-none bg-radial-vignette z-0" />
-        <main className="relative z-10 min-h-screen flex flex-col">
+        <main className="relative z-10 flex-1 flex flex-col min-h-0 h-full">
           {children}
         </main>
         <ToastContainer />

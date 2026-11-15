@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useMemo, useState, useEffect } from "react";
+import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { createProceduralEarthTexture } from "./proceduralTextures";
@@ -19,31 +19,8 @@ export const Earth: React.FC<EarthProps> = ({
   const earthRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
 
-  // Generate guaranteed procedural fallback texture
-  const fallbackTexture = useMemo(() => createProceduralEarthTexture(), []);
-  const [earthTexture, setEarthTexture] = useState<THREE.Texture>(fallbackTexture);
-
-  // Safely probe if user added custom NASA Blue Marble textures in /public/textures
-  useEffect(() => {
-    let active = true;
-    const loader = new THREE.TextureLoader();
-    loader.load(
-      "/textures/earth_day.jpg",
-      (loadedTexture) => {
-        if (active) {
-          loadedTexture.colorSpace = THREE.SRGBColorSpace;
-          setEarthTexture(loadedTexture);
-        }
-      },
-      undefined,
-      () => {
-        // Fallback active, no error thrown
-      }
-    );
-    return () => {
-      active = false;
-    };
-  }, [fallbackTexture]);
+  // Procedural Earth PBR texture (continents, oceans, atmospheric cloud wisps)
+  const earthTexture = useMemo(() => createProceduralEarthTexture(), []);
 
   // Atmospheric Fresnel Glow Shader
   const atmosphereMaterial = useMemo(() => {

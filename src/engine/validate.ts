@@ -248,10 +248,15 @@ export function validateMissionDesign(inputs: MissionDesignInputs): ValidationIs
         limit: `<= ${inputs.requiredPointingDeg}°`,
       },
       fixes: [
-        {
-          label: "Upgrade to Reaction Wheels + Star Tracker (0.01°)",
-          patch: { adcsId: "adcs-reaction-wheels" },
-        },
+        inputs.requiredPointingDeg < 0.01
+          ? {
+              label: "Upgrade to Ultra-Fine Pointing Bench (0.001°)",
+              patch: { adcsId: "adcs-fine-pointing" },
+            }
+          : {
+              label: "Upgrade to Reaction Wheels + Star Tracker (0.01°)",
+              patch: { adcsId: "adcs-reaction-wheels" },
+            },
       ],
     });
   }

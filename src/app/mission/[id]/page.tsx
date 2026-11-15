@@ -45,19 +45,15 @@ const Launch = dynamic(
   { ssr: false }
 );
 
-const CanvasWrapper = dynamic(
-  () => import("@/components/three/CanvasWrapper").then((mod) => mod.CanvasWrapper),
-  { ssr: false }
-);
-
 export default function MissionWorkspacePage() {
   const params = useParams();
   const scenarioOrId = (params?.id as string) || "earth-watch";
 
-  const { currentMission, savedMissions, createMission, loadMission } = useMissionStore();
+  const { currentMission } = useMissionStore();
   const {
     currentStage,
     setCurrentStage,
+    unlockStage,
     mobilePane,
     setMobilePane,
     advisorExpanded,
@@ -70,22 +66,32 @@ export default function MissionWorkspacePage() {
   // Initialize mission state if directly routed
   useEffect(() => {
     setMounted(true);
-    if (savedMissions[scenarioOrId]) {
-      loadMission(scenarioOrId);
-    } else if (
-      scenarioOrId === "earth-watch" ||
-      scenarioOrId === "exoplanet-hunter" ||
-      scenarioOrId === "sandbox"
-    ) {
-      if (currentMission.scenarioId !== scenarioOrId && currentMission.id !== scenarioOrId) {
-        createMission(
-          scenarioOrId === "sandbox" ? "earth-watch" : scenarioOrId,
-          "INTERMEDIATE",
-          scenarioOrId === "sandbox"
-        );
+
+    const missionStore = useMissionStore.getState();
+    const uiStore = useUIStore.getState();
+
+    if (missionStore.savedMissions[scenarioOrId]) {
+      missionStore.loadMission(scenarioOrId);
+      if (missionStore.savedMissions[scenarioOrId]?.isSandbox) {
+        uiStore.unlockStage(6);
       }
+    } else if (scenarioOrId === "sandbox") {
+      if (!missionStore.currentMission.isSandbox) {
+        missionStore.createMission("earth-watch", "ADVANCED", true);
+        uiStore.setCurrentStage(3);
+      }
+      uiStore.unlockStage(6);
+    } else if (scenarioOrId === "earth-watch" || scenarioOrId === "exoplanet-hunter") {
+      if (
+        missionStore.currentMission.scenarioId !== scenarioOrId ||
+        missionStore.currentMission.isSandbox
+      ) {
+        missionStore.createMission(scenarioOrId, "INTERMEDIATE", false);
+      }
+    } else if (missionStore.currentMission.isSandbox) {
+      uiStore.unlockStage(6);
     }
-  }, [scenarioOrId, savedMissions, currentMission, createMission, loadMission]);
+  }, [scenarioOrId]);
 
   if (!mounted) {
     return (
@@ -99,12 +105,14 @@ export default function MissionWorkspacePage() {
   }
 
   return (
-    <div className="min-h-screen bg-space-bg flex flex-col overflow-hidden text-slate-200">
+    <div className="h-screen h-[100dvh] w-full bg-space-bg flex flex-col overflow-hidden text-slate-200">
       {/* 1. Top Bar */}
-      <TopBar />
+      <div className="shrink-0">
+        <TopBar />
+      </div>
 
       {/* 2. Persistent Stage Rail */}
-      <div className="px-4 py-2 border-b border-space-border bg-space-panel/60 backdrop-blur-md">
+      <div className="shrink-0 px-4 py-2 border-b border-space-border bg-space-panel/60 backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <StageRail
             currentStage={currentStage}
@@ -114,21 +122,21 @@ export default function MissionWorkspacePage() {
       </div>
 
       {/* 3. Stage View Router */}
-      <div className="flex-1 flex flex-col relative overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
         {currentStage === 1 && (
-          <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
             <ObjectiveStage />
           </div>
         )}
 
         {currentStage === 2 && (
-          <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
             <RequirementsStage />
           </div>
         )}
 
         {currentStage === 3 && (
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
             {/* Mobile Tab Switcher */}
             <div className="md:hidden flex items-center border-b border-space-border bg-space-panel px-2 py-1 gap-1 font-mono text-xs">
               <button
@@ -210,7 +218,12 @@ export default function MissionWorkspacePage() {
                   mobilePane !== "dashboard" ? "hidden md:flex" : "flex"
                 }`}
               >
-                <Dashboard onProceedToOrbit={() => setCurrentStage(4)} />
+                <Dashboard
+                  onProceedToOrbit={() => {
+                    unlockStage(4);
+                    setCurrentStage(4);
+                  }}
+                />
               </div>
             </div>
 
@@ -226,15 +239,21 @@ export default function MissionWorkspacePage() {
         )}
 
         {currentStage === 4 && (
-          <div className="flex-1 overflow-hidden relative">
+          <div className="flex-1 min-h-0 h-full overflow-hidden relative flex flex-col">
             {launchInProgress ? (
-              <div className="w-full h-full relative">
-                <CanvasWrapper>
-                  <Launch onComplete={() => setCurrentStage(5)} />
-                </CanvasWrapper>
-              </div>
+              <Launch
+                onComplete={() => {
+                  setLaunchInProgress(false);
+                  unlockStage(5);
+                  setCurrentStage(5);
+                }}
+                onReturnToDesign={() => {
+                  setLaunchInProgress(false);
+                  setCurrentStage(3);
+                }}
+              />
             ) : (
-              <div className="flex-1 overflow-y-auto p-4 md:p-8 h-full">
+              <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8 h-full">
                 <OrbitLaunchStage onStartLaunch={() => setLaunchInProgress(true)} />
               </div>
             )}
@@ -242,13 +261,13 @@ export default function MissionWorkspacePage() {
         )}
 
         {currentStage === 5 && (
-          <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
             <SimulateStage />
           </div>
         )}
 
         {currentStage === 6 && (
-          <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
             <DebriefStage />
           </div>
         )}
