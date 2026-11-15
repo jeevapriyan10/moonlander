@@ -53,6 +53,8 @@ export interface MissionDebriefReport {
   };
 }
 
+export type DebriefReport = MissionDebriefReport;
+
 /**
  * Calculates the comprehensive 100-point mission scorecard.
  */

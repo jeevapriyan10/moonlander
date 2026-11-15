@@ -25,6 +25,7 @@ import {
   ExoplanetDataSchema,
   SpaceWeatherDataSchema,
   RealMissionDataSchema,
+  AchievementDataSchema,
 } from "./schemas";
 
 import busesRaw from "./buses.json";
@@ -40,6 +41,7 @@ import destinationsRaw from "./destinations.json";
 import exoplanetsRaw from "./exoplanets.json";
 import spaceWeatherRaw from "./space-weather.json";
 import realMissionsRaw from "./real-missions.json";
+import achievementsRaw from "./achievements.json";
 
 import type { CatalogLookup } from "../engine/evaluate";
 
@@ -64,6 +66,7 @@ export const destinations = z.array(DestinationDataSchema).parse(destinationsRaw
 export const exoplanets = z.array(ExoplanetDataSchema).parse(exoplanetsRaw);
 export const spaceWeather = z.array(SpaceWeatherDataSchema).parse(spaceWeatherRaw);
 export const realMissions = z.array(RealMissionDataSchema).parse(realMissionsRaw);
+export const achievements = z.array(AchievementDataSchema).parse(achievementsRaw);
 
 // Export types derived from validated schemas
 export type BusClass = z.infer<typeof BusClassDataSchema>;
@@ -86,6 +89,7 @@ export type Destination = z.infer<typeof DestinationDataSchema>;
 export type Exoplanet = z.infer<typeof ExoplanetDataSchema>;
 export type SpaceWeatherEvent = z.infer<typeof SpaceWeatherDataSchema>;
 export type RealMission = z.infer<typeof RealMissionDataSchema>;
+export type Achievement = z.infer<typeof AchievementDataSchema>;
 
 // Build typed catalog lookup object for pure evaluation engine
 export function getCatalogLookup(): CatalogLookup {

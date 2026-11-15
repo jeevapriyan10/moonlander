@@ -23,7 +23,10 @@ import {
   GraduationCap,
   Sparkles,
   Radio,
+  Trophy,
+  User,
 } from "lucide-react";
+import { useProfileStore } from "@/store/profile";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
 
 export const TopBar: React.FC = () => {
@@ -39,6 +42,7 @@ export const TopBar: React.FC = () => {
   } = useMissionStore();
 
   const { addToast } = useUIStore();
+  const { profile } = useProfileStore();
   const {
     graphicsQuality,
     setGraphicsQuality,
@@ -223,6 +227,14 @@ export const TopBar: React.FC = () => {
             <Button variant="ghost" size="sm" title="Space Codex (/codex)">
               <BookOpen className="w-3.5 h-3.5 text-telemetry-cyan" />
               <span className="hidden md:inline">Codex</span>
+            </Button>
+          </Link>
+
+          <Link href="/profile" target="_blank">
+            <Button variant="ghost" size="sm" title="Pilot Profile & Career History (/profile)">
+              <Trophy className="w-3.5 h-3.5 text-telemetry-amber" />
+              <span className="hidden xl:inline text-xs font-mono">{profile.callsign} ({profile.currentRank})</span>
+              <span className="hidden md:inline xl:hidden">Profile</span>
             </Button>
           </Link>
 

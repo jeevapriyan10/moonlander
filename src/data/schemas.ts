@@ -335,3 +335,31 @@ export const RealMissionDataSchema = z.object({
   lessonsLearned: z.string(),
   nasaArchiveUrl: z.string().url(),
 });
+
+export const AchievementCategorySchema = z.enum([
+  "first-flight",
+  "engineering",
+  "efficiency",
+  "survival",
+  "exploration",
+  "learning",
+  "story",
+  "destinations",
+  "operations",
+  "mastery",
+]);
+
+export const AchievementTierSchema = z.enum(["bronze", "silver", "gold", "platinum"]);
+
+export const AchievementDataSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  category: AchievementCategorySchema,
+  tier: AchievementTierSchema.default("bronze"),
+  xp: z.number().int().positive(),
+  secret: z.boolean().default(false),
+  badgeIcon: z.string(),
+  unlockRequirement: z.string(),
+  criteria: z.record(z.any()).optional(),
+});

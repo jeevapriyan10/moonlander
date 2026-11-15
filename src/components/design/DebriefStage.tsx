@@ -9,6 +9,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
+import { useProfileStore } from "@/store/profile";
 import {
   Award,
   RotateCcw,
@@ -24,6 +25,7 @@ import {
   TrendingUp,
   TrendingDown,
   Compass,
+  Trophy,
 } from "lucide-react";
 
 export const DebriefStage: React.FC = () => {
@@ -54,6 +56,27 @@ export const DebriefStage: React.FC = () => {
     C: "text-telemetry-orange border-telemetry-orange bg-telemetry-orange/10",
     D: "text-telemetry-red border-telemetry-red shadow-glow-red bg-telemetry-red/10",
   };
+
+  const { recordMissionDebrief } = useProfileStore();
+  const recordedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (recordedRef.current) return;
+    recordedRef.current = true;
+    recordMissionDebrief({
+      missionName: currentMission.name,
+      scenarioId: currentMission.scenarioId,
+      seed: currentMission.seed,
+      evaluation,
+      debriefReport: debrief,
+      design: currentMission,
+      logEntries: opsResult?.events?.map((e) => ({
+        tPlus: e.triggerDay * 86400,
+        message: `${e.title}: ${e.description}`,
+        severity: e.severity === "critical" ? "critical" : (e.severity === "high" || e.severity === "medium") ? "warning" : "info",
+      })) || [],
+    });
+  }, [currentMission, evaluation, debrief, opsResult, recordMissionDebrief]);
 
   const handleApplyWhatIf = (scenario: WhatIfScenario) => {
     updateDesign(scenario.patch);
@@ -401,6 +424,13 @@ export const DebriefStage: React.FC = () => {
         </Button>
 
         <div className="flex items-center gap-2">
+          <Link href="/profile">
+            <Button size="md" variant="secondary" className="flex items-center gap-1.5 border-telemetry-amber/50 text-telemetry-amber hover:bg-telemetry-amber/10">
+              <Trophy className="w-4 h-4" />
+              <span>Pilot Dossier & Patches</span>
+            </Button>
+          </Link>
+
           <Button
             size="md"
             variant="secondary"
