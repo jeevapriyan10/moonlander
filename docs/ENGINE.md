@@ -328,11 +328,99 @@ Every rule returns a plain-language physics explanation (`why`), actual vs limit
 
 ---
 
-## 12. References & Standards Citations
+## 13. Interplanetary Astrodynamics & Lambert Solver (`src/engine/interplanetary.ts`)
+
+### 13.1 Standish Planetary Ephemeris Model
+Planetary orbits are computed using the NASA JPL Standish (1992) low-precision analytical ephemeris valid over 1800–2050 AD.
+For Julian centuries from J2000.0:
+$$T = \frac{\text{JD} - 2451545.0}{36525}$$
+Orbital elements $\{a, e, I, L, \varpi, \Omega\}$ are computed via linear expansion:
+$$p = p_0 + \dot{p} T$$
+Where Mean Anomaly $M = L - \varpi$, and 3D heliocentric Cartesian state vectors $(\mathbf{r}, \mathbf{v})$ are determined via Kepler's equation and transformation matrices.
+
+### 13.2 Universal-Variable Lambert Solver
+Interplanetary transfer orbits connecting departure point $\mathbf{r}_1$ at time $t_1$ to arrival point $\mathbf{r}_2$ at time $t_2$ are solved using Bate-Mueller-White universal formulation:
+$$A = \sin(\Delta \nu) \sqrt{\frac{r_1 r_2}{1 - \cos(\Delta \nu)}}$$
+The time of flight equation:
+$$t = \frac{1}{\sqrt{\mu_{\odot}}} \left[ x^3 S(z) + A \sqrt{y} \right]$$
+Where $z = x^2 / a$, and $S(z), C(z)$ are the universal Stumpff functions:
+$$C(z) = \frac{1 - \cos \sqrt{z}}{z}, \quad S(z) = \frac{\sqrt{z} - \sin \sqrt{z}}{z^{3/2}}$$
+Solved iteratively via secant/finite-difference root finding with $< 10^{-6}$ relative error.
+
+### 13.3 Porkchop Contour Generation
+Grid evaluations across departure dates $t_{\text{dep}} \in [t_0, t_0 + \Delta t]$ and times-of-flight $\text{TOF} \in [\text{TOF}_{\min}, \text{TOF}_{\max}]$ compute characteristic departure energy $C_3$:
+$$C_3 = v_{\infty, \text{dep}}^2 = \|\mathbf{v}_1 - \mathbf{v}_{\text{planet}, 1}\|^2 \quad [\text{km}^2 / \text{s}^2]$$
+And arrival hyperbolic excess velocity $v_{\infty, \text{arr}} = \|\mathbf{v}_2 - \mathbf{v}_{\text{planet}, 2}\|$.
+
+---
+
+## 14. Mission Operations Simulation Engine (`src/engine/ops/simulator.ts`)
+
+Stage 5 models multi-year flight operations across discrete time slices $\Delta t$:
+1. **Solar Array Degradation:**
+   $$\eta(t) = \eta_0 (1 - \delta_{\text{rad}})^t \cdot \frac{1}{d_{\odot}^2}$$
+2. **Battery Charge/Discharge Balance:**
+   $$E_{\text{batt}}(t + \Delta t) = E_{\text{batt}}(t) + \eta_{\text{charge}} P_{\text{net}} \Delta t \quad (P_{\text{net}} > 0)$$
+   $$E_{\text{batt}}(t + \Delta t) = E_{\text{batt}}(t) - \frac{P_{\text{load}}}{\eta_{\text{discharge}}} \Delta t \quad (\text{eclipse})$$
+3. **Propellant Boiloff (Cryogenic Systems):**
+   $$m_{\text{boiloff}}(t) = m_0 \cdot \dot{r}_{\text{boil}} \cdot t$$
+4. **Onboard Solid-State Recorder Buffer:**
+   $$S_{\text{buf}}(t + \Delta t) = \min\left(S_{\max}, S_{\text{buf}}(t) + (R_{\text{gen}} - R_{\text{downlink}}(t)) \Delta t\right)$$
+5. **Operational Flight Anomaly Injector:**
+   Evaluates random Poisson processes for Single Event Upsets (SEU), solar energetic particle storms, micrometeoroid strikes, and attitude reaction wheel saturation.
+
+---
+
+## 15. Causal Debrief & Composite 100-Point Scorecard (`src/engine/debrief.ts`)
+
+Missions are graded on a 100-point composite rubric across five balanced pillars:
+$$\text{Total Score} = W_{\text{sci}} S_{\text{sci}} + W_{\text{cost}} S_{\text{cost}} + W_{\text{sched}} S_{\text{sched}} + W_{\text{rel}} S_{\text{rel}} + W_{\text{ops}} S_{\text{ops}}$$
+- **Science (30 pts):** Ratio of verified downlinked science data to objective requirements.
+- **Cost Efficiency (20 pts):** Margin of budget surplus under ceiling cap.
+- **Schedule Delivery (15 pts):** Margin of launch ahead of hard planetary alignment window.
+- **Reliability & Resilience (20 pts):** Total ionizing dose margin, fault redundancy, and structural safety factors.
+- **Operations Execution (15 pts):** Telemetry health, anomaly recoveries, and buffer overflow penalties.
+
+Grade bands: $\ge 90 \to \text{S}$ (Exceptional), $\ge 80 \to \text{A}$ (Nominal), $\ge 65 \to \text{B}$ (Satisfactory), $\ge 50 \to \text{C}$ (Marginal), $< 50 \to \text{D}$ (Unsatisfactory).
+
+### Attributed Root-Cause Drivers & What-If Engine
+The causal debrief compares player design decisions against optimal Pareto baselines:
+- Quantifies point delta for each decision (e.g., `-8 pts: Suboptimal solar cell selection in high-radiation Van Allen belt`).
+- Counterfactual engine allows 1-click re-running of the mission with isolated parameter changes (`What-If?`) to verify hypothetical outcomes.
+
+---
+
+## 16. Career Progression & Achievements Criteria DSL (`src/engine/achievements/evaluator.ts`)
+
+### 16.1 XP & Rank Curve
+Player experience points follow a parabolic progression curve across 6 rank tiers:
+$$\text{XP}_{\text{req}}(R) = 750 \cdot R^2 + 750 \cdot R$$
+- **Cadet:** $0\text{--}1,499\text{ XP}$
+- **Flight Controller:** $1,500\text{--}3,999\text{ XP}$
+- **Mission Planner:** $4,000\text{--}7,999\text{ XP}$
+- **Flight Director:** $8,000\text{--}13,999\text{ XP}$
+- **Program Director:** $14,000\text{--}21,999\text{ XP}$
+- **Chief Engineer:** $\ge 22,000\text{ XP}$
+
+### 16.2 Achievement Criteria DSL
+Evaluates 44 data-driven achievements via declarative criteria:
+```json
+{
+  "type": "min_composite_score",
+  "minScore": 90,
+  "requiresCleanFlight": true
+}
+```
+Supported criteria types: `min_composite_score`, `perfect_score`, `min_grade`, `under_budget_ratio`, `ahead_of_schedule_months`, `max_cost_m`, `orbit_type`, `destination_id`, `high_eccentricity`, `zero_propellant_margin`, `anomaly_recovered`, `long_lifetime_years`, `fine_pointing`, `first_launch`, `lessons_completed`, `codex_mastery`.
+
+---
+
+## 17. References & Standards Citations
 
 1. Larson, W. J., & Wertz, J. R. (1999). *Space Mission Analysis and Design (SMAD)* (3rd ed.). Microcosm Press / Springer.
 2. Vallado, D. A. (2013). *Fundamentals of Astrodynamics and Applications* (4th ed.). Microcosm Press.
-3. NASA. (2016). *NASA Systems Engineering Handbook* (NASA/SP-2016-6105 Rev 2). National Aeronautics and Space Administration.
-4. European Cooperation for Space Standardization. (2009). *ECSS-E-ST-10C: System Engineering General Requirements*. ESA Requirements & Standards Division.
-5. American Institute of Aeronautics and Astronautics. (2006). *AIAA S-120-2006: Mass Properties Control for Space Systems*. AIAA.
-6. Rauschenbakh, B. V., Ovchinnikov, M. Y., & McKenna-Lawlor, S. (2003). *Essential Spaceflight Dynamics and Magnetospherics*. Springer.
+3. Standish, E. M. (1992). *Keplerian Elements for Approximate Positions of the Major Planets*. NASA JPL Interoffice Memorandum.
+4. Bate, R. R., Mueller, D. D., & White, J. E. (1971). *Fundamentals of Astrodynamics*. Dover Publications.
+5. NASA. (2016). *NASA Systems Engineering Handbook* (NASA/SP-2016-6105 Rev 2). National Aeronautics and Space Administration.
+6. European Cooperation for Space Standardization. (2009). *ECSS-E-ST-10C: System Engineering General Requirements*. ESA Requirements & Standards Division.
+7. American Institute of Aeronautics and Astronautics. (2006). *AIAA S-120-2006: Mass Properties Control for Space Systems*. AIAA.

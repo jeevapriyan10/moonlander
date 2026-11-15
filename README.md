@@ -103,6 +103,12 @@ src/
 │   ├── constants.ts    # Astronomical & planetary constants (mu, R_E, J2, S0)
 │   ├── units.ts        # Unit conversions and helpers
 │   ├── orbit.ts        # Keplerian mechanics & numerical solver
+│   ├── interplanetary.ts # Universal-variable Lambert solver & ephemeris
+│   ├── ops/            # Mission operations simulation & flight events
+│   ├── debrief.ts      # 100-point composite scorecard & What-If engine
+│   ├── achievements/   # Deterministic criteria DSL evaluator
+│   ├── profile/        # Rank curves & XP progression math
+│   ├── autodesign.ts   # Rule-based auto-design constraint solver
 │   ├── propulsion.ts   # Tsiolkovsky rocket equation & Delta-V budgets
 │   ├── power.ts        # Solar array generation, loads, and battery DoD
 │   ├── comms.ts        # Link budgets & daily data return fractions
@@ -117,26 +123,44 @@ src/
 ├── data/               # JSON catalogs & Zod schemas
 │   ├── schemas.ts      # Zod validation schemas
 │   ├── buses.json, components.json, instruments.json, launchers.json
-│   ├── orbits.json, groundNetworks.json, scenarios.json, glossary.json
+│   ├── orbits.json, destinations.json, groundNetworks.json, scenarios.json
+│   ├── events.json, exoplanets.json, space-weather.json, real-missions.json
+│   ├── achievements.json, codex.json, glossary.json
+│   ├── campaign/       # Narrative storyline, characters, and 6 chapter scripts
 │   └── index.ts        # Catalog lookup loader
 ├── store/              # Zustand stores with persist & migrations
 │   ├── mission.ts      # Mission design state & automated fix applicator
 │   ├── ui.ts           # Active stage, tabs, mobile panes, toasts
+│   ├── profile.ts      # Pilot rank, stats, achievements & audio chimes
+│   ├── campaign.ts     # MSA faction reputations & chapter progression
 │   └── settings.ts     # Graphics quality (LOW/HIGH), reduced motion, bloom
+├── lib/
+│   ├── repository/     # Unified profile & history persistence abstraction
+│   ├── audio/          # Web Audio API synthesized fanfare & chime audio
+│   └── storage.ts      # Safe local storage with in-memory fallback
 ├── components/
 │   ├── ui/             # Mission control design system (Panel, Gauge, StatReadout, etc.)
 │   ├── hud/            # TopBar, Live Resource Dashboard, Mission Advisor
 │   ├── design/         # Stage 1-6 view components & CatalogPanel
-│   └── three/          # Spacecraft, Earth, OrbitView, Launch, CameraRig, CanvasWrapper
+│   ├── academy/        # Interactive Academy lessons & quiz widgets
+│   ├── campaign/       # Classified dossier briefing & SVG character portraits
+│   ├── profile/        # Pilot avatar generator, history table & compare modal
+│   └── three/          # Spacecraft, Earth, OrbitView, Launch, SolarSystem, CanvasWrapper
 ├── app/
-│   ├── page.tsx        # Cinematic title screen
+│   ├── page.tsx        # Command deck with 8 launch modes
+│   ├── academy/        # Space Academy 6-lesson interactive training hub
+│   ├── campaign/       # MSA Story Campaign command hub & act progression
+│   ├── codex/          # Space Codex 92-article aerospace knowledgebase
+│   ├── profile/        # Pilot dossier, trophy case, and flight history
 │   ├── mission/new/    # Scenario campaign selection
-│   ├── mission/[id]/   # Main Mission Workspace
+│   ├── mission/[id]/   # Main Mission Workspace (Stages 1-6)
 │   ├── learn/          # Orbital Lexicon & formulas
 │   └── sandbox/        # Open unconstrained engineering studio
 docs/
 ├── ENGINE.md           # Every equation, assumption, constant, and academic source
-└── DATA.md             # Catalog schemas, flight analogues, and validation benchmarks
+├── DATA.md             # Catalog schemas, flight analogues, and validation benchmarks
+├── CAMPAIGN.md         # Campaign script format, authoring guide & reputation
+└── AUDIT.md            # Forensic system audit, defects found, and hardening fixes
 ```
 
 ---
@@ -151,7 +175,7 @@ docs/
 
 ```bash
 # Clone repository
-git clone https://github.com/moonlander/moonlander.git
+git clone https://github.com/moonlander.git
 cd moonlander
 
 # Install pinned dependencies

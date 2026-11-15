@@ -8,7 +8,7 @@ All catalog data is stored in structured JSON files, validated at startup and bu
 
 ## 1. Catalog Inventory
 
-The dataset comprises 8 core catalog categories and an educational glossary:
+The dataset comprises 15 core catalogs, real-world NASA datasets, and narrative campaign definitions:
 
 | Catalog File | Entries | Description | Real-World Analogues |
 | :--- | :--- | :--- | :--- |
@@ -17,8 +17,16 @@ The dataset comprises 8 core catalog categories and an educational glossary:
 | `instruments.json` | 8 | Scientific payloads and sensors | OLI multispectral, TIRS thermal IR, WorldView panchromatic, Sentinel-1 SAR, TESS photometer, coronagraph |
 | `launchers.json` | 6 | Commercial and government launch vehicles | Rocket Lab Electron, Avio Vega-C, SpaceX Falcon 9, ULA Atlas V 551, SpaceX Falcon Heavy, NASA SLS Block 1 |
 | `orbits.json` | 9 | Target orbital destinations and regimes | LEO 500km, SSO 700km, MEO 20200km, GEO 35786km, Molniya HEO, Lunar-resonant HEO, Sun-Earth L1, LLO, LMO |
+| `destinations.json` | 8 | Solar system celestial bodies | Sun, Earth, Moon, Mars, Venus, Europa, Titan, Bennu |
 | `groundNetworks.json` | 3 | Ground tracking and communications services | Dedicated single-dish, Commercial global network (KSAT/AWS), NASA Near Space Network / Deep Space Network |
-| `scenarios.json` | 5 | Mission charters (2 Stage 1 playable + 3 Stage 2/3) | Earth Watch (Landsat), Exoplanet Hunter (TESS), Space Weather Sentinel (DSCOVR), Lunar Pathfinder (LRO), Red Planet Relay (MRO) |
+| `scenarios.json` | 8 | Mission charters across 3 difficulty tiers | Earth Watch, Exoplanet Hunter, Space Weather Sentinel, Lunar Pathfinder, Deep Space Telescope, Mars Relay, Europa Probe, Asteroid Sample Return |
+| `events.json` | 12 | In-flight operational anomalies & opportunities | Solar flare storms, reaction wheel friction, cryogenic leaks, micrometeoroids, comet flybys |
+| `exoplanets.json` | 10 | Validated exoplanet systems | TRAPPIST-1e, Kepler-186f, Proxima Centauri b, WASP-121b, TOI-700d |
+| `space-weather.json`| 10 | Historical solar storm records | Real solar energetic particle and CME events from NASA DONKI |
+| `real-missions.json` | 7 | Real-world flight benchmarks | Landsat 9, TESS, SOHO, JWST, LRO, Chandrayaan-3, MAVEN |
+| `achievements.json` | 44 | Data-driven career achievements | Evaluated via pure deterministic criteria DSL |
+| `codex.json` | 92 | Comprehensive aerospace encyclopedia | Formulas, flight mechanics, systems trade-offs, and historical missions |
+| `campaign/` | 6 Ch | Meridian Space Authority 2041 Storyline | Prologue, Act I (Ch 1-3), Act II (Ch 4-5), Stage 3 teaser (Ch 6) |
 | `glossary.json` | 35 | Orbital mechanics and systems engineering terms | Delta-V, Kepler's equation, Tsiolkovsky equation, J2 perturbation, DoD, TRL, Link budget, etc. |
 
 ---
