@@ -1,0 +1,320 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCampaignStore } from "@/store/campaign";
+import { useMissionStore } from "@/store/mission";
+import { useUIStore } from "@/store/ui";
+import { useHasHydrated } from "@/lib/useHasHydrated";
+import { CAMPAIGN_CHAPTERS } from "@/data/campaign/chapters";
+import type { CampaignChapter } from "@/data/campaign/types";
+import { BriefingDossier } from "@/components/campaign/BriefingDossier";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import {
+  Compass,
+  CheckCircle2,
+  Lock,
+  Play,
+  RotateCcw,
+  Sparkles,
+  ArrowLeft,
+  Award,
+  Globe,
+  Radio,
+  Sun,
+  Telescope,
+  Moon,
+  ChevronRight,
+  TrendingUp,
+} from "lucide-react";
+
+export default function CampaignPage() {
+  const hasHydrated = useHasHydrated();
+  const router = useRouter();
+
+  const {
+    completedChapterIds,
+    activeChapterId,
+    reputation,
+    completeChapter,
+    resetCampaign,
+  } = useCampaignStore();
+
+  const { createMission } = useMissionStore();
+  const { setCurrentStage } = useUIStore();
+
+  const [inspectingChapter, setInspectingChapter] = useState<CampaignChapter | null>(null);
+  const [inBriefing, setInBriefing] = useState(false);
+
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-space-bg flex items-center justify-center p-6 text-telemetry-amber font-mono text-xs">
+        ESTABLISHING MERIDIAN COMMAND LINK...
+      </div>
+    );
+  }
+
+  const handleStartBriefing = (chapter: CampaignChapter) => {
+    setInspectingChapter(chapter);
+    setInBriefing(true);
+  };
+
+  const handleLaunchMission = (chapter: CampaignChapter) => {
+    createMission(chapter.linkedScenarioId, "INTERMEDIATE", false);
+    setCurrentStage(1);
+    router.push(`/mission/${chapter.linkedScenarioId}?stage=objective`);
+  };
+
+  // Group chapters by Act
+  const acts = [
+    { act: 0, title: "Prologue: Induction", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 0) },
+    { act: 1, title: "Act I: Earth Operations", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 1) },
+    { act: 2, title: "Act II: The Lunar Gateway", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 2) },
+  ];
+
+  return (
+    <div className="min-h-screen bg-space-bg text-gray-200 flex flex-col">
+      {/* Top Header */}
+      <header className="h-14 border-b border-space-border bg-space-surface/80 backdrop-blur px-4 md:px-6 flex items-center justify-between sticky top-0 z-30">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-xs font-heading uppercase text-gray-400 hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Flight Ops</span>
+          </Link>
+          <span className="text-gray-600">/</span>
+          <h1 className="font-heading font-extrabold text-sm uppercase tracking-wider text-white">
+            Meridian Space Authority // 2041 Campaign
+          </h1>
+        </div>
+
+        <button
+          onClick={() => {
+            if (confirm("Reset campaign progress back to Prologue?")) {
+              resetCampaign();
+            }
+          }}
+          className="flex items-center gap-1 px-3 py-1 rounded text-[11px] font-heading uppercase text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+        >
+          <RotateCcw className="w-3 h-3" />
+          <span>Reset Campaign</span>
+        </button>
+      </header>
+
+      {/* Main Campaign Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-8">
+        {/* Authority Strategic Status Card */}
+        <div className="p-6 rounded-2xl bg-space-surface border border-space-border relative overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            {/* Mission Director Dossier */}
+            <div className="lg:col-span-4 space-y-1">
+              <Badge variant="amber" size="sm">
+                MERIDIAN FLIGHT DIRECTOR
+              </Badge>
+              <h2 className="font-heading font-black text-2xl uppercase tracking-wider text-white">
+                Year 2041 Strategic Initiative
+              </h2>
+              <p className="font-mono text-xs text-gray-400 leading-relaxed">
+                Rebuild orbital capability following the loss of the Meridian-1 flagship. Satisfy the civilian council, secure public funding, and establish a permanent human foothold on the Moon.
+              </p>
+            </div>
+
+            {/* Three Reputation Tracks */}
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t lg:border-t-0 lg:border-l border-space-border/60 pt-4 lg:pt-0 lg:pl-6 font-mono text-xs">
+              {/* Science Prestige */}
+              <div className="p-3 rounded-xl bg-black/40 border border-space-border/60 space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-heading uppercase text-telemetry-cyan font-bold">Science Prestige</span>
+                  <span className="text-white font-bold">{reputation.science}%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-black/80 border border-space-border overflow-hidden">
+                  <div
+                    className="h-full bg-telemetry-cyan transition-all duration-500"
+                    style={{ width: `${reputation.science}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-gray-400 block">Lead: Dr. Lucia Ferreira</span>
+              </div>
+
+              {/* Public Trust */}
+              <div className="p-3 rounded-xl bg-black/40 border border-space-border/60 space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-heading uppercase text-telemetry-green font-bold">Public Trust</span>
+                  <span className="text-white font-bold">{reputation.public}%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-black/80 border border-space-border overflow-hidden">
+                  <div
+                    className="h-full bg-telemetry-green transition-all duration-500"
+                    style={{ width: `${reputation.public}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-gray-400 block">Lead: Director Imani Okafor</span>
+              </div>
+
+              {/* Treasury Solvency */}
+              <div className="p-3 rounded-xl bg-black/40 border border-space-border/60 space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-heading uppercase text-telemetry-amber font-bold">Treasury Solvency</span>
+                  <span className="text-white font-bold">{reputation.treasury}%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-black/80 border border-space-border overflow-hidden">
+                  <div
+                    className="h-full bg-telemetry-amber transition-all duration-500"
+                    style={{ width: `${reputation.treasury}%` }}
+                  />
+                </div>
+                <span className="text-[10px] text-gray-400 block">Oversight: Liaison Arthur Hale</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Campaign Acts Progression Tree */}
+        <div className="space-y-8">
+          {acts.map((actGroup) => (
+            <div key={actGroup.act} className="space-y-4">
+              <div className="flex items-center gap-2 border-b border-space-border/60 pb-2">
+                <Badge variant={actGroup.act === 0 ? "neutral" : actGroup.act === 1 ? "info" : "amber"} size="sm">
+                  ACT {actGroup.act}
+                </Badge>
+                <h3 className="font-heading font-extrabold text-base uppercase tracking-wider text-white">
+                  {actGroup.title}
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {actGroup.chapters.map((ch, idx) => {
+                  const isCompleted = completedChapterIds.includes(ch.id);
+                  const isUnlocked =
+                    ch.id === "prologue" ||
+                    ch.id === "ch-1" ||
+                    completedChapterIds.includes(CAMPAIGN_CHAPTERS[idx - 1]?.id || "");
+
+                  return (
+                    <div
+                      key={ch.id}
+                      className={`p-5 rounded-xl border transition-all flex flex-col justify-between ${
+                        isCompleted
+                          ? "bg-space-surface border-telemetry-green/50 shadow-md"
+                          : isUnlocked
+                          ? "bg-space-surface border-telemetry-cyan/60 hover:border-telemetry-cyan shadow-lg"
+                          : "bg-space-surface/40 border-space-border/30 opacity-50"
+                      }`}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono text-[10px] text-telemetry-amber uppercase">
+                            {ch.briefingDate}
+                          </span>
+                          {isCompleted ? (
+                            <Badge variant="nominal" size="sm">
+                              COMPLETED
+                            </Badge>
+                          ) : isUnlocked ? (
+                            <Badge variant="info" size="sm">
+                              ACTIVE DIRECTIVE
+                            </Badge>
+                          ) : (
+                            <Badge variant="neutral" size="sm">
+                              CLASSIFIED
+                            </Badge>
+                          )}
+                        </div>
+
+                        <h4 className="font-heading font-black text-lg uppercase text-white tracking-wide">
+                          {ch.title}
+                        </h4>
+                        <p className="font-mono text-xs text-telemetry-cyan uppercase">
+                          {ch.subtitle}
+                        </p>
+                        <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 pt-1">
+                          {ch.summary}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 mt-4 border-t border-space-border/40 flex items-center justify-between">
+                        <span className="font-mono text-[10px] text-telemetry-amber">
+                          +{ch.rewards.xp} XP
+                        </span>
+
+                        {isUnlocked ? (
+                          <Button
+                            variant={isCompleted ? "secondary" : "primary"}
+                            size="sm"
+                            onClick={() => handleStartBriefing(ch)}
+                            className="flex items-center gap-1.5"
+                          >
+                            <span>{isCompleted ? "Review Orders" : "Open Dossier"}</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </Button>
+                        ) : (
+                          <div className="flex items-center gap-1 text-[11px] font-mono text-gray-500">
+                            <Lock className="w-3 h-3" />
+                            <span>Locked</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+
+          {/* Stage 3 Teaser: Chapter 6 Touchdown & Act III Worlds */}
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950/40 via-space-surface to-black/60 border border-purple-500/40 shadow-2xl relative overflow-hidden space-y-3">
+            <div className="flex items-center gap-2">
+              <Badge variant="amber" size="sm">
+                STAGE 3 EXPANSION TEASER
+              </Badge>
+              <span className="font-mono text-xs text-purple-400 uppercase tracking-wider">
+                Act II Climax & Act III: Worlds
+              </span>
+            </div>
+
+            <h3 className="font-heading font-black text-2xl uppercase tracking-wider text-white">
+              Chapter 6: Touchdown // Surface Landing & The Outer Solar System
+            </h3>
+
+            <p className="font-mono text-xs text-gray-300 max-w-2xl leading-relaxed">
+              Upon verifying candidate ice deposits in Lunar Pathfinder, the Meridian Space Authority will initiate human descent operations to Shackleton Base, followed by interplanetary journeys to Venus, Mars, Europa, and Titan.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <Link href="/mission/new">
+                <Button variant="primary" size="md" className="flex items-center gap-2">
+                  <Compass className="w-4 h-4" />
+                  <span>Explore Free Missions (All Unlocked)</span>
+                </Button>
+              </Link>
+              <Link href="/sandbox">
+                <Button variant="secondary" size="md" className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Open Sandbox Mode</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Briefing Dossier Modal Overlay */}
+      {inBriefing && inspectingChapter && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <BriefingDossier
+            chapter={inspectingChapter}
+            onComplete={() => {
+              setInBriefing(false);
+              handleLaunchMission(inspectingChapter);
+            }}
+            onCancel={() => setInBriefing(false)}
+          />
+        </div>
+      )}
+    </div>
+  );
+}

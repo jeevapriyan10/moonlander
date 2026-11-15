@@ -52,6 +52,49 @@
 
 ---
 
+## Stage 2 Capabilities & Features (Completed)
+
+- **Phase A: Rebranding & Audit Hardening**
+  - Unified **MoonLander** brand identity, Barlow Condensed wordmark, original crescent/lander vector insignia, and `moonlander:*` storage namespace.
+  - Automatic legacy migration shim preserving existing local saves.
+  - Bulletproof hydration gating (`useHasHydrated`), URL query sync (`?stage=...`), and WebGL context-loss recovery.
+- **Phase B: Learn-to-Play System & Space Codex**
+  - Interactive onboarding flow with experience presets (Cadet, Flight Controller, Aerospace Architect).
+  - **Space Academy (`/academy`):** 6 interactive playable mini-lessons covering Orbit Mechanics, Power Budgets, Propulsion, Thermal Balance, Comms Links, and System Integration.
+  - **CAPCOM Coach:** Progressive 3-level hint guidance (Observation -> Guidance -> Direct Fix).
+  - **Space Codex (`/codex`):** 92 searchable aerospace engineering topics with formulas and flight applications.
+  - **Auto-Design Engine:** Constraint satisfaction solver and Mission Systems Advisor "Fix All" capability.
+- **Phase C: Astrodynamics & Interplanetary Engine**
+  - Universal-Variable Lambert Solver converging to sub-minute transfer orbits via finite-difference root finding.
+  - Standish planetary ephemeris (1800-2050 AD) and porkchop transfer plot visualization.
+  - 8 Playable Destinations (LEO, SSO, GEO, L1, L2, Lunar Orbit, Lunar Surface, Mars, Europa).
+  - NASA Exoplanet Archive and DONKI historical space weather event datasets.
+  - 3D Interactive Solar System View with planetary orbits and transfer trajectories.
+- **Phase D: Mission Operations (Stage 5 Simulate)**
+  - Time-stepped telemetry simulation: battery DoD cycles, solar degradation, thermal equilibrium, propellant boiloff, and downlink buffers.
+  - Realistic flight anomalies (solar storms, SEUs, reaction wheel friction, cryocooler leaks) with NASA SOP recommendations.
+  - Mission Control Operations HUD with real-time MET clock, telemetry sparklines, chronological log, and CAPCOM Autopilot.
+- **Phase E: Causal Debrief & Scoring (Stage 6)**
+  - 100-point composite scorecard across Science, Cost, Schedule, Reliability, and Operations (S/A/B/C/D grade bands).
+  - Attributed root-cause drivers ranking engineering decisions by point impact.
+  - Counterfactual What-If simulation engine computing trade-off deltas.
+  - Real-world NASA/ESA flight twin benchmarks (Landsat 9, TESS, SOHO, JWST, LRO, Chandrayaan-3, MAVEN).
+  - Procedural embroidered SVG Mission Patch generator with vector download.
+- **Phase F: Pilot Profile, History & Achievements**
+  - Repository abstraction (`LocalRepository`) with last-write-wins timestamping and deterministic set union merging.
+  - Pilot profile with procedural vector avatar, career stats, and XP progression curve (Cadet to Chief Engineer).
+  - Filterable/sortable Mission History table with side-by-side comparison modal and JSON export/import.
+  - 44 data-driven achievements with criteria DSL and synthesized Web Audio API fanfare chimes.
+  - "Demo mode: unlock everything" toggle for evaluation and grading.
+- **Phase G: Meridian Space Authority (MSA) Story Campaign**
+  - Original 2041 narrative campaign following the loss of the Meridian-1 flagship.
+  - Distinct procedural SVG cast: Director Imani Okafor, Chief Engineer Kenji Arai, Dr. Lucia Ferreira, and Treasury Liaison Arthur Hale.
+  - Three live reputation tracks (Science Prestige, Public Trust, Treasury Solvency) shifting with player decisions.
+  - 6 Chapters: Prologue, Act I (First Light, Cosmic Origins, The Quiet Sun), Act II (Eyes on Distant Suns, Lunar Pathfinder), and Stage 3 teaser for Chapter 6 Touchdown.
+  - 8 title screen command modes: Campaign, Free Missions, Academy, Sandbox, Quick Start, Pilot Profile, Codex, Settings.
+
+---
+
 ## Architecture Overview
 
 ```

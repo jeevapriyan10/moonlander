@@ -25,6 +25,7 @@ import {
   Radio,
   Trophy,
   User,
+  Compass,
 } from "lucide-react";
 import { useProfileStore } from "@/store/profile";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
@@ -215,6 +216,13 @@ export const TopBar: React.FC = () => {
             <Sparkles className={`w-3.5 h-3.5 ${plainLanguage ? "text-telemetry-green" : "text-slate-400"}`} />
             <span className="hidden lg:inline text-xs">{plainLanguage ? "Plain English" : "Eng Mode"}</span>
           </Button>
+
+          <Link href="/campaign" target="_blank">
+            <Button variant="ghost" size="sm" title="Meridian Space Authority Campaign (/campaign)">
+              <Compass className="w-3.5 h-3.5 text-telemetry-amber" />
+              <span className="hidden md:inline">Campaign</span>
+            </Button>
+          </Link>
 
           <Link href="/academy" target="_blank">
             <Button variant="ghost" size="sm" title="Space Academy Lessons (/academy)">
