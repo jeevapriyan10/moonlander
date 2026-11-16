@@ -25,6 +25,19 @@
       "costPerM2M": 0.15,
       "annualDegradation": 0.015,
       "trl": 8
+    },
+    {
+      "id": "solar-rtg-nuclear",
+      "name": "Multi-Mission Radioisotope Thermoelectric Generator (MMRTG)",
+      "explain": "Plutonium-238 dioxide radioisotope heat source producing steady, reliable electrical power independent of solar distance, eclipse darkness, or planetary dust.",
+      "basis": "Aerojet Rocketdyne / Teledyne Energy Systems MMRTG (Curiosity, Perseverance, Dragonfly), approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "rtg-nuclear",
+      "efficiency": 1.0,
+      "massPerM2Kg": 43.0,
+      "costPerM2M": 24.0,
+      "annualDegradation": 0.008,
+      "trl": 9
     }
   ],
   "batteries": [

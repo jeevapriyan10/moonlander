@@ -307,7 +307,7 @@ export const Launch: React.FC<LaunchProps> = ({
   );
 
   return (
-    <div className="w-full h-full min-h-0 flex-1 relative overflow-hidden bg-[#05070D]">
+    <div className="w-full h-full relative overflow-hidden bg-[#05070D]">
       {/* Layer 1: Pure 3D Canvas Scene */}
       <div className="absolute inset-0 w-full h-full">
         <CanvasWrapper className="w-full h-full relative">
@@ -431,7 +431,7 @@ export const Launch: React.FC<LaunchProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-2 pt-2">
+            <div className="flex items-center justify-between gap-2 pt-2 shrink-0">
               <Button
                 variant="outline"
                 size="md"

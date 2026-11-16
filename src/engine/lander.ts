@@ -492,7 +492,7 @@ export function computeAutopilotInput(
   const rateError = desiredPitchRate - state.pitchRateRadS;
   const steer = Math.max(-1.0, Math.min(1.0, rateError * 4.0));
 
-  // Mars parachute logic
+  // Mars parachute logic: deploy between 1400m and 700m if speed < 400 m/s
   let deployParachute = false;
   if (
     config.body === "mars" &&

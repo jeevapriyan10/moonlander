@@ -1539,5 +1539,70 @@
       "new-horizons",
       "delta-v"
     ]
+  },
+  {
+    "id": "titan",
+    "name": "Titan (Saturnian Prebiotic Moon)",
+    "plainLanguageName": "Saturn's Giant Moon Titan",
+    "category": "environment",
+    "summary": "The second-largest moon in the solar system, shrouded in a dense nitrogen-methane atmosphere with rivers, lakes, and seas of liquid hydrocarbons.",
+    "technicalDefinition": "Surface temperature 94 K (-179°C) and surface pressure 1.47 bar (1.5x Earth). Solar irradiance drops to 14.8 W/m² at 9.58 AU, and organic haze absorbs 90% of incident sunlight. Low surface gravity (0.138g) and 4.4x denser air make aerial rotorcraft flight exceptionally efficient.",
+    "historicalExample": "ESA's Huygens probe detached from NASA's Cassini spacecraft and successfully parachuted to Titan's surface in January 2005, transmitting data and photos of rounded ice pebbles on a damp hydrocarbon floodplain.",
+    "gameplayImpact": "Demands MMRTG nuclear power and autonomous flight decision-making due to the 80-minute one-way radio latency.",
+    "formula": "P_surface = 1.47 bar, T_surface = 94 K, g = 1.35 m/s²",
+    "externalUrl": "https://science.nasa.gov/saturn/moons/titan/",
+    "relatedIds": ["cassini-huygens", "rtg-nuclear"]
+  },
+  {
+    "id": "venus",
+    "name": "Venus (Runaway Greenhouse World)",
+    "plainLanguageName": "Earth's Hostile Twin World",
+    "category": "environment",
+    "summary": "A rocky terrestrial planet veiled by dense sulfuric acid clouds with crushing atmospheric pressure and furnace-like surface heat.",
+    "technicalDefinition": "Atmosphere is 96.5% carbon dioxide generating an extreme greenhouse effect with a surface temperature of 737 K (465°C) and surface pressure of 92 bar (equivalent to 900 meters underwater on Earth). Solar irradiance at 0.72 AU is 2,600 W/m².",
+    "historicalExample": "Soviet Venera probes (1970–1985) landed on the surface of Venus, operating for up to 127 minutes before crushing pressure and molten zinc temperatures destroyed the electronics.",
+    "gameplayImpact": "Requires titanium pressure hull insulation and high-frequency radar sensors to pierce the opaque global cloud layers.",
+    "formula": "T_surface = 737 K, P_surface = 92 bar, ρ_atm = 67 kg/m³",
+    "externalUrl": "https://science.nasa.gov/venus/",
+    "relatedIds": ["thermal-cycling", "ka-band-transceiver"]
+  },
+  {
+    "id": "asteroid-bennu",
+    "name": "101955 Bennu (Near-Earth Carbonaceous Asteroid)",
+    "plainLanguageName": "Primitive Rubble-Pile Asteroid Bennu",
+    "category": "environment",
+    "summary": "A 500-meter spinning top-shaped rubble pile asteroid rich in organic compounds and hydrated minerals preserved from the early solar system.",
+    "technicalDefinition": "B-type carbonaceous asteroid with bulk density 1,190 kg/m³ and microgravity surface acceleration of ~10 micro-m/s². Surface behaves like a fluid granular medium rather than solid rock.",
+    "historicalExample": "NASA's OSIRIS-REx spacecraft touched Bennu's Nightingale crater in October 2020 and returned 121.6 grams of pristine carbonaceous regolith to Earth in September 2023.",
+    "gameplayImpact": "Tests micro-impulse navigation and autonomous touch-and-go proximity operations where spacecraft thrusters easily kick up debris.",
+    "formula": "g_surface ≈ 10 µm/s², v_escape ≈ 0.2 m/s",
+    "externalUrl": "https://science.nasa.gov/mission/osiris-rex/",
+    "relatedIds": ["delta-v", "escape-velocity"]
+  },
+  {
+    "id": "rtg-nuclear",
+    "name": "Radioisotope Thermoelectric Generator (MMRTG)",
+    "plainLanguageName": "Nuclear Space Battery",
+    "category": "subsystems",
+    "summary": "A non-fission nuclear power generator that converts the natural radioactive decay heat of Plutonium-238 directly into steady electricity.",
+    "technicalDefinition": "Contains General Purpose Heat Source (GPHS) modules filled with plutonium-238 dioxide ceramic pellets (half-life 87.7 years). Solid-state thermocouples (lead telluride / TAGS) convert temperature difference into 110-180 Watts of electricity.",
+    "historicalExample": "Powering NASA's Voyager 1 & 2 (operating over 47 years in interstellar space), New Horizons at Pluto, the Curiosity and Perseverance Mars rovers, and the Dragonfly Titan rotorcraft.",
+    "gameplayImpact": "Provides steady, indestructible power for outer solar system missions (Europa, Titan) and polar darkness where solar arrays produce zero watts.",
+    "formula": "P(t) = P_0 · e^{-λ · t}, λ = ln(2) / 87.7 yr ≈ 0.0079 yr^{-1}",
+    "externalUrl": "https://solarsystem.nasa.gov/missions/radioisotope-power-systems/",
+    "relatedIds": ["voyager-1", "titan", "europa-clipper"]
+  },
+  {
+    "id": "mars-jezero",
+    "name": "Jezero Crater Paleolake & Delta",
+    "plainLanguageName": "Mars Ancient Lake Crater",
+    "category": "environment",
+    "summary": "A 45-kilometer impact crater on Mars that hosted a deep standing lake and river delta 3.5 billion years ago, making it prime astrobiology ground.",
+    "technicalDefinition": "Located at 18.38°N, 77.58°E on the western margin of Isidis Planitia. Features clay minerals, carbonate deposits, and river channels preserving ancient sedimentary mudstones.",
+    "historicalExample": "NASA's Perseverance rover landed in Jezero Crater on February 18, 2021, and has collected dozens of hermetically sealed core samples for future retrieval.",
+    "gameplayImpact": "Demands precision powered descent with Terrain-Relative Navigation to steer past boulder fields and steep delta scarps.",
+    "formula": "Elev = -2,500 m, Lat = 18.38°N, Lon = 77.58°E",
+    "externalUrl": "https://mars.nasa.gov/mars2020/mission/science/landing-site/",
+    "relatedIds": ["mro", "mars-transfer"]
   }
 ]

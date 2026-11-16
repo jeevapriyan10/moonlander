@@ -674,7 +674,7 @@ export const CAMPAIGN_CHAPTERS: CampaignChapter[] = [
           "ep-1": {
             type: "say",
             speaker: "okafor",
-            text: "CONTACT LIGHT! TOUCHDOWN CONFIRMED! Meridian Base is on the surface of the Moon! Surface instruments report cryogenic water ice in the regolith. You have achieved immortality in aerospace history.",
+            text: "CONTACT LIGHT! TOUCHDOWN CONFIRMED! Meridian Base is on the surface of the Moon! Surface instruments report cryogenic water ice in the regolith. You have achieved immortality in aerospace history.\n\n[ACT II COMPLETED]: The Lunar Gateway is secured! Proceed to Act III: Worlds to conquer Mars, Venus, Europa, and Titan!",
           },
         },
       },
@@ -695,6 +695,402 @@ export const CAMPAIGN_CHAPTERS: CampaignChapter[] = [
             type: "say",
             speaker: "hale",
             text: "Telemetry lost on terminal descent. Impact velocity exceeded structural limits. The council demands an immediate safety board inquiry.",
+          },
+        },
+      },
+    },
+  },
+
+  // ACT III - CHAPTER 7: RED DUST
+  {
+    id: "ch-7",
+    act: 3,
+    order: 7,
+    title: "Act III - Chapter 7: Red Dust",
+    subtitle: "Jezero Crater Atmospheric Entry & Touchdown",
+    briefingDate: "March 14, 2043",
+    summary: "Navigate the harrowing 'Seven Minutes of Terror' through the thin Martian atmosphere, deploying a supersonic parachute and firing terminal retro-rockets to touch down inside Jezero Crater.",
+    linkedScenarioId: "mars-landing",
+    rewards: {
+      xp: 3000,
+      reputation: { science: 30, public: 30, treasury: 20 },
+    },
+    briefing: {
+      startNodeId: "node-1",
+      nodes: {
+        "node-1": {
+          type: "say",
+          speaker: "okafor",
+          text: "Director, our lunar base is thriving, but the ultimate frontier of our generation has always been Mars. We are dispatching the Meridian Red Dust lander to Jezero Crater.",
+          nextNodeId: "node-2",
+        },
+        "node-2": {
+          type: "say",
+          speaker: "arai",
+          text: "Mars gives you just enough atmosphere to superheat your heat shield, but not enough to slow you down. You must deploy your supersonic parachute between 1,400 and 700 meters, then fire your pulsed retro-rockets to cancel the remaining 80 m/s before touchdown.",
+          nextNodeId: "node-3",
+        },
+        "node-3": {
+          type: "say",
+          speaker: "ferreira",
+          text: "Jezero was a lake 3.5 billion years ago. If microbial life ever emerged on Mars, the clay mudstones in that delta preserved the organic signatures. Deploy the surface drill and bring back pure data.",
+          nextNodeId: "node-4",
+        },
+        "node-4": {
+          type: "choice",
+          prompt: "Select descent deceleration profile:",
+          options: [
+            {
+              label: "High-drag parachute window with terrain-relative navigation avoidance.",
+              description: "Prioritizes aerodynamic braking and automated optical hazard steering.",
+              effects: { rep: { science: 5, treasury: -2 } },
+              nextNodeId: "node-high-drag",
+            },
+            {
+              label: "Deep propulsive retro-burn with reinforced landing gear.",
+              description: "Higher fuel consumption for definitive thrust deceleration on rugged scarps.",
+              effects: { rep: { public: 6, science: -2 } },
+              nextNodeId: "node-deep-retro",
+            },
+          ],
+        },
+        "node-high-drag": {
+          type: "say",
+          speaker: "arai",
+          text: "Parachute release timers verified. Computer will scan crater scarps during descent.",
+        },
+        "node-deep-retro": {
+          type: "say",
+          speaker: "okafor",
+          text: "Raw rocket deceleration authorized. Fuel margins are tight, but the touchdown is definitive.",
+        },
+      },
+    },
+    epilogue: {
+      success: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "okafor",
+            text: "TOUCHDOWN ON THE RED PLANET! The Sky Crane cable has cut cleanly! Telemetry confirms our lander is wheels-down on Jezero Delta. Earth rejoices at our triumph.",
+          },
+        },
+      },
+      partial: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "arai",
+            text: "Lander touched down on a 14-degree sand scarp. One mobility actuator jammed by abrasive dust, but sample drill and camera are fully operational.",
+          },
+        },
+      },
+      failure: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "hale",
+            text: "Parachute deployed late in thin air; retro-rockets ignited with insufficient altitude remaining. High-speed impact telemetry recorded.",
+          },
+        },
+      },
+    },
+  },
+
+  // ACT III - CHAPTER 8: HELL'S NEIGHBOUR
+  {
+    id: "ch-8",
+    act: 3,
+    order: 8,
+    title: "Act III - Chapter 8: Hell's Neighbour",
+    subtitle: "Venus Atmospheric Entry & Acid Cloud Sounding",
+    briefingDate: "November 3, 2043",
+    summary: "Enter orbit around Venus and drop an armored atmospheric probe through sulfuric acid clouds to sample noble gases and radar-map the boiling surface.",
+    linkedScenarioId: "venus-probe",
+    rewards: {
+      xp: 3200,
+      reputation: { science: 35, public: 25, treasury: 20 },
+    },
+    briefing: {
+      startNodeId: "node-1",
+      nodes: {
+        "node-1": {
+          type: "say",
+          speaker: "okafor",
+          text: "Venus is Earth's twisted twin. At 2,600 W/m² solar flux, thermal management is your greatest challenge. We must learn how a temperate world transformed into a runaway furnace.",
+          nextNodeId: "node-2",
+        },
+        "node-2": {
+          type: "say",
+          speaker: "arai",
+          text: "The surface is 465°C and 92 bars of supercritical carbon dioxide. Your probe needs a spherical titanium pressure hull with phase-change paraffin heat sinks. Solar panels will fry; battery power is your lifespan limit.",
+          nextNodeId: "node-3",
+        },
+        "node-3": {
+          type: "say",
+          speaker: "hale",
+          text: "Treasury questioned funding a probe built to survive less than two hours. But the global semiconductor consortium needs Venusian material science data. Return the gas spectra and the funding will quadruple.",
+          nextNodeId: "node-4",
+        },
+        "node-4": {
+          type: "choice",
+          prompt: "Select atmospheric sensor priority:",
+          options: [
+            {
+              label: "Deep atmosphere mass spectrometry to resolve ocean isotope ratios.",
+              description: "Measures xenon and krypton isotopes to determine ancient water history.",
+              effects: { rep: { science: 6, treasury: -2 } },
+              nextNodeId: "node-mass-spec",
+            },
+            {
+              label: "High-frequency radar and cloud descent imagery.",
+              description: "Pierces cloud haze to image tectonic tessera blocks and active volcanoes.",
+              effects: { rep: { public: 5, science: -1 } },
+              nextNodeId: "node-radar",
+            },
+          ],
+        },
+        "node-mass-spec": {
+          type: "say",
+          speaker: "ferreira",
+          text: "Noble gas ratios unlocked. We will finally know if ancient Venus had blue oceans.",
+        },
+        "node-radar": {
+          type: "say",
+          speaker: "okafor",
+          text: "Descent radar verified. Let's see beneath those choking clouds.",
+        },
+      },
+    },
+    epilogue: {
+      success: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "ferreira",
+            text: "SIGNAL RECEIVED THROUGH THE ACID RAIN! The probe completed its full 90-minute descent transect and survived 42 minutes on the surface! Deuterium-to-hydrogen ratios prove Venus once held global oceans!",
+          },
+        },
+      },
+      partial: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "arai",
+            text: "Outer thermal seal breached at 15 km altitude. Mass spectrometer returned noble gas data before telemetry died in the lower supercritical layer.",
+          },
+        },
+      },
+      failure: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "hale",
+            text: "Thermal runaway in the electronics bay. The probe expired at the upper cloud deck without transmitting core descent telemetry.",
+          },
+        },
+      },
+    },
+  },
+
+  // ACT III - CHAPTER 9: OCEAN UNDER ICE
+  {
+    id: "ch-9",
+    act: 3,
+    order: 9,
+    title: "Act III - Chapter 9: Ocean Under Ice",
+    subtitle: "Jovian Radiation Belt Infiltration & Cryovolcanic Sounding",
+    briefingDate: "August 19, 2044",
+    summary: "Navigate the outer solar system to Jupiter, braving lethal radiation belts on 40+ low flybys of Europa to radar-sound its subsurface global ocean.",
+    linkedScenarioId: "europa-clipper",
+    rewards: {
+      xp: 4000,
+      reputation: { science: 40, public: 30, treasury: 25 },
+    },
+    briefing: {
+      startNodeId: "node-1",
+      nodes: {
+        "node-1": {
+          type: "say",
+          speaker: "okafor",
+          text: "Director, we are venturing 600 million kilometers from Earth into the kingdom of Jupiter. Our target: Europa, an ice-covered moon hiding a warm, salty ocean with more water than all of Earth.",
+          nextNodeId: "node-2",
+        },
+        "node-2": {
+          type: "say",
+          speaker: "arai",
+          text: "Jupiter's magnetic field accelerates trapped electrons to near-light speed. Your spacecraft will absorb over 300 krads of radiation. Every processor must sit inside a 9-millimeter titanium vault. At 5.2 AU, solar flux is a measly 50 W/m².",
+          nextNodeId: "node-3",
+        },
+        "node-3": {
+          type: "say",
+          speaker: "ferreira",
+          text: "Our ice-penetrating radar will sound the crust to detect active cryovolcanic plumes. If there is hydrothermal venting on the ocean floor beneath that ice, we are looking at the cradle of alien life.",
+          nextNodeId: "node-4",
+        },
+        "node-4": {
+          type: "choice",
+          prompt: "Select flyby orbital trajectory:",
+          options: [
+            {
+              label: "Aggressive low-altitude pass (25 km above ice shell) for maximum radar depth.",
+              description: "Increases radiation exposure but resolves ice thickness to meter precision.",
+              effects: { rep: { science: 8, public: 3, treasury: -4 } },
+              nextNodeId: "node-aggressive",
+            },
+            {
+              label: "Conservative standoff orbit (100 km) to preserve avionics lifespan.",
+              description: "Maintains radiation shielding margins across decades of extended flight.",
+              effects: { rep: { treasury: 5, science: -2 } },
+              nextNodeId: "node-standoff",
+            },
+          ],
+        },
+        "node-aggressive": {
+          type: "say",
+          speaker: "ferreira",
+          text: "Scientific courage at its finest! We will taste the water plumes directly.",
+        },
+        "node-standoff": {
+          type: "say",
+          speaker: "arai",
+          text: "Prudent engineering. We ensure multi-year survival across dozens of passes.",
+        },
+      },
+    },
+    epilogue: {
+      success: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "ferreira",
+            text: "BREAKTHROUGH CONFIRMED! Radar sounders penetrated 15 km of ice into a liquid, salty ocean! Spectrometers detected organic molecules and sodium chloride in erupting plumes! We have answered humanity's oldest question: we are not alone in having water!",
+          },
+        },
+      },
+      partial: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "okafor",
+            text: "Flyby completed and ocean thickness mapped, but cumulative radiation corrupted the secondary optical camera bench.",
+          },
+        },
+      },
+      failure: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "arai",
+            text: "Trapped electron surge breached the titanium vault. Flight computers tripped into safe mode during closest approach.",
+          },
+        },
+      },
+    },
+  },
+
+  // ACT III - CHAPTER 10: BEYOND THE HORIZON
+  {
+    id: "ch-10",
+    act: 3,
+    order: 10,
+    title: "Act III - Chapter 10: Beyond the Horizon",
+    subtitle: "Dragonfly Hydrocarbon Seas Exploration",
+    briefingDate: "July 4, 2045",
+    summary: "The grand finale of the Meridian Program. Enter Titan's dense, frozen atmosphere 1.4 billion kilometers away, deploying a nuclear MMRTG-powered robotic explorer across prebiotic methane dunes and seas.",
+    linkedScenarioId: "titan-explorer",
+    rewards: {
+      xp: 5000,
+      reputation: { science: 50, public: 50, treasury: 50 },
+    },
+    briefing: {
+      startNodeId: "node-1",
+      nodes: {
+        "node-1": {
+          type: "say",
+          speaker: "okafor",
+          text: "This is the farthest humanity has ever sent an active surface mission, Director: Saturn's giant moon Titan. 1.4 billion kilometers from Earth. At this distance, radio signals take 80 minutes each way. Your spacecraft must fly, think, and survive completely on its own.",
+          nextNodeId: "node-2",
+        },
+        "node-2": {
+          type: "say",
+          speaker: "arai",
+          text: "Titan is colder than liquid nitrogen at 94 Kelvin, and solar flux is virtually zero. Solar panels are dead weight; your only option is the Plutonium-238 MMRTG. The good news: Titan's air is four times denser than Earth's, and gravity is one-seventh. Your lander can soar across entire continents.",
+          nextNodeId: "node-3",
+        },
+        "node-3": {
+          type: "say",
+          speaker: "hale",
+          text: "The entire globe is tuned in. If Meridian completes this mission, the Authority will receive a permanent sovereign charter for humanity's expansion into the cosmos. Bring us into the history books.",
+          nextNodeId: "node-4",
+        },
+        "node-4": {
+          type: "choice",
+          prompt: "Choose the landing site doctrine on Titan:",
+          options: [
+            {
+              label: "Touch down in the Shangri-La sand seas to analyze complex organic polymers.",
+              description: "Direct sampling of prebiotic tholins and hydrocarbon dunes.",
+              effects: { rep: { science: 10, treasury: -5 } },
+              nextNodeId: "node-shangrila",
+            },
+            {
+              label: "Touch down near the shoreline of Kraken Mare to sample liquid methane hydrologies.",
+              description: "Dramatic lake-shore exploration maximizing public wonder and global broadcast.",
+              effects: { rep: { public: 10, science: 5 } },
+              nextNodeId: "node-kraken",
+            },
+          ],
+        },
+        "node-shangrila": {
+          type: "say",
+          speaker: "ferreira",
+          text: "Organic dunes confirmed. We will investigate the molecular precursors to RNA.",
+        },
+        "node-kraken": {
+          type: "say",
+          speaker: "okafor",
+          text: "The hydrocarbon shores of Titan stand before us. Commence atmospheric entry.",
+        },
+      },
+    },
+    epilogue: {
+      success: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "okafor",
+            text: "TRANSMISSION RECEIVED FROM SATURN: MERIDIAN HAS LANDED ON TITAN! The MMRTG hums steadily at -179°C! Atmospheric sounders stream pristine telemetry of liquid methane rains and organic dunes! You have completed the grand trilogy of exploration. The stars are now humanity's backyard.\n\n[CAMPAIGN FINALE COMPLETED]: View your final agency debrief, unlocked ending, and lifetime flight records!",
+          },
+        },
+      },
+      partial: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "arai",
+            text: "Lander safely touched down and MMRTG power nominal, but high atmospheric cryogenic chill forced the secondary communications relay to operate at reduced duty cycle.",
+          },
+        },
+      },
+      failure: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "hale",
+            text: "Autonomous navigation software lost attitude reference in the thick organic haze during the supersonic transition. Telemetry dropped at 30 km altitude.",
           },
         },
       },

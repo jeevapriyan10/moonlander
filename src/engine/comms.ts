@@ -83,7 +83,7 @@ export function computeDownlinkCapacityGb(
  * Computes effective contact minutes per day for an orbit and ground network.
  */
 export function computeEffectiveContactMinutes(
-  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER",
+  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER" | "VENUS" | "TITAN" | "ASTEROID",
   passesPerDayPerStation: number,
   meanPassDurationSeconds: number,
   network: GroundNetworkSpec,
@@ -100,7 +100,10 @@ export function computeEffectiveContactMinutes(
     orbitType === "LUNAR" ||
     orbitType === "SURFACE" ||
     orbitType === "MARS" ||
-    orbitType === "JUPITER"
+    orbitType === "JUPITER" ||
+    orbitType === "VENUS" ||
+    orbitType === "TITAN" ||
+    orbitType === "ASTEROID"
   ) {
     // Deep space missions rely on scheduled tracking passes via DSN / NSN
     if (!network.deepSpaceSupport) {
@@ -153,8 +156,8 @@ export function evaluateComms(
 
   const groundNetworkCostM =
     network.annualOpsCostM * missionYears +
-    (network.type === "commercial"
-      ? (contactMinutesPerDay / 10) * (365 * missionYears) * network.costPerPassM
+    (network.type === "commercial" && !network.continuousGEO
+      ? Math.min(16, contactMinutesPerDay / 10) * (365 * missionYears) * network.costPerPassM
       : 0);
 
   return {

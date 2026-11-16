@@ -83,7 +83,7 @@ import {
 export interface OrbitSpec {
   id: string;
   name: string;
-  regime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER";
+  regime: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER" | "VENUS" | "TITAN" | "ASTEROID";
   launcherClassNeeded: "leo" | "sso" | "gto" | "tli" | "tmi";
   perigeeAltKm: number;
   apogeeAltKm: number;
@@ -299,6 +299,7 @@ export function evaluateMission(
   );
 
   // 4. Electrical Power Subsystem
+  const isNuclearRTG = solarArray.type === "rtg-nuclear";
   const solarGen = computeSolarGeneration(
     design.solarArrayAreaM2,
     solarArray.efficiency,
@@ -306,7 +307,8 @@ export function evaluateMission(
     15.0,
     solarArray.annualDegradation,
     scenario.targetLifeYears,
-    eclipseFraction
+    eclipseFraction,
+    isNuclearRTG
   );
 
   let instrumentLoadW = 0;

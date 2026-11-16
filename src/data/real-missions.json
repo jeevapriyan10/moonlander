@@ -183,5 +183,127 @@
     ],
     "lessonsLearned": "Aerobraking passes into the Martian upper exosphere provide essential atmospheric samples while simultaneously lowering apogee without consuming propellant.",
     "nasaArchiveUrl": "https://lasp.colorado.edu/maven/"
+  },
+  {
+    "id": "perseverance",
+    "name": "Mars 2020 Perseverance Rover & Ingenuity Helicopter",
+    "agency": "NASA",
+    "launchYear": 2020,
+    "missionStatus": "operational",
+    "scenarioId": "mars-landing",
+    "launchMassKg": 1025.0,
+    "totalCostM": 2700.0,
+    "primaryOrbit": "Jezero Crater Surface Landing (18.38°N, 77.58°E)",
+    "primaryPayloads": [
+      "Mastcam-Z (Stereoscopic multispectral zoom camera)",
+      "SuperCam (Laser-induced breakdown spectrometer & microphone)",
+      "PIXL (Planetary Instrument for X-ray Lithochemistry)",
+      "SHERLOC (Deep UV Raman spectrometer for organics)",
+      "Terrain-Relative Navigation (TRN) Lander Vision System",
+      "MMRTG (Plutonium-238 radioisotope power generator)"
+    ],
+    "keyDiscoveries": [
+      "Discovered igneous and deltaic sedimentary rocks bearing organic carbon molecules in Jezero",
+      "Demonstrated first powered aerodynamic flight on another world (Ingenuity completed 72 flights)",
+      "Extracted high-purity breathable oxygen from the Martian CO2 atmosphere via MOXIE"
+    ],
+    "lessonsLearned": "Terrain-Relative Navigation comparing descent photos to onboard satellite maps allows pinpoint landings inside hazardous boulder-strewn river deltas.",
+    "nasaArchiveUrl": "https://mars.nasa.gov/mars2020/"
+  },
+  {
+    "id": "davinci-plus",
+    "name": "DAVINCI+ (Deep Atmosphere Venus Investigation)",
+    "agency": "NASA",
+    "launchYear": 2029,
+    "missionStatus": "in-development",
+    "scenarioId": "venus-probe",
+    "launchMassKg": 2150.0,
+    "totalCostM": 500.0,
+    "primaryOrbit": "Venus Flyby and Direct Atmospheric Entry",
+    "primaryPayloads": [
+      "VMS (Venus Mass Spectrometer)",
+      "VTLS (Venus Tunable Laser Spectrometer)",
+      "VASI (Venus Atmospheric Structure Instrument)",
+      "VenDI (Venus Descent Imager camera)"
+    ],
+    "keyDiscoveries": [
+      "Direct measurement of atmospheric noble gases and isotopic ratios to determine if Venus ever had liquid oceans",
+      "First high-resolution topography of Alpha Regio continental-scale tessera terrain"
+    ],
+    "lessonsLearned": "Titanium pressure vessel construction and phase-change thermal heat sinks are mandatory to survive the 465°C and 92-bar supercritical CO2 environment during descent.",
+    "nasaArchiveUrl": "https://science.nasa.gov/mission/davinci/"
+  },
+  {
+    "id": "europa-clipper",
+    "name": "Europa Clipper",
+    "agency": "NASA",
+    "launchYear": 2024,
+    "missionStatus": "operational",
+    "scenarioId": "europa-clipper",
+    "launchMassKg": 6065.0,
+    "totalCostM": 5000.0,
+    "primaryOrbit": "Jovian Multi-Flyby Tour (49 low-altitude passes of Europa)",
+    "primaryPayloads": [
+      "REASON (Radar for Europa Assessment and Sounding: Ocean to Near-surface)",
+      "E-THEMIS (Thermal Emission Imaging System)",
+      "MASPEX (Mass Spectrometer for Planetary Exploration)",
+      "Europa-UVS (Ultraviolet Spectrograph)",
+      "Heavy Titanium Radiation Vault"
+    ],
+    "keyDiscoveries": [
+      "Direct radar profiling of Europa's icy shell thickness and potential shallow perched water pockets",
+      "Search for active water vapor cryovolcanic plumes venting directly into space"
+    ],
+    "lessonsLearned": "Housing sensitive silicon electronics inside a 9.2 mm thick titanium vault while using high-eccentricity flyby orbits prevents rapid cumulative radiation burnout.",
+    "nasaArchiveUrl": "https://europa.nasa.gov/"
+  },
+  {
+    "id": "dragonfly",
+    "name": "Dragonfly Rotorcraft Lander & Cassini-Huygens",
+    "agency": "NASA",
+    "launchYear": 2028,
+    "missionStatus": "in-development",
+    "scenarioId": "titan-explorer",
+    "launchMassKg": 450.0,
+    "totalCostM": 3350.0,
+    "primaryOrbit": "Titan Atmospheric Descent & Surface Hopper",
+    "primaryPayloads": [
+      "DraMS (Dragonfly Mass Spectrometer)",
+      "DraGNS (Gamma-Ray and Neutron Spectrometer)",
+      "DraGMet (Geophysics and Meteorology Package)",
+      "MMRTG (Multi-Mission Radioisotope Thermoelectric Generator)",
+      "Octocopter Dual-Coaxial Rotor Propulsion"
+    ],
+    "keyDiscoveries": [
+      "In-situ prebiotic chemistry sampling across organic sand dunes and Selk impact crater",
+      "Atmospheric density profiling in dense nitrogen atmosphere (4x air density on Earth)",
+      "Direct exploration of surface methane/ethane cycles analog to Earth's water cycle"
+    ],
+    "lessonsLearned": "Nuclear MMRTG power is indispensable at 10 AU where solar flux is negligible; dense nitrogen atmosphere makes rotorcraft flight exceptionally mass-efficient.",
+    "nasaArchiveUrl": "https://dragonfly.jhuapl.edu/"
+  },
+  {
+    "id": "osiris-rex",
+    "name": "OSIRIS-REx (Origins, Spectral Interpretation, Resource Identification, Security, Regolith Explorer)",
+    "agency": "NASA",
+    "launchYear": 2016,
+    "missionStatus": "completed",
+    "scenarioId": "asteroid-sample-return",
+    "launchMassKg": 2110.0,
+    "totalCostM": 1160.0,
+    "primaryOrbit": "Bennu Proximity Operations and Touch-And-Go (TAG)",
+    "primaryPayloads": [
+      "TAGSAM (Touch-And-Go Sample Acquisition Mechanism)",
+      "OCAMS (Camera Suite: PolyCam, MapCam, SamCam)",
+      "OVIRS (Visible and Infrared Spectrometer)",
+      "OTES (Thermal Emission Spectrometer)",
+      "OLA (Laser Altimeter 3D Lidar)"
+    ],
+    "keyDiscoveries": [
+      "Delivered 121.6 grams of pristine carbonaceous regolith containing water, amino acids, and uracil to Earth in September 2023",
+      "Discovered Bennu's surface is a loose rubble pile with fluid-like mechanical properties and unexpected particle ejection events"
+    ],
+    "lessonsLearned": "Autonomous Optical Navigation (OpNav) and flash lidar are indispensable when navigating around microgravity bodies where gravitational pull is measured in micro-Newtons.",
+    "nasaArchiveUrl": "https://science.nasa.gov/mission/osiris-rex/"
   }
 ]

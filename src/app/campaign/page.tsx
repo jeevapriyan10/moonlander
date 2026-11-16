@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCampaignStore } from "@/store/campaign";
@@ -48,6 +48,75 @@ export default function CampaignPage() {
   const [inspectingChapter, setInspectingChapter] = useState<CampaignChapter | null>(null);
   const [inBriefing, setInBriefing] = useState(false);
 
+  // Campaign Multiple Endings Calculation
+  const isCampaignFinished = completedChapterIds.includes("ch-10");
+  const [showEndingModal, setShowEndingModal] = useState(false);
+
+  useEffect(() => {
+    if (isCampaignFinished) {
+      setShowEndingModal(true);
+    }
+  }, [isCampaignFinished]);
+
+  const endingData = React.useMemo(() => {
+    if (!isCampaignFinished) return null;
+    const { science, public: pub, treasury } = reputation;
+
+    if (science >= 65 && science >= pub && science >= treasury) {
+      return {
+        title: "The Knowledge Vanguard",
+        subtitle: "Technocratic Hegemony",
+        badge: "TECHNOCRATIC HEGEMONY",
+        colorVariant: "info" as const,
+        description:
+          "Under your direction, the Meridian Space Authority prioritized uncompromising astrophysics and planetary science. The council ceded command to research institutes, launching deep-space autonomous observatories across the Kuiper belt. Humanity's understanding of cosmic origins accelerated by a century.",
+        quote: "Dr. Lucia Ferreira: 'We did not merely survive out here. We opened our eyes.'",
+      };
+    }
+    if (pub >= 65 && pub >= science && pub >= treasury) {
+      return {
+        title: "The People's Cosmos",
+        subtitle: "Democratic Frontier",
+        badge: "PUBLIC BEACON",
+        colorVariant: "nominal" as const,
+        description:
+          "You made spaceflight an inspiring global civil movement. Through transparent briefings, livestreamed descent operations, and educational access, millions rallied behind your missions. The Council voted to charter the first international civilian settlements on the Moon and Mars.",
+        quote: "Director Imani Okafor: 'The stars no longer belong to corporations or defense ministries. They belong to all of us.'",
+      };
+    }
+    if (treasury >= 65 && treasury >= science && treasury >= pub) {
+      return {
+        title: "Commercial Titan",
+        subtitle: "Frugal Industrial Empire",
+        badge: "FRUGAL DYNASTY",
+        colorVariant: "amber" as const,
+        description:
+          "Rigorous fiscal discipline and lean payload trades turned the Meridian Authority into a self-sustaining economic powerhouse. Commercial orbital logistics, asteroid resource syndicates, and low-cost reusable architectures ensured humanity's expansion became permanently profitable.",
+        quote: "Liaison Arthur Hale: 'Every gram balanced. Every dollar justified. That is how empires outlive their founders.'",
+      };
+    }
+    if (science >= 45 && pub >= 45 && treasury >= 45) {
+      return {
+        title: "The Golden Concord",
+        subtitle: "Equilibrium Era",
+        badge: "VOID PIONEERS",
+        colorVariant: "amber" as const,
+        description:
+          "In an unprecedented feat of systems governance, you balanced fiscal responsibility, public transparency, and relentless scientific discovery. Meridian became the gold standard of interplanetary stewardship, unlocking permanent bases from Shackleton Crater to Kraken Mare.",
+        quote: "CAPCOM Master Log: 'All three flags stand tall. The frontier is steady.'",
+      };
+    }
+    return {
+      title: "The Fragile Frontier",
+      subtitle: "Hard-Won Survival",
+      badge: "STALLED HORIZON",
+      colorVariant: "alert" as const,
+      description:
+        "The Meridian Space Authority survived the catastrophe of 2041, but political friction and budget compromises left humanity's presence in deep space fragile. The outposts endure, yet every budget cycle remains a battle for the horizon.",
+      quote: "Meridian Flight Log: 'We held the line. The next generation must push it forward.'",
+    };
+  }, [isCampaignFinished, reputation]);
+
   if (!hasHydrated) {
     return (
       <div className="min-h-screen bg-space-bg flex items-center justify-center p-6 text-telemetry-amber font-mono text-xs">
@@ -71,7 +140,8 @@ export default function CampaignPage() {
   const acts = [
     { act: 0, title: "Prologue: Induction", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 0) },
     { act: 1, title: "Act I: Earth Operations", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 1) },
-    { act: 2, title: "Act II: The Lunar Gateway", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 2) },
+    { act: 2, title: "Act II: The Lunar Gateway & Touchdown", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 2) },
+    { act: 3, title: "Act III: Deep Solar System & The Outer Moons", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 3) },
   ];
 
   return (
@@ -187,12 +257,14 @@ export default function CampaignPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {actGroup.chapters.map((ch, idx) => {
+                {actGroup.chapters.map((ch) => {
                   const isCompleted = completedChapterIds.includes(ch.id);
+                  const globalIdx = CAMPAIGN_CHAPTERS.findIndex((c) => c.id === ch.id);
+                  const prevCh = globalIdx > 0 ? CAMPAIGN_CHAPTERS[globalIdx - 1] : null;
                   const isUnlocked =
                     ch.id === "prologue" ||
                     ch.id === "ch-1" ||
-                    completedChapterIds.includes(CAMPAIGN_CHAPTERS[idx - 1]?.id || "");
+                    (prevCh ? completedChapterIds.includes(prevCh.id) : false);
 
                   return (
                     <div
@@ -265,42 +337,143 @@ export default function CampaignPage() {
             </div>
           ))}
 
-          {/* Stage 3 Teaser: Chapter 6 Touchdown & Act III Worlds */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950/40 via-space-surface to-black/60 border border-purple-500/40 shadow-2xl relative overflow-hidden space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="amber" size="sm">
-                STAGE 3 EXPANSION TEASER
-              </Badge>
-              <span className="font-mono text-xs text-purple-400 uppercase tracking-wider">
-                Act II Climax & Act III: Worlds
-              </span>
+          {/* Campaign Finale / Epilogue Card */}
+          {endingData && (
+            <div className="p-6 md:p-8 rounded-2xl bg-gradient-to-r from-space-surface via-space-panel to-black/80 border-2 border-telemetry-amber/50 shadow-2xl relative overflow-hidden space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-space-border pb-3">
+                <div className="flex items-center gap-2">
+                  <Badge variant={endingData.colorVariant} size="sm">
+                    {endingData.badge}
+                  </Badge>
+                  <span className="font-mono text-xs text-telemetry-amber uppercase tracking-wider font-bold">
+                    OFFICIAL CAMPAIGN CONCLUDED // MERIDIAN ARCHIVE RECORD
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowEndingModal(true)}
+                  className="flex items-center gap-1.5"
+                >
+                  <Award className="w-3.5 h-3.5" />
+                  <span>View Grand Epilogue</span>
+                </Button>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-heading font-black text-2xl md:text-3xl uppercase tracking-wider text-white">
+                  Ending: {endingData.title}
+                </h3>
+                <p className="font-mono text-xs text-telemetry-cyan uppercase tracking-wide">
+                  Strategic Doctrine: {endingData.subtitle}
+                </p>
+              </div>
+
+              <p className="text-slate-300 text-xs md:text-sm font-mono leading-relaxed max-w-3xl">
+                {endingData.description}
+              </p>
+
+              <div className="p-3 rounded-lg bg-black/50 border border-space-border/80 font-mono text-xs text-telemetry-amber italic">
+                {endingData.quote}
+              </div>
+
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <Link href="/credits">
+                  <Button variant="primary" size="md" className="flex items-center gap-2">
+                    <Globe className="w-4 h-4" />
+                    <span>Scientific Citations & Credits</span>
+                  </Button>
+                </Link>
+                <Link href="/mission/sandbox">
+                  <Button variant="secondary" size="md" className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Open Freeform Sandbox</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Campaign Grand Finale Ending Modal */}
+      {showEndingModal && endingData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 rounded-2xl border-2 border-telemetry-amber/60 bg-space-panel shadow-2xl flex flex-col gap-6 text-left my-auto">
+            <div className="flex items-center justify-between border-b border-space-border pb-3">
+              <div className="flex items-center gap-2">
+                <Badge variant={endingData.colorVariant} size="sm">
+                  {endingData.badge}
+                </Badge>
+                <span className="font-mono text-xs text-slate-400 uppercase">
+                  Meridian Council Historical Ledger
+                </span>
+              </div>
+              <button
+                onClick={() => setShowEndingModal(false)}
+                className="text-slate-400 hover:text-white font-mono text-xs uppercase"
+              >
+                [Close]
+              </button>
             </div>
 
-            <h3 className="font-heading font-black text-2xl uppercase tracking-wider text-white">
-              Chapter 6: Touchdown // Surface Landing & The Outer Solar System
-            </h3>
+            <div className="space-y-1">
+              <h2 className="font-heading font-black text-3xl uppercase tracking-wider text-white">
+                {endingData.title}
+              </h2>
+              <p className="font-mono text-xs text-telemetry-cyan uppercase tracking-widest">
+                Outcome Doctrine: {endingData.subtitle}
+              </p>
+            </div>
 
-            <p className="font-mono text-xs text-gray-300 max-w-2xl leading-relaxed">
-              Upon verifying candidate ice deposits in Lunar Pathfinder, the Meridian Space Authority will initiate human descent operations to Shackleton Base, followed by interplanetary journeys to Venus, Mars, Europa, and Titan.
+            <p className="text-slate-200 text-xs md:text-sm font-mono leading-relaxed">
+              {endingData.description}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              <Link href="/mission/new">
-                <Button variant="primary" size="md" className="flex items-center gap-2">
-                  <Compass className="w-4 h-4" />
-                  <span>Explore Free Missions (All Unlocked)</span>
+            <div className="p-4 rounded-xl bg-black/60 border border-space-border space-y-2">
+              <div className="font-heading uppercase text-xs font-bold text-white tracking-wider">
+                Authority Final Reputation Standings
+              </div>
+              <div className="grid grid-cols-3 gap-2 font-mono text-xs pt-1">
+                <div className="p-2 rounded bg-space-bg border border-space-border">
+                  <span className="text-[10px] text-telemetry-cyan block">SCIENCE PRESTIGE</span>
+                  <span className="text-lg font-bold text-white">{reputation.science}%</span>
+                </div>
+                <div className="p-2 rounded bg-space-bg border border-space-border">
+                  <span className="text-[10px] text-telemetry-green block">PUBLIC TRUST</span>
+                  <span className="text-lg font-bold text-white">{reputation.public}%</span>
+                </div>
+                <div className="p-2 rounded bg-space-bg border border-space-border">
+                  <span className="text-[10px] text-telemetry-amber block">TREASURY SOLVENCY</span>
+                  <span className="text-lg font-bold text-white">{reputation.treasury}%</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-black/40 border border-telemetry-amber/30 text-xs font-mono text-telemetry-amber italic">
+              {endingData.quote}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-space-border">
+              <Link href="/credits">
+                <Button variant="outline" size="sm" className="flex items-center gap-1.5">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Citations & Credits</span>
                 </Button>
               </Link>
-              <Link href="/sandbox">
-                <Button variant="secondary" size="md" className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Open Sandbox Mode</span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setShowEndingModal(false)}
+                >
+                  Return to Campaign Map
                 </Button>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
-      </main>
+      )}
 
       {/* Briefing Dossier Modal Overlay */}
       {inBriefing && inspectingChapter && (

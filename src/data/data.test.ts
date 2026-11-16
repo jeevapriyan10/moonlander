@@ -48,8 +48,8 @@ describe("Data Integrity & Schema Validation Tests", () => {
     }
   });
 
-  it("has 8 playable destinations covering terrestrial, lagrange, lunar, and interplanetary regimes", () => {
-    expect(destinations.length).toBe(8);
+  it("has 12 playable destinations covering terrestrial, lagrange, lunar, outer system, and asteroid regimes", () => {
+    expect(destinations.length).toBe(12);
     const orbitIds = new Set(orbits.map((o) => o.id));
     for (const dest of destinations) {
       expect(orbitIds.has(dest.defaultOrbitId), `Missing default orbit ${dest.defaultOrbitId}`).toBe(true);
@@ -59,8 +59,8 @@ describe("Data Integrity & Schema Validation Tests", () => {
     }
   });
 
-  it("all 8 scenarios are fully playable with budget, deadline, and valid targets", () => {
-    expect(scenarios.length).toBe(8);
+  it("all 13 scenarios are fully playable with budget, deadline, and valid targets", () => {
+    expect(scenarios.length).toBe(13);
     for (const scenario of scenarios) {
       expect(scenario.playable).toBe(true);
       expect(scenario.budgetCapM).toBeGreaterThan(150);
@@ -88,8 +88,8 @@ describe("Data Integrity & Schema Validation Tests", () => {
     }
   });
 
-  it("real missions catalog links all 8 scenarios to NASA/ESA flight twins", () => {
-    expect(realMissions.length).toBe(8);
+  it("real missions catalog links all scenarios to NASA/ESA flight twins", () => {
+    expect(realMissions.length).toBe(scenarios.length);
     const scenarioIds = new Set(scenarios.map((s) => s.id));
     for (const mission of realMissions) {
       expect(scenarioIds.has(mission.scenarioId), `Missing scenario link for ${mission.id}`).toBe(true);

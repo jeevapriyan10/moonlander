@@ -68,11 +68,21 @@ export function getAnnualRadiationDoseKrad(orbitRegime: string): number {
     case "HEO":
       return 20.0; // passes repeatedly through both inner & outer radiation belts
     case "L1":
+    case "L2":
       return 3.0; // interplanetary cosmic rays + solar energetic particles
     case "LUNAR":
+    case "SURFACE":
       return 2.0;
     case "MARS":
       return 1.5;
+    case "JUPITER":
+      return 20.0; // shielded inside radiation vault on highly eccentric Jovian flyby tour
+    case "VENUS":
+      return 4.0;
+    case "TITAN":
+      return 0.8; // shielded by dense atmosphere & Saturn magnetospheric fringe
+    case "ASTEROID":
+      return 2.5;
     default:
       return 1.5;
   }

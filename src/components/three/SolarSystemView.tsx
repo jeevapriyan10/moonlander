@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import {
   getBodyEphemeris,
@@ -21,6 +20,8 @@ import { Saturn } from "./Saturn";
 export interface SolarSystemViewProps {
   daysFromJ2000?: number;
   targetBodyId?: string;
+  scaleMode?: "readable" | "true";
+  onSelectPlanet?: (planetId: string) => void;
 }
 
 // Visual scaling factor: 1 AU = 25 Three.js scene units
@@ -48,6 +49,75 @@ const PLANET_CONFIGS: PlanetVisualConfig[] = [
   { id: "neptune", name: "Neptune", color: "#3B82F6", readableSize: 1.15, trueScaleRatio: 3.88, orbitRadiusAU: 30.05, rotationSpeed: 0.045, axialTiltDeg: 28.32 },
 ];
 
+// Pure Three.js Billboard Sprite for Planet Label (Zero React Fiber reconciler interference)
+const PlanetLabelSprite: React.FC<{
+  name: string;
+  distanceAU: number;
+  isSelected: boolean;
+  isTarget: boolean;
+  position: [number, number, number];
+  onClick: () => void;
+}> = ({ name, distanceAU, isSelected, isTarget, position, onClick }) => {
+  const sprite = useMemo(() => {
+    if (typeof document === "undefined") return null;
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 64;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    // Background pill styling
+    ctx.fillStyle = isSelected
+      ? "rgba(245, 158, 11, 0.95)"
+      : isTarget
+      ? "rgba(245, 158, 11, 0.35)"
+      : "rgba(5, 7, 13, 0.85)";
+    ctx.strokeStyle = isSelected
+      ? "#FCD34D"
+      : isTarget
+      ? "#F59E0B"
+      : "rgba(71, 85, 105, 0.7)";
+    ctx.lineWidth = 2.5;
+
+    // Draw rounded rect
+    const r = 8;
+    ctx.beginPath();
+    ctx.moveTo(8 + r, 8);
+    ctx.lineTo(248 - r, 8);
+    ctx.quadraticCurveTo(248, 8, 248, 8 + r);
+    ctx.lineTo(248, 56 - r);
+    ctx.quadraticCurveTo(248, 56, 248 - r, 56);
+    ctx.lineTo(8 + r, 56);
+    ctx.quadraticCurveTo(8, 56, 8, 56 - r);
+    ctx.lineTo(8, 8 + r);
+    ctx.quadraticCurveTo(8, 8, 8 + r, 8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Planet Name and AU readout
+    ctx.font = "bold 20px monospace";
+    ctx.fillStyle = isSelected ? "#05070D" : "#FFFFFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${name} ${distanceAU.toFixed(2)} AU`, 128, 32);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    const material = new THREE.SpriteMaterial({
+      map: texture,
+      depthTest: false,
+      transparent: true,
+    });
+    const s = new THREE.Sprite(material);
+    s.scale.set(3.4, 0.85, 1);
+    return s;
+  }, [name, distanceAU, isSelected, isTarget]);
+
+  if (!sprite) return null;
+  return <primitive object={sprite} position={position} onClick={onClick} />;
+};
+
 /**
  * Scale-accurate 3D Heliocentric Solar System Viewport
  * Displays Keplerian orbits, textured planetary bodies, and interplanetary transfer trajectories.
@@ -55,11 +125,19 @@ const PLANET_CONFIGS: PlanetVisualConfig[] = [
 export const SolarSystemView: React.FC<SolarSystemViewProps> = ({
   daysFromJ2000 = 8500, // Year ~2023
   targetBodyId = "mars",
+  scaleMode = "readable",
+  onSelectPlanet,
 }) => {
   const [selectedPlanet, setSelectedPlanet] = useState<string>(targetBodyId);
-  const [scaleMode, setScaleMode] = useState<"readable" | "true">("readable");
   const graphicsQuality = useSettingsStore((s) => s.graphicsQuality);
   const [planetTextures, setPlanetTextures] = useState<Partial<Record<CelestialBody, THREE.Texture>>>({});
+
+  const handleSelect = (planetId: string) => {
+    setSelectedPlanet(planetId);
+    if (onSelectPlanet) {
+      onSelectPlanet(planetId);
+    }
+  };
 
   // Pre-load textures for planets
   useEffect(() => {
@@ -197,7 +275,7 @@ export const SolarSystemView: React.FC<SolarSystemViewProps> = ({
                 <Saturn radius={bodySize} />
               ) : (
                 <mesh
-                  onClick={() => setSelectedPlanet(planet.id)}
+                  onClick={() => handleSelect(planet.id)}
                   castShadow
                   receiveShadow
                   rotation={[THREE.MathUtils.degToRad(planet.axialTiltDeg), 0, 0]}
@@ -220,24 +298,15 @@ export const SolarSystemView: React.FC<SolarSystemViewProps> = ({
                 </mesh>
               )}
 
-              {/* 3D HTML World-Space Name Label */}
-              <Html distanceFactor={45} position={[0, bodySize + 0.8, 0]}>
-                <div
-                  onClick={() => setSelectedPlanet(planet.id)}
-                  className={`cursor-pointer whitespace-nowrap px-2 py-0.5 rounded text-[10px] font-mono tracking-wider uppercase transition-all backdrop-blur ${
-                    isSelected
-                      ? "bg-telemetry-amber/90 text-slate-950 font-bold border border-amber-300"
-                      : isTarget
-                      ? "bg-telemetry-amber/20 text-telemetry-amber border border-telemetry-amber/40"
-                      : "bg-space-950/80 text-slate-300 border border-slate-700/60 hover:text-white"
-                  }`}
-                >
-                  {planet.name}
-                  <span className="ml-1 opacity-75 font-normal">
-                    {planet.orbitRadiusAU.toFixed(2)} AU
-                  </span>
-                </div>
-              </Html>
+              {/* 3D Native Sprite World-Space Name Label (Zero React Fiber DOM reconciliation issues) */}
+              <PlanetLabelSprite
+                name={planet.name}
+                distanceAU={planet.orbitRadiusAU}
+                isSelected={isSelected}
+                isTarget={isTarget}
+                position={[0, bodySize + 0.9, 0]}
+                onClick={() => handleSelect(planet.id)}
+              />
             </group>
           </group>
         );
@@ -245,35 +314,6 @@ export const SolarSystemView: React.FC<SolarSystemViewProps> = ({
 
       {/* Interplanetary Lambert Transfer Trajectory */}
       <primitive object={transferLineObj} />
-
-      {/* Floating HUD Scale Switch (Readable Scale vs True Scale) */}
-      <Html fullscreen style={{ pointerEvents: "none" }}>
-        <div className="absolute bottom-4 left-4 z-20 pointer-events-auto flex items-center gap-2 p-1.5 rounded bg-space-950/90 backdrop-blur border border-space-800 text-xs font-mono">
-          <span className="text-slate-400 px-1">SCALE:</span>
-          <button
-            type="button"
-            onClick={() => setScaleMode("readable")}
-            className={`px-2.5 py-1 rounded transition-colors ${
-              scaleMode === "readable"
-                ? "bg-telemetry-amber text-slate-950 font-semibold"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            READABLE
-          </button>
-          <button
-            type="button"
-            onClick={() => setScaleMode("true")}
-            className={`px-2.5 py-1 rounded transition-colors ${
-              scaleMode === "true"
-                ? "bg-telemetry-cyan text-slate-950 font-semibold"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            TRUE SCALE
-          </button>
-        </div>
-      </Html>
     </group>
   );
 };

@@ -24,6 +24,7 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
 }) => {
   const [mode, setMode] = useState<ViewportMode>(initialMode);
   const [autoRotate, setAutoRotate] = useState(false);
+  const [solarScaleMode, setSolarScaleMode] = useState<"readable" | "true">("readable");
   const graphicsQuality = useSettingsStore((s) => s.graphicsQuality);
 
   const preset: CameraPreset =
@@ -42,7 +43,7 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
         ) : mode === "orbit" ? (
           <OrbitView />
         ) : (
-          <SolarSystemView />
+          <SolarSystemView scaleMode={solarScaleMode} />
         )}
       </CanvasWrapper>
 
@@ -101,6 +102,35 @@ export const Viewport3D: React.FC<Viewport3DProps> = ({
             }`}
           >
             <RotateCw className={`w-3.5 h-3.5 ${autoRotate ? "animate-spin" : ""}`} />
+          </button>
+        </div>
+      )}
+
+      {/* Solar System Scale Switcher (Pure DOM HUD overlay) */}
+      {mode === "solar-system" && (
+        <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 p-1 rounded bg-space-950/85 backdrop-blur border border-space-800 font-mono text-[11px]">
+          <span className="text-slate-400 px-1 text-[10px] uppercase">Scale:</span>
+          <button
+            type="button"
+            onClick={() => setSolarScaleMode("readable")}
+            className={`px-2 py-0.5 rounded uppercase font-semibold transition-colors ${
+              solarScaleMode === "readable"
+                ? "bg-telemetry-amber text-slate-950"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            Readable
+          </button>
+          <button
+            type="button"
+            onClick={() => setSolarScaleMode("true")}
+            className={`px-2 py-0.5 rounded uppercase font-semibold transition-colors ${
+              solarScaleMode === "true"
+                ? "bg-telemetry-cyan text-slate-950"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            True Scale
           </button>
         </div>
       )}

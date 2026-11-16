@@ -87,6 +87,8 @@ export default function MissionWorkspacePage() {
     setLaunchInProgress,
   } = useUIStore();
 
+  const isInternalStageChangeRef = React.useRef(false);
+
   // Initialize mission state if directly routed
   useEffect(() => {
     if (!hasHydrated) return;
@@ -100,11 +102,13 @@ export default function MissionWorkspacePage() {
         uiStore.unlockStage(6);
       }
     } else if (scenarioOrId === "sandbox") {
+      uiStore.unlockStage(6);
       if (!missionStore.currentMission.isSandbox) {
         missionStore.createMission("earth-watch", "ADVANCED", true);
         uiStore.setCurrentStage(3);
+        isInternalStageChangeRef.current = true;
+        router.replace(`/mission/sandbox?stage=design`, { scroll: false });
       }
-      uiStore.unlockStage(6);
     } else if (scenarios.some((s) => s.id === scenarioOrId)) {
       if (
         missionStore.currentMission.scenarioId !== scenarioOrId ||
@@ -115,53 +119,59 @@ export default function MissionWorkspacePage() {
     } else if (missionStore.currentMission.isSandbox) {
       uiStore.unlockStage(6);
     }
-  }, [hasHydrated, scenarioOrId]);
-
-  // Synchronize URL query whenever currentStage changes
-  useEffect(() => {
-    if (!hasHydrated) return;
-    const currentQuery = searchParams.get("stage");
-    const targetQuery = STAGE_TO_QUERY[currentStage];
-    if (currentQuery !== targetQuery) {
-      router.replace(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
-    }
-  }, [hasHydrated, currentStage, scenarioOrId, searchParams, router]);
+  }, [hasHydrated, scenarioOrId, router]);
 
   // Synchronize store when URL searchParams changes (e.g. browser back/forward or deep links)
   useEffect(() => {
     if (!hasHydrated) return;
+
+    if (isInternalStageChangeRef.current) {
+      isInternalStageChangeRef.current = false;
+      return;
+    }
+
     const stageQuery = searchParams.get("stage");
     if (stageQuery && QUERY_TO_STAGE[stageQuery]) {
       const requested = QUERY_TO_STAGE[stageQuery]!;
-      const latestMax = useUIStore.getState().maxUnlockedStage;
+      const uiState = useUIStore.getState();
+      const latestMax = uiState.maxUnlockedStage;
+
       if (requested <= latestMax) {
-        if (requested !== useUIStore.getState().currentStage) {
+        if (requested !== uiState.currentStage) {
           setCurrentStage(requested);
         }
       } else {
         // Enforce stage lock: cannot bypass via URL
         const safeStage = Math.max(1, latestMax) as GameStage;
-        if (safeStage !== useUIStore.getState().currentStage) {
+        if (safeStage !== uiState.currentStage) {
           setCurrentStage(safeStage);
         }
-        router.replace(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`);
+        isInternalStageChangeRef.current = true;
+        router.replace(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`, { scroll: false });
       }
+    } else if (!stageQuery) {
+      // If no stage query parameter exists in URL, synchronize current stage into URL once
+      const current = useUIStore.getState().currentStage;
+      isInternalStageChangeRef.current = true;
+      router.replace(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[current]}`, { scroll: false });
     }
   }, [hasHydrated, searchParams, scenarioOrId, router, setCurrentStage]);
 
   const advanceToStage = (stage: GameStage) => {
+    isInternalStageChangeRef.current = true;
     unlockStage(stage);
     setCurrentStage(stage);
     const targetQuery = STAGE_TO_QUERY[stage];
-    router.push(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
+    router.replace(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
   };
 
   const handleSelectStage = (stage: GameStage) => {
     const latestMax = useUIStore.getState().maxUnlockedStage;
     const safeStage = Math.min(stage, latestMax) as GameStage;
+    isInternalStageChangeRef.current = true;
     setCurrentStage(safeStage);
     const targetQuery = STAGE_TO_QUERY[safeStage];
-    router.push(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
+    router.replace(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
   };
 
   if (!hasHydrated) {

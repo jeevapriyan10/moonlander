@@ -158,5 +158,85 @@
     ],
     "historicMissions": ["Europa Clipper", "Galileo", "Juno", "JUICE", "Voyager 1/2"],
     "defaultOrbitId": "europa-flyby"
+  },
+  {
+    "id": "dest-mars-surface",
+    "name": "Mars Jezero Crater Landing",
+    "bodyId": "mars",
+    "category": "interplanetary",
+    "distanceAU": 1.524,
+    "typicalDeltaVKmS": 16.8,
+    "oneWayLightTimeMinutes": 12.5,
+    "solarFluxW_M2": 586.0,
+    "blackbodyTempK": 210,
+    "radiationEnvironment": "Thin CO2 atmosphere provides minimal shielding (1.8 krad/year). Severe seasonal dust storms.",
+    "description": "Direct entry and supersonic deceleration inside Jezero Crater to investigate ancient river deltas and collect cached core samples.",
+    "scienceGoals": [
+      "In-situ search for biosignatures in lacustrine mudstone strata",
+      "Mars environmental dynamics analysis (temperature, pressure, dust dust devils)",
+      "Surface volatile ice sounding and subsurface regolith drilling"
+    ],
+    "historicMissions": ["Perseverance", "Curiosity", "Opportunity", "Spirit", "Viking 1/2"],
+    "defaultOrbitId": "mars-surface"
+  },
+  {
+    "id": "dest-venus",
+    "name": "Venus Atmosphere & Cloud Tops",
+    "bodyId": "venus",
+    "category": "interplanetary",
+    "distanceAU": 0.723,
+    "typicalDeltaVKmS": 13.8,
+    "oneWayLightTimeMinutes": 6.0,
+    "solarFluxW_M2": 2600.0,
+    "blackbodyTempK": 328,
+    "radiationEnvironment": "Solar energetic proton events at 0.72 AU (4.0 krad/year). Extreme thermal heating from super-critical CO2.",
+    "description": "High-temperature inner solar system mission to penetrate Venus's sulfuric acid clouds and sample noble gases in the lower atmosphere.",
+    "scienceGoals": [
+      "High-precision mass spectrometry of noble gas isotopes (xenon, krypton, argon)",
+      "Near-infrared surface thermal imaging through atmospheric window at 1 micron",
+      "Synthetic aperture radar imaging of volcanic plains and tessera terrain"
+    ],
+    "historicMissions": ["DAVINCI+", "VERITAS", "Magellan", "Venera 13/14", "Pioneer Venus"],
+    "defaultOrbitId": "venus-atmosphere"
+  },
+  {
+    "id": "dest-titan",
+    "name": "Saturnian Moon Titan Explorer",
+    "bodyId": "titan",
+    "category": "outer-system",
+    "distanceAU": 9.58,
+    "typicalDeltaVKmS": 22.4,
+    "oneWayLightTimeMinutes": 79.5,
+    "solarFluxW_M2": 14.8,
+    "blackbodyTempK": 94,
+    "radiationEnvironment": "Magnetospherically shielded by Saturn; 1.5 bar N2 atmosphere absorbs all cosmic rays (<0.8 krad/year).",
+    "description": "Dense, cold prebiotic atmosphere (95% N2, 5% CH4) and liquid methane/ethane seas at 94 Kelvin. Requires nuclear MMRTG power.",
+    "scienceGoals": [
+      "Prebiotic organic chemistry sounding in equatorial sand seas and hydrocarbon dunes",
+      "Atmospheric flight dynamics profiling across diverse surface landing sites",
+      "Seismic exploration of deep interior liquid water-ammonia ocean"
+    ],
+    "historicMissions": ["Dragonfly", "Cassini", "Huygens Probe", "Voyager 1"],
+    "defaultOrbitId": "titan-atmosphere"
+  },
+  {
+    "id": "dest-asteroid",
+    "name": "Asteroid Bennu Sample Return",
+    "bodyId": "asteroid",
+    "category": "interplanetary",
+    "distanceAU": 1.126,
+    "typicalDeltaVKmS": 14.2,
+    "oneWayLightTimeMinutes": 7.0,
+    "solarFluxW_M2": 1250.0,
+    "blackbodyTempK": 270,
+    "radiationEnvironment": "Unshielded interplanetary cosmic ray and solar energetic particle exposure (2.5 krad/year).",
+    "description": "Microgravity proximity operations and Touch-and-Go sampling of pristine B-type carbonaceous asteroid rubble pile.",
+    "scienceGoals": [
+      "Pristine regolith sample collection for return to terrestrial laboratories",
+      "Global spectral mapping of hydrated clays and organic molecules",
+      "Yarkovsky effect thermal acceleration measurement"
+    ],
+    "historicMissions": ["OSIRIS-REx", "Hayabusa2", "NEAR Shoemaker", "Dawn", "Lucy"],
+    "defaultOrbitId": "asteroid-rendezvous"
   }
 ]
