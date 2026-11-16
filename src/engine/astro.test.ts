@@ -105,20 +105,20 @@ describe("Real Astronomy Engine (astro.ts)", () => {
   });
 
   it("validates ground stations and launch sites catalogue coordinates", () => {
-    expect(GROUND_SITES.sriharikota.latDeg).toBeCloseTo(13.72, 2);
-    expect(GROUND_SITES.sriharikota.lonDeg).toBeCloseTo(80.23, 2);
+    expect(GROUND_SITES.sriharikota!.latDeg).toBeCloseTo(13.72, 2);
+    expect(GROUND_SITES.sriharikota!.lonDeg).toBeCloseTo(80.23, 2);
 
-    expect(GROUND_SITES.kennedy.latDeg).toBeCloseTo(28.57, 2);
-    expect(GROUND_SITES.kennedy.lonDeg).toBeCloseTo(-80.65, 2);
+    expect(GROUND_SITES.kennedy!.latDeg).toBeCloseTo(28.57, 2);
+    expect(GROUND_SITES.kennedy!.lonDeg).toBeCloseTo(-80.65, 2);
 
-    expect(GROUND_SITES.kourou.latDeg).toBeCloseTo(5.24, 2);
-    expect(GROUND_SITES.kourou.lonDeg).toBeCloseTo(-52.77, 2);
+    expect(GROUND_SITES.kourou!.latDeg).toBeCloseTo(5.24, 2);
+    expect(GROUND_SITES.kourou!.lonDeg).toBeCloseTo(-52.77, 2);
 
-    expect(GROUND_SITES.vandenberg.latDeg).toBeCloseTo(34.74, 2);
-    expect(GROUND_SITES.vandenberg.lonDeg).toBeCloseTo(-120.57, 2);
+    expect(GROUND_SITES.vandenberg!.latDeg).toBeCloseTo(34.74, 2);
+    expect(GROUND_SITES.vandenberg!.lonDeg).toBeCloseTo(-120.57, 2);
 
-    expect(GROUND_SITES.baikonur.latDeg).toBeCloseTo(45.96, 2);
-    expect(GROUND_SITES.baikonur.lonDeg).toBeCloseTo(63.3, 2);
+    expect(GROUND_SITES.baikonur!.latDeg).toBeCloseTo(45.96, 2);
+    expect(GROUND_SITES.baikonur!.lonDeg).toBeCloseTo(63.3, 2);
   });
 
   it("verifies ECI <-> ECEF coordinate transformation reversibility", () => {

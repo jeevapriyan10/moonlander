@@ -238,10 +238,10 @@ export default function TitlePage() {
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="text-slate-500">STAGE 1 RELEASE</span>
+          <span className="text-slate-500">STAGE 2 RELEASE</span>
           <div className="flex items-center gap-1 text-telemetry-green text-[11px]">
             <Sparkles className="w-3 h-3" />
-            <span>VERCEL EDGE COMPATIBLE</span>
+            <span>PHOTOREAL 3D ASTRO ENGINE</span>
           </div>
         </div>
       </footer>

@@ -1,6 +1,5 @@
-# MOONLANDER // Deep Space Mission Simulator
-
-[![CI](https://github.com/moonlander/moonlander/actions/workflows/ci.yml/badge.svg)](https://github.com/moonlander/moonlander/actions/workflows/ci.yml)
+# MOONLANDER 
+[![CI](https://github.com/jeevapriyan10/moonlander/actions/workflows/ci.yml/badge.svg)](https://github.com/jeevapriyan10/moonlander/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2-black)](https://nextjs.org/)
 [![TypeScript Strict](https://img.shields.io/badge/TypeScript-Strict%20noUncheckedIndexedAccess-blue)](https://www.typescriptlang.org/)
@@ -175,7 +174,7 @@ docs/
 
 ```bash
 # Clone repository
-git clone https://github.com/moonlander.git
+git clone https://github.com/jeevapriyan10/moonlander.git
 cd moonlander
 
 # Install pinned dependencies

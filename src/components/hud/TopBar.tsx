@@ -61,6 +61,7 @@ export const TopBar: React.FC = () => {
   const [missionName, setMissionName] = React.useState(currentMission.name);
   const [shareModalOpen, setShareModalOpen] = React.useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = React.useState(false);
+  const [creditsModalOpen, setCreditsModalOpen] = React.useState(false);
   const [onboardingOpen, setOnboardingOpen] = React.useState(false);
   const [importJsonText, setImportJsonText] = React.useState("");
   const [copiedShare, setCopiedShare] = React.useState(false);
@@ -365,20 +366,17 @@ export const TopBar: React.FC = () => {
               </span>
             </div>
             <div className="flex gap-1">
-              <Button
-                size="sm"
-                variant={graphicsQuality === "LOW" ? "primary" : "outline"}
-                onClick={() => setGraphicsQuality("LOW")}
-              >
-                Low
-              </Button>
-              <Button
-                size="sm"
-                variant={graphicsQuality === "HIGH" ? "primary" : "outline"}
-                onClick={() => setGraphicsQuality("HIGH")}
-              >
-                High
-              </Button>
+              {(["LOW", "MEDIUM", "HIGH", "ULTRA"] as const).map((q) => (
+                <Button
+                  key={q}
+                  size="sm"
+                  variant={graphicsQuality === q ? "primary" : "outline"}
+                  onClick={() => setGraphicsQuality(q)}
+                  className="text-[10px] px-2 py-0.5"
+                >
+                  {q === "LOW" ? "Low" : q === "MEDIUM" ? "Med" : q === "HIGH" ? "High" : "Ultra"}
+                </Button>
+              ))}
             </div>
           </div>
 
@@ -462,6 +460,21 @@ export const TopBar: React.FC = () => {
 
           <div className="pt-2 border-t border-space-border flex justify-between items-center">
             <span className="text-[11px] font-mono text-slate-400">
+              3D Textures & Astrodynamics Data Sources
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                setCreditsModalOpen(true);
+              }}
+            >
+              Asset Credits
+            </Button>
+          </div>
+
+          <div className="pt-2 border-t border-space-border flex justify-between items-center">
+            <span className="text-[11px] font-mono text-slate-400">
               Need to re-evaluate your flight experience?
             </span>
             <Button
@@ -474,6 +487,44 @@ export const TopBar: React.FC = () => {
             >
               Re-run Onboarding
             </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Asset Credits Modal */}
+      <Modal
+        isOpen={creditsModalOpen}
+        onClose={() => setCreditsModalOpen(false)}
+        title="3D Planetary Assets & Science Credits"
+        subtitle="Open-access NASA datasets, Solar System Scope maps, and astronomical ephemerides."
+        maxWidth="lg"
+      >
+        <div className="flex flex-col gap-3 text-xs font-mono text-slate-300 max-h-[60vh] overflow-y-auto pr-2">
+          <div className="p-3 rounded bg-black/40 border border-space-border">
+            <span className="text-telemetry-amber font-heading font-semibold text-sm uppercase block mb-1">
+              Celestial Body Textures
+            </span>
+            <p className="text-[11px] text-slate-400 mb-2">
+              Earth, Moon, Mars, Venus, Mercury, Jupiter, Saturn, Uranus, Neptune, Sun, and Milky Way skybox maps provided by <strong>Solar System Scope</strong> under Creative Commons Attribution 4.0 International (CC BY 4.0).
+            </p>
+            <p className="text-[11px] text-slate-400">
+              NASA Visible Earth &quot;Blue Marble&quot; and &quot;Black Marble&quot; (2016) night lights and cloud composites are in the public domain.
+            </p>
+          </div>
+
+          <div className="p-3 rounded bg-black/40 border border-space-border">
+            <span className="text-telemetry-cyan font-heading font-semibold text-sm uppercase block mb-1">
+              Astrodynamics & Ephemerides
+            </span>
+            <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-400">
+              <li>Analytical Keplerian ephemeris models based on NASA JPL Standish (1992).</li>
+              <li>Exoplanet confirmation data from the NASA Exoplanet Archive (Caltech/IPAC).</li>
+              <li>Historical space weather energetic particle events from NASA CCMC / DONKI.</li>
+            </ul>
+          </div>
+
+          <div className="p-3 rounded bg-black/40 border border-space-border text-[11px] text-slate-500 italic">
+            MoonLander is an educational space simulation game. No NASA, ESA, JAXA, or ISRO logos or trademarks are used, and no endorsement is implied.
           </div>
         </div>
       </Modal>

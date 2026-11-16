@@ -2,9 +2,12 @@
 
 import React, { Suspense, Component, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, Vignette, SMAA } from "@react-three/postprocessing";
+import * as THREE from "three";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { useSettingsStore } from "@/store/settings";
+import { Skybox } from "./Skybox";
+import { FrameRateMonitor } from "./FrameRateMonitor";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -55,7 +58,7 @@ const LoadingPlaceholder: React.FC = () => (
   <div className="w-full h-full flex flex-col items-center justify-center bg-space-950/80 pointer-events-none">
     <div className="w-8 h-8 rounded-full border border-telemetry-amber/30 border-t-telemetry-amber animate-spin mb-3" />
     <span className="font-mono text-[10px] text-telemetry-amber tracking-widest uppercase">
-      SYNCHRONIZING TELEMETRY STREAM...
+      CALIBRATING INSTRUMENTS...
     </span>
   </div>
 );
@@ -64,6 +67,7 @@ export interface CanvasWrapperProps {
   children: ReactNode;
   className?: string;
   enablePostProcessing?: boolean;
+  enableSkybox?: boolean;
   frameloop?: "always" | "demand" | "never";
 }
 
@@ -71,11 +75,21 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
   children,
   className = "w-full h-full relative",
   enablePostProcessing = true,
+  enableSkybox = true,
   frameloop,
 }) => {
   const graphicsQuality = useSettingsStore((s) => s.graphicsQuality);
   const bloomEnabled = useSettingsStore((s) => s.bloomEnabled);
-  const dpr: [number, number] = graphicsQuality === "HIGH" ? [1, 2] : [1, 1];
+  const reducedMotion = useSettingsStore((s) => s.reducedMotion);
+
+  const dpr: [number, number] =
+    graphicsQuality === "ULTRA"
+      ? [1, 2]
+      : graphicsQuality === "HIGH"
+      ? [1, 1.5]
+      : graphicsQuality === "MEDIUM"
+      ? [1, 1.25]
+      : [1, 1];
 
   const [isTabVisible, setIsTabVisible] = React.useState(true);
 
@@ -97,11 +111,14 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
             dpr={dpr}
             frameloop={effectiveFrameloop}
             gl={{
-              antialias: graphicsQuality === "HIGH",
+              antialias: graphicsQuality !== "LOW" && !enablePostProcessing,
               powerPreference: "high-performance",
               alpha: false,
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.05,
             }}
             onCreated={({ gl }) => {
+              gl.outputColorSpace = THREE.SRGBColorSpace;
               const dom = gl.domElement;
               const handleContextLost = (e: Event) => {
                 e.preventDefault();
@@ -113,33 +130,57 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
               dom.addEventListener("webglcontextlost", handleContextLost, false);
               dom.addEventListener("webglcontextrestored", handleContextRestored, false);
             }}
-            camera={{ position: [2.5, 1.8, 3.8], fov: 45, near: 0.1, far: 2000 }}
+            camera={{ position: [2.5, 1.8, 3.8], fov: 45, near: 0.1, far: 2500 }}
             className="w-full h-full bg-[#05070D]"
           >
             <color attach="background" args={["#05070D"]} />
+
+            {/* Inverted Equirectangular Milky Way Skybox */}
+            {enableSkybox && <Skybox />}
+
+            {/* Performance auto-downgrade frame monitor */}
+            <FrameRateMonitor />
+
             {/* Space Lighting Environment */}
-            <ambientLight intensity={0.4} color="#1E293B" />
+            <ambientLight intensity={0.25} color="#1E293B" />
             <directionalLight
               position={[12, 18, 10]}
-              intensity={2.0}
+              intensity={2.2}
               color="#FFFFFF"
-              castShadow={false}
+              castShadow={graphicsQuality !== "LOW"}
             />
             <directionalLight
               position={[-8, -10, -6]}
-              intensity={0.6}
+              intensity={0.4}
               color="#38BDF8"
             />
+
             {children}
-            {enablePostProcessing && graphicsQuality === "HIGH" && bloomEnabled && (
-              <EffectComposer multisampling={0}>
-                <Bloom
-                  intensity={0.45}
-                  luminanceThreshold={0.85}
-                  luminanceSmoothing={0.2}
-                  mipmapBlur
-                />
-              </EffectComposer>
+
+            {/* Post-Processing Pipeline (Medium+) */}
+            {enablePostProcessing && graphicsQuality !== "LOW" && !reducedMotion && (
+              graphicsQuality === "HIGH" || graphicsQuality === "ULTRA" ? (
+                <EffectComposer multisampling={0}>
+                  <Bloom
+                    intensity={bloomEnabled ? 0.4 : 0}
+                    luminanceThreshold={0.9}
+                    luminanceSmoothing={0.15}
+                    mipmapBlur
+                  />
+                  <Vignette eskil={false} offset={0.15} darkness={0.55} />
+                  <SMAA />
+                </EffectComposer>
+              ) : (
+                <EffectComposer multisampling={0}>
+                  <Bloom
+                    intensity={bloomEnabled ? 0.4 : 0}
+                    luminanceThreshold={0.9}
+                    luminanceSmoothing={0.15}
+                    mipmapBlur
+                  />
+                  <Vignette eskil={false} offset={0.15} darkness={0.55} />
+                </EffectComposer>
+              )
             )}
           </Canvas>
         </Suspense>

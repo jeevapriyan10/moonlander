@@ -248,7 +248,7 @@ export function validateMissionDesign(inputs: MissionDesignInputs): ValidationIs
         limit: `<= ${inputs.requiredPointingDeg}°`,
       },
       fixes: [
-        inputs.requiredPointingDeg < 0.01
+        inputs.requiredPointingDeg <= 0.005 || inputs.adcsPointingDeg <= 0.01
           ? {
               label: "Upgrade to Ultra-Fine Pointing Bench (0.001°)",
               patch: { adcsId: "adcs-fine-pointing" },

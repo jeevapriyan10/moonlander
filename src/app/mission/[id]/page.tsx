@@ -117,29 +117,51 @@ export default function MissionWorkspacePage() {
     }
   }, [hasHydrated, scenarioOrId]);
 
-  // Sync URL query stage (?stage=design) with store state, enforcing stage locks
+  // Synchronize URL query whenever currentStage changes
+  useEffect(() => {
+    if (!hasHydrated) return;
+    const currentQuery = searchParams.get("stage");
+    const targetQuery = STAGE_TO_QUERY[currentStage];
+    if (currentQuery !== targetQuery) {
+      router.replace(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
+    }
+  }, [hasHydrated, currentStage, scenarioOrId, searchParams, router]);
+
+  // Synchronize store when URL searchParams changes (e.g. browser back/forward or deep links)
   useEffect(() => {
     if (!hasHydrated) return;
     const stageQuery = searchParams.get("stage");
     if (stageQuery && QUERY_TO_STAGE[stageQuery]) {
       const requested = QUERY_TO_STAGE[stageQuery]!;
-      if (requested <= maxUnlockedStage) {
-        if (requested !== currentStage) {
+      const latestMax = useUIStore.getState().maxUnlockedStage;
+      if (requested <= latestMax) {
+        if (requested !== useUIStore.getState().currentStage) {
           setCurrentStage(requested);
         }
       } else {
         // Enforce stage lock: cannot bypass via URL
-        const safeStage = Math.max(1, maxUnlockedStage) as GameStage;
-        setCurrentStage(safeStage);
+        const safeStage = Math.max(1, latestMax) as GameStage;
+        if (safeStage !== useUIStore.getState().currentStage) {
+          setCurrentStage(safeStage);
+        }
         router.replace(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`);
       }
     }
-  }, [hasHydrated, searchParams, maxUnlockedStage, currentStage, scenarioOrId, router, setCurrentStage]);
+  }, [hasHydrated, searchParams, scenarioOrId, router, setCurrentStage]);
+
+  const advanceToStage = (stage: GameStage) => {
+    unlockStage(stage);
+    setCurrentStage(stage);
+    const targetQuery = STAGE_TO_QUERY[stage];
+    router.push(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
+  };
 
   const handleSelectStage = (stage: GameStage) => {
-    const safeStage = Math.min(stage, maxUnlockedStage) as GameStage;
+    const latestMax = useUIStore.getState().maxUnlockedStage;
+    const safeStage = Math.min(stage, latestMax) as GameStage;
     setCurrentStage(safeStage);
-    router.push(`/mission/${scenarioOrId}?stage=${STAGE_TO_QUERY[safeStage]}`, { scroll: false });
+    const targetQuery = STAGE_TO_QUERY[safeStage];
+    router.push(`/mission/${scenarioOrId}?stage=${targetQuery}`, { scroll: false });
   };
 
   if (!hasHydrated) {
@@ -166,19 +188,19 @@ export default function MissionWorkspacePage() {
       {/* 3. Stage View Router */}
       <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
         {currentStage === 1 && (
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
+          <div className="absolute inset-0 overflow-y-auto p-4 md:p-8">
             <ObjectiveStage />
           </div>
         )}
 
         {currentStage === 2 && (
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
+          <div className="absolute inset-0 overflow-y-auto p-4 md:p-8">
             <RequirementsStage />
           </div>
         )}
 
         {currentStage === 3 && (
-          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+          <div className="absolute inset-0 flex flex-col overflow-hidden">
             {/* Mobile Tab Switcher */}
             <div className="md:hidden flex items-center border-b border-space-border bg-space-panel px-2 py-1 gap-1 font-mono text-xs">
               <button
@@ -262,8 +284,7 @@ export default function MissionWorkspacePage() {
               >
                 <Dashboard
                   onProceedToOrbit={() => {
-                    unlockStage(4);
-                    handleSelectStage(4);
+                    advanceToStage(4);
                   }}
                 />
               </div>
@@ -284,17 +305,16 @@ export default function MissionWorkspacePage() {
         )}
 
         {currentStage === 4 && (
-          <div className="flex-1 min-h-0 h-full overflow-hidden relative flex flex-col">
+          <div className="absolute inset-0 flex flex-col overflow-hidden">
             {launchInProgress ? (
               <Launch
                 onComplete={() => {
                   setLaunchInProgress(false);
-                  unlockStage(5);
-                  handleSelectStage(5);
+                  advanceToStage(5);
                 }}
                 onReturnToDesign={() => {
                   setLaunchInProgress(false);
-                  handleSelectStage(3);
+                  advanceToStage(3);
                 }}
               />
             ) : (
@@ -306,13 +326,13 @@ export default function MissionWorkspacePage() {
         )}
 
         {currentStage === 5 && (
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
+          <div className="absolute inset-0 overflow-y-auto p-4 md:p-8">
             <SimulateStage />
           </div>
         )}
 
         {currentStage === 6 && (
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-8">
+          <div className="absolute inset-0 overflow-y-auto p-4 md:p-8">
             <DebriefStage />
           </div>
         )}

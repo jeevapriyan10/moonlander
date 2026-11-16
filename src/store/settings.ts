@@ -4,9 +4,10 @@ import { safeStateStorage, STORAGE_KEYS } from "@/lib/storage";
 
 export type CoachMode = "all" | "errors-only" | "off";
 export type DifficultyPreference = "YOUTH" | "INTERMEDIATE" | "ADVANCED";
+export type GraphicsQuality = "LOW" | "MEDIUM" | "HIGH" | "ULTRA";
 
 export interface SettingsState {
-  graphicsQuality: "LOW" | "HIGH";
+  graphicsQuality: GraphicsQuality;
   reducedMotion: boolean;
   soundEnabled: boolean;
   bloomEnabled: boolean;
@@ -19,7 +20,7 @@ export interface SettingsState {
   completedLessons: string[];
   unlockedParts: string[];
 
-  setGraphicsQuality: (quality: "LOW" | "HIGH") => void;
+  setGraphicsQuality: (quality: GraphicsQuality) => void;
   setReducedMotion: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setBloomEnabled: (enabled: boolean) => void;

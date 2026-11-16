@@ -7,6 +7,8 @@ import { useMissionStore } from "@/store/mission";
 import { solveKepler, trueAnomalyFromEccentric } from "@/engine/orbit";
 import { degToRad } from "@/engine/units";
 import { Earth } from "./Earth";
+import { Moon } from "./Moon";
+import { Mars } from "./Mars";
 
 export const OrbitView: React.FC = () => {
   const satelliteMarkerRef = useRef<THREE.Group>(null);
@@ -15,12 +17,13 @@ export const OrbitView: React.FC = () => {
   const { evaluation, currentMission } = useMissionStore();
   const { orbit } = evaluation;
 
-  // 1 unit = 1000 km
+  const isLunar = currentMission.orbitId === "llo-100" || currentMission.orbitId === "lunar-surface";
+  const isMars = currentMission.orbitId === "lmo-400";
+  const isDeepSpace = isLunar || isMars || currentMission.orbitId === "l1-halo" || currentMission.orbitId === "l2-halo";
+
+  // Celestial body radius in scene units (1 unit = 1000 km)
+  const R_Body = isLunar ? 1.737 : isMars ? 3.39 : 6.378137;
   const R_E = 6.378137;
-  const isDeepSpace =
-    currentMission.orbitId === "l1-halo" ||
-    currentMission.orbitId === "llo-100" ||
-    currentMission.orbitId === "lmo-400";
 
   // Scale down orbital parameters if lunar/deep-space to keep visible in viewport
   const displayScale = isDeepSpace ? 0.05 : 0.001;
@@ -75,12 +78,18 @@ export const OrbitView: React.FC = () => {
 
   return (
     <group dispose={null}>
-      {/* 1. Earth at origin */}
-      <Earth radius={R_E} showClouds={true} />
+      {/* 1. Primary Celestial Body at origin */}
+      {isLunar ? (
+        <Moon radius={R_Body} />
+      ) : isMars ? (
+        <Mars radius={R_Body} />
+      ) : (
+        <Earth radius={R_Body} showClouds={true} />
+      )}
 
-      {/* 2. Earth Cylindrical Shadow Cone (Anti-Sun Direction -Z) */}
+      {/* 2. Celestial Body Cylindrical Shadow Cone (Anti-Sun Direction -Z) */}
       <mesh position={[0, 0, -25]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[R_E, R_E, 50, 32, 1, true]} />
+        <cylinderGeometry args={[R_Body, R_Body, 50, 32, 1, true]} />
         <meshBasicMaterial
           color="#030712"
           transparent

@@ -50,7 +50,7 @@ const LaunchVehicle3D: React.FC<LaunchVehicle3DProps> = ({
   const stage2Ref = useRef<THREE.Group>(null);
   const fairingLeftRef = useRef<THREE.Mesh>(null);
   const fairingRightRef = useRef<THREE.Mesh>(null);
-  const exhaustPlumeRef = useRef<THREE.Mesh>(null);
+  const exhaustPlumeRef = useRef<THREE.Group>(null);
   const stage2PlumeRef = useRef<THREE.Mesh>(null);
 
   useFrame(({ camera }, delta) => {
@@ -163,16 +163,30 @@ const LaunchVehicle3D: React.FC<LaunchVehicle3DProps> = ({
               <coneGeometry args={[0.45, 0.6, 16, 1, true]} />
               <meshStandardMaterial color="#334155" roughness={0.4} metalness={0.8} />
             </mesh>
-            {/* Fiery Exhaust Plume */}
-            <mesh
-              ref={exhaustPlumeRef}
-              position={[0, -3.9, 0]}
-              rotation={[Math.PI, 0, 0]}
-            >
-              <coneGeometry args={[0.65, 2.6, 16]} />
-              <meshBasicMaterial color="#FFB000" transparent opacity={0.85} />
-            </mesh>
+            {/* Fiery Exhaust Plume with Core Supersonic Diamond */}
+            <group ref={exhaustPlumeRef} position={[0, -3.9, 0]}>
+              <mesh rotation={[Math.PI, 0, 0]}>
+                <coneGeometry args={[0.65, 2.6, 16]} />
+                <meshBasicMaterial color="#FF7700" transparent opacity={0.85} />
+              </mesh>
+              <mesh rotation={[Math.PI, 0, 0]} position={[0, 0.4, 0]}>
+                <coneGeometry args={[0.28, 1.6, 16]} />
+                <meshBasicMaterial color="#FFFBEB" transparent opacity={0.95} />
+              </mesh>
+              {/* Dynamic point light from rocket plume */}
+              <pointLight intensity={3.0} color="#FF9900" distance={20} decay={1.5} />
+            </group>
           </group>
+
+          {/* Dynamic Launchpad Ground Illumination at Liftoff */}
+          {tRef.current < 4.0 && (
+            <pointLight
+              position={[0, -5, 0]}
+              intensity={Math.max(0, (4.0 - tRef.current) * 3.5)}
+              color="#FF8C00"
+              distance={35}
+            />
+          )}
 
           {/* STAGE 2 UPPER STAGE */}
           <group ref={stage2Ref} position={[0, 1.2, 0]}>

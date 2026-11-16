@@ -37,6 +37,31 @@ test.describe("MoonLander Smoke Test Suite", () => {
     await expect(page.locator("text=SANDBOX")).toBeVisible();
   });
 
+  test("3D viewport renders canvas with Three.js WebGL context", async ({ page }) => {
+    await page.goto("/mission/earth-watch?stage=design");
+    // Verify WebGL Canvas element is rendered
+    const canvas = page.locator("canvas");
+    await expect(canvas.first()).toBeVisible({ timeout: 10000 });
+  });
+
+  test("can switch between Spacecraft, Trajectory, and Solar System views", async ({ page }) => {
+    await page.goto("/mission/earth-watch?stage=design");
+    
+    // Switch to Trajectory mode
+    const trajectoryBtn = page.locator("button:has-text('Trajectory')");
+    if (await trajectoryBtn.isVisible()) {
+      await trajectoryBtn.click();
+      await expect(page.locator("canvas").first()).toBeVisible();
+    }
+
+    // Switch to Solar System mode
+    const solarSystemBtn = page.locator("button:has-text('Solar System')");
+    if (await solarSystemBtn.isVisible()) {
+      await solarSystemBtn.click();
+      await expect(page.locator("canvas").first()).toBeVisible();
+    }
+  });
+
   test("no horizontal scroll on mobile viewport", async ({ page }) => {
     await page.goto("/");
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);

@@ -1,27 +1,64 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMissionStore } from "@/store/mission";
-import { createGoldMliTexture, createSolarCellTexture } from "./proceduralTextures";
+import {
+  createGoldMliTexture,
+  createMliNormalMap,
+  createSolarCellTexture,
+} from "./proceduralTextures";
+import { loadGltfModelSafe } from "./modelLoader";
 
 export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = false }) => {
   const groupRef = useRef<THREE.Group>(null);
   const leftWingRef = useRef<THREE.Group>(null);
   const rightWingRef = useRef<THREE.Group>(null);
 
-  const { currentMission, evaluation } = useMissionStore();
+  const { currentMission } = useMissionStore();
+
+  const [customModelScene, setCustomModelScene] = useState<THREE.Group | null>(null);
+
+  // Check if a custom GLTF model exists in public/models/<id>.glb
+  useEffect(() => {
+    let isCancelled = false;
+    loadGltfModelSafe(currentMission.busId).then((res) => {
+      if (!isCancelled && res.isCustomModel && res.scene) {
+        setCustomModelScene(res.scene);
+      } else if (!isCancelled) {
+        setCustomModelScene(null);
+      }
+    });
+    return () => {
+      isCancelled = true;
+    };
+  }, [currentMission.busId]);
 
   // Create PBR procedural textures
   const goldMliTexture = useMemo(() => createGoldMliTexture(), []);
+  const mliNormalMap = useMemo(() => createMliNormalMap(), []);
   const solarTexture = useMemo(
     () => createSolarCellTexture(currentMission.solarArrayId === "solar-gaas-triple"),
     [currentMission.solarArrayId]
   );
 
   // Sizing parameters derived from bus and design metrics
-  const busDiameter = Math.max(0.6, Math.min(2.5, currentMission.busId === "bus-cubesat-12u" ? 0.4 : currentMission.busId === "bus-microsat" ? 0.9 : currentMission.busId === "bus-smallsat" ? 1.4 : currentMission.busId === "bus-midsize" ? 2.0 : 2.5));
+  const busDiameter = Math.max(
+    0.6,
+    Math.min(
+      2.5,
+      currentMission.busId === "bus-cubesat-12u"
+        ? 0.45
+        : currentMission.busId === "bus-microsat"
+        ? 0.9
+        : currentMission.busId === "bus-smallsat"
+        ? 1.4
+        : currentMission.busId === "bus-midsize"
+        ? 2.0
+        : 2.5
+    )
+  );
   const busHeight = busDiameter * 1.3;
 
   // Solar array geometry sizing: Total area split across two symmetrical wings
@@ -53,70 +90,103 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
       groupRef.current.rotation.y += delta * 0.15;
     }
 
-    // Deploy animation ease-in to 0 degrees
-    if (leftWingRef.current && leftWingRef.current.rotation.z > 0.01) {
-      leftWingRef.current.rotation.z = THREE.MathUtils.lerp(leftWingRef.current.rotation.z, 0, delta * 3);
+    // Deploy animation ease-in to 0 degrees with smooth hinge dampening
+    if (leftWingRef.current && Math.abs(leftWingRef.current.rotation.z) > 0.005) {
+      leftWingRef.current.rotation.z = THREE.MathUtils.lerp(
+        leftWingRef.current.rotation.z,
+        0,
+        delta * 3.5
+      );
     }
-    if (rightWingRef.current && rightWingRef.current.rotation.z < -0.01) {
-      rightWingRef.current.rotation.z = THREE.MathUtils.lerp(rightWingRef.current.rotation.z, 0, delta * 3);
+    if (rightWingRef.current && Math.abs(rightWingRef.current.rotation.z) > 0.005) {
+      rightWingRef.current.rotation.z = THREE.MathUtils.lerp(
+        rightWingRef.current.rotation.z,
+        0,
+        delta * 3.5
+      );
     }
   });
 
   return (
     <group ref={groupRef} dispose={null}>
-      {/* 1. Main Spacecraft Central Bus Chassis */}
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[busDiameter, busHeight, busDiameter]} />
-        <meshStandardMaterial
-          map={goldMliTexture}
-          color="#D4AF37"
-          roughness={0.25}
-          metalness={0.9}
-        />
-      </mesh>
+      {/* If custom GLB model exists, render it; otherwise render procedural PBR model */}
+      {customModelScene ? (
+        <primitive object={customModelScene} />
+      ) : (
+        <group>
+          {/* 1. Main Spacecraft Central Bus Chassis with Crinkled MLI Foil */}
+          <mesh castShadow receiveShadow>
+            <boxGeometry args={[busDiameter, busHeight, busDiameter]} />
+            <meshStandardMaterial
+              map={goldMliTexture}
+              normalMap={mliNormalMap}
+              normalScale={new THREE.Vector2(0.4, 0.4)}
+              color="#D4AF37"
+              roughness={0.25}
+              metalness={0.92}
+            />
+          </mesh>
 
-      {/* Structural Corner Struts / Edge Rails */}
-      <mesh position={[busDiameter / 2, 0, busDiameter / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
-        <meshStandardMaterial color="#4A5568" metalness={0.8} roughness={0.3} />
-      </mesh>
-      <mesh position={[-busDiameter / 2, 0, busDiameter / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
-        <meshStandardMaterial color="#4A5568" metalness={0.8} roughness={0.3} />
-      </mesh>
-      <mesh position={[busDiameter / 2, 0, -busDiameter / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
-        <meshStandardMaterial color="#4A5568" metalness={0.8} roughness={0.3} />
-      </mesh>
-      <mesh position={[-busDiameter / 2, 0, -busDiameter / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
-        <meshStandardMaterial color="#4A5568" metalness={0.8} roughness={0.3} />
-      </mesh>
+          {/* White Thermal Radiator Side Panels */}
+          <mesh position={[busDiameter / 2 + 0.005, 0, 0]}>
+            <planeGeometry args={[busDiameter * 0.7, busHeight * 0.6]} />
+            <meshStandardMaterial
+              color="#F8FAFC"
+              roughness={0.85}
+              metalness={0.05}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+          <mesh position={[-busDiameter / 2 - 0.005, 0, 0]}>
+            <planeGeometry args={[busDiameter * 0.7, busHeight * 0.6]} />
+            <meshStandardMaterial
+              color="#F8FAFC"
+              roughness={0.85}
+              metalness={0.05}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+
+          {/* Structural Corner Struts / Edge Rails (Brushed Aluminium) */}
+          <mesh position={[busDiameter / 2, 0, busDiameter / 2]}>
+            <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.88} roughness={0.35} />
+          </mesh>
+          <mesh position={[-busDiameter / 2, 0, busDiameter / 2]}>
+            <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.88} roughness={0.35} />
+          </mesh>
+          <mesh position={[busDiameter / 2, 0, -busDiameter / 2]}>
+            <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.88} roughness={0.35} />
+          </mesh>
+          <mesh position={[-busDiameter / 2, 0, -busDiameter / 2]}>
+            <cylinderGeometry args={[0.02, 0.02, busHeight * 1.02, 8]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.88} roughness={0.35} />
+          </mesh>
+        </group>
+      )}
 
       {/* 2. Deployable Solar Arrays (Left & Right Wings) */}
       {/* Left Wing */}
       <group
         ref={leftWingRef}
         position={[-busDiameter / 2 - 0.05, 0, 0]}
-        rotation={[0, 0, 0.4]}
+        rotation={[0, 0, 0.45]}
       >
         {/* Support Yoke / Boom */}
         <mesh position={[-0.15, 0, 0]}>
           <boxGeometry args={[0.3, 0.06, 0.06]} />
-          <meshStandardMaterial color="#2D3748" metalness={0.7} roughness={0.4} />
+          <meshStandardMaterial color="#334155" metalness={0.85} roughness={0.3} />
         </mesh>
         {/* Solar Panel Blade */}
-        <mesh
-          position={[-0.3 - wingWidth / 2, 0, 0]}
-          castShadow
-          receiveShadow
-        >
+        <mesh position={[-0.3 - wingWidth / 2, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[wingWidth, wingHeight, 0.03]} />
           <meshStandardMaterial
             map={solarTexture}
             color="#0F172A"
             roughness={0.2}
-            metalness={0.7}
+            metalness={0.75}
           />
         </mesh>
       </group>
@@ -125,25 +195,21 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
       <group
         ref={rightWingRef}
         position={[busDiameter / 2 + 0.05, 0, 0]}
-        rotation={[0, 0, -0.4]}
+        rotation={[0, 0, -0.45]}
       >
         {/* Support Yoke / Boom */}
         <mesh position={[0.15, 0, 0]}>
           <boxGeometry args={[0.3, 0.06, 0.06]} />
-          <meshStandardMaterial color="#2D3748" metalness={0.7} roughness={0.4} />
+          <meshStandardMaterial color="#334155" metalness={0.85} roughness={0.3} />
         </mesh>
         {/* Solar Panel Blade */}
-        <mesh
-          position={[0.3 + wingWidth / 2, 0, 0]}
-          castShadow
-          receiveShadow
-        >
+        <mesh position={[0.3 + wingWidth / 2, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[wingWidth, wingHeight, 0.03]} />
           <meshStandardMaterial
             map={solarTexture}
             color="#0F172A"
             roughness={0.2}
-            metalness={0.7}
+            metalness={0.75}
           />
         </mesh>
       </group>
@@ -151,7 +217,6 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
       {/* 3. Communications Antenna Subsystem */}
       {hasParabolicDish && (
         <group position={[0, busHeight / 2 + 0.05, -busDiameter * 0.25]}>
-          {/* Gimbal Pedestal */}
           <mesh position={[0, 0.1, 0]}>
             <cylinderGeometry args={[0.04, 0.06, 0.2, 12]} />
             <meshStandardMaterial color="#4A5568" metalness={0.8} roughness={0.3} />
@@ -161,8 +226,8 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
             <coneGeometry args={[0.35, 0.12, 24, 1, true]} />
             <meshStandardMaterial
               color="#F8FAFC"
-              metalness={0.6}
-              roughness={0.2}
+              metalness={0.7}
+              roughness={0.25}
               side={THREE.DoubleSide}
             />
           </mesh>
@@ -188,14 +253,12 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
       )}
 
       {/* 4. Scientific Instruments */}
-      {/* Optical Telescope Baffle (Nadir-pointing bottom or top) */}
       {hasTelescope && (
         <group position={[0, busHeight / 2 + 0.25, busDiameter * 0.15]}>
           <mesh castShadow>
             <cylinderGeometry args={[0.22, 0.25, 0.5, 24]} />
             <meshStandardMaterial color="#0F172A" metalness={0.85} roughness={0.2} />
           </mesh>
-          {/* Gold Thermal Ring */}
           <mesh position={[0, 0.26, 0]}>
             <torusGeometry args={[0.22, 0.02, 16, 32]} />
             <meshStandardMaterial color="#F59E0B" metalness={0.9} roughness={0.2} />
@@ -203,81 +266,55 @@ export const Spacecraft: React.FC<{ autoRotate?: boolean }> = ({ autoRotate = fa
         </group>
       )}
 
-      {/* Quad TESS-like Photometer Cameras */}
       {hasTransitPhotometer && (
-        <group position={[0, busHeight / 2 + 0.15, 0]}>
-          {[-0.15, 0.15].map((x, xi) =>
-            [-0.15, 0.15].map((z, zi) => (
-              <group key={`${xi}-${zi}`} position={[x, 0, z]}>
-                <mesh>
-                  <cylinderGeometry args={[0.08, 0.09, 0.25, 16]} />
-                  <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.3} />
-                </mesh>
-                <mesh position={[0, 0.13, 0]}>
-                  <cylinderGeometry args={[0.07, 0.07, 0.02, 16]} />
-                  <meshStandardMaterial color="#38BDF8" metalness={0.9} roughness={0.1} />
-                </mesh>
-              </group>
-            ))
-          )}
+        <group position={[0, busHeight / 2 + 0.12, 0]}>
+          <mesh position={[-0.18, 0.1, -0.18]}>
+            <cylinderGeometry args={[0.09, 0.09, 0.22, 16]} />
+            <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+          </mesh>
+          <mesh position={[0.18, 0.1, -0.18]}>
+            <cylinderGeometry args={[0.09, 0.09, 0.22, 16]} />
+            <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+          </mesh>
+          <mesh position={[-0.18, 0.1, 0.18]}>
+            <cylinderGeometry args={[0.09, 0.09, 0.22, 16]} />
+            <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+          </mesh>
+          <mesh position={[0.18, 0.1, 0.18]}>
+            <cylinderGeometry args={[0.09, 0.09, 0.22, 16]} />
+            <meshStandardMaterial color="#1E293B" metalness={0.8} roughness={0.2} />
+          </mesh>
         </group>
       )}
 
-      {/* Synthetic Aperture Radar (SAR) Flat Phased-Array Panel */}
       {hasSAR && (
-        <mesh
-          position={[0, 0, busDiameter / 2 + 0.08]}
-          castShadow
-          receiveShadow
-        >
-          <boxGeometry args={[busDiameter * 1.4, busHeight * 0.8, 0.05]} />
-          <meshStandardMaterial
-            color="#E2E8F0"
-            metalness={0.7}
-            roughness={0.3}
-          />
-        </mesh>
+        <group position={[0, -busHeight / 2 - 0.1, 0]}>
+          <mesh position={[0, 0, 0]}>
+            <boxGeometry args={[busDiameter * 1.8, 0.04, 0.4]} />
+            <meshStandardMaterial color="#CBD5E1" metalness={0.85} roughness={0.25} />
+          </mesh>
+        </group>
       )}
 
-      {/* ADCS Dual Star Tracker Nubs */}
-      <group position={[busDiameter / 2 + 0.02, busHeight * 0.2, 0]} rotation={[0, 0, -0.6]}>
-        <mesh>
-          <cylinderGeometry args={[0.03, 0.04, 0.08, 12]} />
-          <meshStandardMaterial color="#1E293B" metalness={0.9} roughness={0.2} />
-        </mesh>
-        <mesh position={[0, 0.045, 0]}>
-          <sphereGeometry args={[0.02, 12, 12]} />
-          <meshStandardMaterial color="#38BDF8" roughness={0.1} metalness={0.9} />
-        </mesh>
-      </group>
-
-      {/* 5. Propulsion Thruster Assemblies (Aft / Bottom) */}
-      <group position={[0, -busHeight / 2, 0]}>
+      {/* 5. Propulsion Thruster Nozzle Assembly */}
+      <group position={[0, -busHeight / 2 - 0.15, 0]}>
         {isElectric ? (
-          // Hall Thruster Annular Ring with Blue Ion Glow
-          <group position={[0, -0.06, 0]}>
-            <mesh>
-              <cylinderGeometry args={[0.14, 0.16, 0.12, 24]} />
-              <meshStandardMaterial color="#334155" metalness={0.9} roughness={0.3} />
-            </mesh>
-            <mesh position={[0, -0.065, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.1, 0.025, 16, 32]} />
-              <meshStandardMaterial
-                color="#38BDF8"
-                emissive="#0284C7"
-                emissiveIntensity={2.5}
-                roughness={0.2}
-              />
-            </mesh>
-          </group>
+          <mesh position={[0, 0, 0]}>
+            <cylinderGeometry args={[0.12, 0.14, 0.16, 24]} />
+            <meshStandardMaterial
+              color="#0EA5E9"
+              emissive="#0284C7"
+              emissiveIntensity={0.6}
+              roughness={0.3}
+            />
+          </mesh>
         ) : (
-          // Chemical Liquid Rocket Engine Bell Nozzle
-          <mesh position={[0, -0.15, 0]} rotation={[Math.PI, 0, 0]}>
-            <coneGeometry args={[0.18, 0.3, 24, 1, true]} />
+          <mesh position={[0, 0, 0]}>
+            <coneGeometry args={[0.18, 0.35, 24, 1, true]} />
             <meshStandardMaterial
               color="#334155"
-              metalness={0.85}
-              roughness={0.3}
+              metalness={0.9}
+              roughness={0.2}
               side={THREE.DoubleSide}
             />
           </mesh>
