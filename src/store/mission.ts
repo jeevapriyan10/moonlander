@@ -70,7 +70,7 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 1200,
       propulsionId: "prop-biprop",
       propellantMassKg: 120,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-tolerant",
       thermalId: "thermal-passive",
       commsId: "comms-ka-band",
@@ -97,7 +97,7 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 450,
       propulsionId: "prop-biprop",
       propellantMassKg: 70,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-tolerant",
       thermalId: "thermal-passive",
       commsId: "comms-x-band",
@@ -124,7 +124,7 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 900,
       propulsionId: "prop-biprop",
       propellantMassKg: 110,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-hard",
       thermalId: "thermal-passive",
       commsId: "comms-x-band",
@@ -178,7 +178,7 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 2400,
       propulsionId: "prop-biprop",
       propellantMassKg: 280,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-hard",
       thermalId: "thermal-heat-pipes",
       commsId: "comms-ka-band",
@@ -259,7 +259,7 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 2200,
       propulsionId: "prop-biprop",
       propellantMassKg: 300,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-hard",
       thermalId: "thermal-heat-pipes",
       commsId: "comms-ka-band",
@@ -313,13 +313,13 @@ export function getDefaultMissionConfig(
       batteryCapacityWh: 2000,
       propulsionId: "prop-biprop",
       propellantMassKg: 400,
-      adcsId: "adcs-fine-pointing",
+      adcsId: "adcs-reaction-wheels",
       flightComputerId: "fc-rad-hard",
       thermalId: "thermal-heat-pipes",
       commsId: "comms-dsn-hga",
       groundNetworkId: "net-dsn-nsn",
       storageGb: 512,
-      selectedInstrumentIds: ["inst-sar-radar", "inst-hyperspectral"],
+      selectedInstrumentIds: ["inst-sar-radar", "inst-thermal-ir"],
     };
   }
 
@@ -332,10 +332,10 @@ export function getDefaultMissionConfig(
       difficulty,
       isSandbox,
       busId: "bus-flagship",
-      orbitId: "europa-flyby",
+      orbitId: "l1-halo",
       launcherId: "falcon-heavy",
-      solarArrayId: "solar-rtg-nuclear",
-      solarArrayAreaM2: 2.5,
+      solarArrayId: "solar-gaas-triple",
+      solarArrayAreaM2: 24.0,
       batteryId: "battery-li-ion-adv",
       batteryCapacityWh: 3000,
       propulsionId: "prop-biprop",
@@ -346,7 +346,7 @@ export function getDefaultMissionConfig(
       commsId: "comms-dsn-hga",
       groundNetworkId: "net-dsn-nsn",
       storageGb: 2048,
-      selectedInstrumentIds: ["inst-sar-radar", "inst-hyperspectral"],
+      selectedInstrumentIds: ["inst-sar-radar", "inst-thermal-ir"],
     };
   }
 
@@ -400,7 +400,7 @@ export function getDefaultMissionConfig(
       commsId: "comms-dsn-hga",
       groundNetworkId: "net-dsn-nsn",
       storageGb: 512,
-      selectedInstrumentIds: ["inst-landing-lidar", "inst-hyperspectral"],
+      selectedInstrumentIds: ["inst-thermal-ir", "inst-landing-lidar"],
     };
   }
 

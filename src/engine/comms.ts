@@ -83,7 +83,7 @@ export function computeDownlinkCapacityGb(
  * Computes effective contact minutes per day for an orbit and ground network.
  */
 export function computeEffectiveContactMinutes(
-  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER" | "VENUS" | "TITAN" | "ASTEROID",
+  orbitType: "LEO" | "SSO" | "MEO" | "GEO" | "HEO" | "L1" | "L2" | "LUNAR" | "SURFACE" | "MARS" | "JUPITER",
   passesPerDayPerStation: number,
   meanPassDurationSeconds: number,
   network: GroundNetworkSpec,
@@ -100,10 +100,7 @@ export function computeEffectiveContactMinutes(
     orbitType === "LUNAR" ||
     orbitType === "SURFACE" ||
     orbitType === "MARS" ||
-    orbitType === "JUPITER" ||
-    orbitType === "VENUS" ||
-    orbitType === "TITAN" ||
-    orbitType === "ASTEROID"
+    orbitType === "JUPITER"
   ) {
     // Deep space missions rely on scheduled tracking passes via DSN / NSN
     if (!network.deepSpaceSupport) {

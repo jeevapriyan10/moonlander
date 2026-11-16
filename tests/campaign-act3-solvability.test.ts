@@ -65,7 +65,7 @@ describe("Stage 3 Phase B: Scenario Solvability & Catalog Search Tests", () => {
         groundNetworkId: "net-dedicated-single",
         storageGb: 64,
         selectedInstrumentIds: [],
-        orbitId: sc.targetOrbitId,
+        orbitId: sc.recommendedOrbitId,
         launcherId: "electron",
       };
 
@@ -89,7 +89,7 @@ describe("Stage 3 Phase B: Scenario Solvability & Catalog Search Tests", () => {
       }
 
       // Perturb bus, propulsion, solar array, and launcher
-      const candidateLaunchers = ["falcon-heavy", "atlas-v-551", "sls-block-1", "falcon-9"];
+      const candidateLaunchers = ["falcon-heavy", "sls-block-1", "ariane-64", "falcon-9", "vulcan-vc6"];
       const candidateBuses = ["bus-flagship", "bus-lander", "bus-midsize", "bus-smallsat"];
       const candidateProps = ["prop-biprop", "prop-descent-throttleable", "prop-mars-retro", "prop-hall-electric"];
       const candidateSolars = ["solar-gaas-triple", "solar-rtg-nuclear", "solar-silicon"];
@@ -103,7 +103,7 @@ describe("Stage 3 Phase B: Scenario Solvability & Catalog Search Tests", () => {
                 busId,
                 propulsionId: propId,
                 solarArrayId: solarId,
-                solarArrayAreaM2: solarId === "solar-rtg-nuclear" ? Math.max(baseline.solarArrayAreaM2, 2.0) : Math.max(baseline.solarArrayAreaM2, 6.0),
+                solarArrayAreaM2: solarId === "solar-rtg-nuclear" ? 1.0 : Math.max(baseline.solarArrayAreaM2, 6.0),
                 launcherId: launchId,
                 batteryId: "battery-li-ion-adv",
                 batteryCapacityWh: Math.max(baseline.batteryCapacityWh, 1500),
