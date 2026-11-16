@@ -1,0 +1,98 @@
+[
+  {
+    "id": "apollo-11",
+    "name": "Apollo 11 // Mare Tranquillitatis",
+    "body": "moon",
+    "latDeg": 0.67408,
+    "lonDeg": 23.47297,
+    "elevationM": -1250,
+    "safeRadiusM": 80,
+    "scienceTargetOffsetM": 120,
+    "targetDescription": "West Crater boulder field sample rim",
+    "historicalNotes": "First crewed lunar landing by Neil Armstrong and Buzz Aldrin on July 20, 1969. Armstrong manually steered past a football-field-sized boulder field with ~25 seconds of fuel remaining."
+  },
+  {
+    "id": "apollo-12",
+    "name": "Apollo 12 // Oceanus Procellarum",
+    "body": "moon",
+    "latDeg": -3.01239,
+    "lonDeg": -23.42157,
+    "elevationM": -1400,
+    "safeRadiusM": 60,
+    "scienceTargetOffsetM": 50,
+    "targetDescription": "Surveyor 3 robotic probe retrieval site",
+    "historicalNotes": "Pinpoint touchdown within 160 meters of the robotic Surveyor 3 lander, demonstrating precision lunar guidance."
+  },
+  {
+    "id": "apollo-15",
+    "name": "Apollo 15 // Hadley-Apennine",
+    "body": "moon",
+    "latDeg": 26.13222,
+    "lonDeg": 3.63386,
+    "elevationM": -1800,
+    "safeRadiusM": 75,
+    "scienceTargetOffsetM": 140,
+    "targetDescription": "Hadley Rille basaltic lava gorge rim",
+    "historicalNotes": "First 'J-mission' featuring the Lunar Roving Vehicle near the 4,000-meter peaks of the Apennine Mountains."
+  },
+  {
+    "id": "apollo-17",
+    "name": "Apollo 17 // Taurus-Littrow Valley",
+    "body": "moon",
+    "latDeg": 20.19080,
+    "lonDeg": 30.77168,
+    "elevationM": -2100,
+    "safeRadiusM": 70,
+    "scienceTargetOffsetM": 100,
+    "targetDescription": "Shorty Crater orange pyroclastic soil deposit",
+    "historicalNotes": "Final Apollo landing conducted by Eugene Cernan and geologist Harrison Schmitt in a deep mountain-flanked valley."
+  },
+  {
+    "id": "chandrayaan-3",
+    "name": "Chandrayaan-3 // Shiv Shakti Point",
+    "body": "moon",
+    "latDeg": -69.36762,
+    "lonDeg": 32.34812,
+    "elevationM": -1850,
+    "safeRadiusM": 90,
+    "scienceTargetOffsetM": 85,
+    "targetDescription": "South Pole highland volatiles deposit",
+    "historicalNotes": "ISRO's historic August 2023 soft landing, making India the first nation to touch down in the lunar southern polar highlands."
+  },
+  {
+    "id": "change-4",
+    "name": "Chang'e 4 // Von Kármán Crater (Farside)",
+    "body": "moon",
+    "latDeg": -45.45,
+    "lonDeg": 177.59,
+    "elevationM": -4500,
+    "safeRadiusM": 85,
+    "scienceTargetOffsetM": 150,
+    "targetDescription": "South Pole-Aitken basin mantle ejecta",
+    "historicalNotes": "First soft landing on the lunar far side in January 2019, communicating via the Queqiao relay satellite at Earth-Moon L2."
+  },
+  {
+    "id": "artemis-shackleton",
+    "name": "Artemis III // Shackleton Connecting Ridge",
+    "body": "moon",
+    "latDeg": -89.9,
+    "lonDeg": 0.0,
+    "elevationM": -800,
+    "safeRadiusM": 65,
+    "scienceTargetOffsetM": 60,
+    "targetDescription": "Permanently shadowed crater volatile ice trap",
+    "historicalNotes": "Artemis polar exploration candidate featuring peaks of eternal light adjacent to sub-surface cryogenic ice reserves."
+  },
+  {
+    "id": "jezero-crater",
+    "name": "Perseverance // Jezero Crater Delta",
+    "body": "mars",
+    "latDeg": 18.38,
+    "lonDeg": 77.58,
+    "elevationM": -2500,
+    "safeRadiusM": 110,
+    "scienceTargetOffsetM": 180,
+    "targetDescription": "Ancient lacustrine river delta fan",
+    "historicalNotes": "Mars 2020 entry, descent, and landing using Range Trigger and Terrain-Relative Navigation to land directly beside ancient river channels."
+  }
+]

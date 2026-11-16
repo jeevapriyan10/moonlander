@@ -575,7 +575,7 @@ export const CAMPAIGN_CHAPTERS: CampaignChapter[] = [
           "ep-1": {
             type: "say",
             speaker: "okafor",
-            text: "LUNAR ORBIT INSERTION CONFIRMED! Pathfinder has captured into a 100 km polar orbit! Radar sounders indicate thick subsurface water ice in the permanently shadowed regions. You have proven Meridian's engineering supremacy.\n\n[CONGRATULATIONS: STAGE 2 CAMPAIGN COMPLETED]\nChapter 6: 'Touchdown' (Lunar Descent & Surface Landing) and Act III: 'Worlds' (Mars, Venus, Europa, Titan) await in Stage 3! All Free Missions and Sandbox modes are now fully open.",
+            text: "LUNAR ORBIT INSERTION CONFIRMED! Pathfinder has captured into a 100 km polar orbit! Radar sounders indicate thick subsurface water ice in the permanently shadowed regions. You have proven Meridian's engineering supremacy.\n\n[CONGRATULATIONS: ORBITAL RECONNAISSANCE COMPLETED]\nProceed to Chapter 6: 'Touchdown' for the final powered descent to the lunar surface!",
           },
         },
       },
@@ -596,6 +596,105 @@ export const CAMPAIGN_CHAPTERS: CampaignChapter[] = [
             type: "say",
             speaker: "okafor",
             text: "Lunar insertion burn failed to ignite. Spacecraft sailed past the Moon into heliocentric graveyard orbit.",
+          },
+        },
+      },
+    },
+  },
+
+  // ACT II - CHAPTER 6: TOUCHDOWN
+  {
+    id: "ch-6",
+    act: 2,
+    order: 6,
+    title: "Act II - Chapter 6: Touchdown",
+    subtitle: "Shackleton Crater Terminal Powered Descent",
+    briefingDate: "December 21, 2042",
+    summary: "Execute the critical deorbit braking burn, transition through High Gate at 2,000 meters, and soft-land the Artemis Shackleton Lander beside the lunar South Pole ice traps.",
+    linkedScenarioId: "lunar-south-pole",
+    rewards: {
+      xp: 2500,
+      reputation: { science: 35, public: 35, treasury: 25 },
+    },
+    briefing: {
+      startNodeId: "node-1",
+      nodes: {
+        "node-1": {
+          type: "say",
+          speaker: "okafor",
+          text: "This is the signature moment of the Meridian program, Director: Touchdown. Lunar Pathfinder mapped the terrain; now we put boots and instruments on the regolith.",
+          nextNodeId: "node-2",
+        },
+        "node-2": {
+          type: "say",
+          speaker: "arai",
+          text: "Terminal powered descent is unforgiving. You enter High Gate at 2,000 meters altitude with 100 m/s forward speed. Your propellant budget must account for orbital braking plus hover margin. Touch down faster than 3.5 m/s or tilt past 15 degrees, and the legs will shear.",
+          nextNodeId: "node-3",
+        },
+        "node-3": {
+          type: "say",
+          speaker: "hale",
+          text: "The civilian council is watching live across three continents. A flawless touchdown unlocks Act III deep-space exploration to Mars and beyond. Keep your eyes on the radar altimeter.",
+          nextNodeId: "node-4",
+        },
+        "node-4": {
+          type: "choice",
+          prompt: "Select landing flight control doctrine:",
+          options: [
+            {
+              label: "Closed-loop autonomous autopilot with Terrain-Relative Navigation.",
+              description: "Vector acceleration guidance targeting the optimal safe plateau.",
+              effects: { rep: { science: 5, treasury: -2 } },
+              nextNodeId: "node-auto",
+            },
+            {
+              label: "Pilot command authority with assisted rate damping.",
+              description: "Manual throttle control with attitude stability assistance.",
+              effects: { rep: { public: 6, science: -1 } },
+              nextNodeId: "node-manual",
+            },
+          ],
+        },
+        "node-auto": {
+          type: "say",
+          speaker: "arai",
+          text: "Autonomous guidance program loaded. Computer has flight control. Monitor radar lock closely.",
+        },
+        "node-manual": {
+          type: "say",
+          speaker: "okafor",
+          text: "Manual stick authority granted. Watch your sink rate and propellant reserve. Bring her home.",
+        },
+      },
+    },
+    epilogue: {
+      success: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "okafor",
+            text: "CONTACT LIGHT! TOUCHDOWN CONFIRMED! Meridian Base is on the surface of the Moon! Surface instruments report cryogenic water ice in the regolith. You have achieved immortality in aerospace history.",
+          },
+        },
+      },
+      partial: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "arai",
+            text: "Hard touchdown near crater rim. One landing strut collapsed on boulder ejecta, but payload chassis and antenna are operational.",
+          },
+        },
+      },
+      failure: {
+        startNodeId: "ep-1",
+        nodes: {
+          "ep-1": {
+            type: "say",
+            speaker: "hale",
+            text: "Telemetry lost on terminal descent. Impact velocity exceeded structural limits. The council demands an immediate safety board inquiry.",
           },
         },
       },

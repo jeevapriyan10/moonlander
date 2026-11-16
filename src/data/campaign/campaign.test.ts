@@ -5,7 +5,7 @@ import { scenarios } from "@/data";
 import type { DialogScene, ScriptNode } from "./types";
 
 describe("Meridian Space Authority Campaign Narrative Graph", () => {
-  it("includes all Stage 2 required chapters (Prologue + Act I + Act II)", () => {
+  it("includes all Stage 2 & Stage 3 required chapters (Prologue + Act I + Act II + Ch 6 Touchdown)", () => {
     const ids = CAMPAIGN_CHAPTERS.map((c) => c.id);
     expect(ids).toContain("prologue");
     expect(ids).toContain("ch-1");
@@ -13,7 +13,8 @@ describe("Meridian Space Authority Campaign Narrative Graph", () => {
     expect(ids).toContain("ch-3");
     expect(ids).toContain("ch-4");
     expect(ids).toContain("ch-5");
-    expect(CAMPAIGN_CHAPTERS.length).toBe(6);
+    expect(ids).toContain("ch-6");
+    expect(CAMPAIGN_CHAPTERS.length).toBeGreaterThanOrEqual(7);
   });
 
   it("links every chapter to a valid, playable mission scenario", () => {

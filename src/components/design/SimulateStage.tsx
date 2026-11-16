@@ -16,6 +16,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { StatReadout } from "@/components/ui/StatReadout";
+import { LanderView } from "@/components/three/LanderView";
 import {
   Activity,
   ArrowRight,
@@ -36,12 +37,18 @@ import {
   CheckCircle2,
   Clock,
   Sparkles,
+  Rocket,
 } from "lucide-react";
 
 export const SimulateStage: React.FC = () => {
   const { currentMission, evaluation, setOpsResult } = useMissionStore();
   const { setCurrentStage, unlockStage } = useUIStore();
 
+  const isLandingMission =
+    currentMission.orbitId === "lunar-surface" ||
+    currentMission.scenarioId === "lunar-south-pole";
+
+  const [mode, setMode] = useState<"ops" | "descent">(isLandingMission ? "descent" : "ops");
   const [autopilot, setAutopilot] = useState<boolean>(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [speed, setSpeed] = useState<number>(5); // 1x, 5x, 25x
@@ -117,6 +124,36 @@ export const SimulateStage: React.FC = () => {
 
   const isCompleted = currentStep >= totalSteps;
 
+  if (mode === "descent") {
+    return (
+      <div className="w-full h-full min-h-[680px] flex flex-col relative rounded-lg overflow-hidden border border-space-border bg-space-bg animate-in fade-in duration-300">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-space-panel border-b border-space-border z-20">
+          <div className="flex items-center gap-2">
+            <Badge variant="info" size="sm">STAGE 05 : POWERED DESCENT</Badge>
+            <span className="font-heading text-sm text-slate-200 uppercase tracking-wider font-bold">
+              {currentMission.name} &bull; Terminal Landing Guidance
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMode("ops")}
+            className="px-3 py-1.5 font-mono text-xs text-slate-300 hover:text-white border border-space-border hover:bg-space-border rounded transition-colors"
+          >
+            View Operations Timeline
+          </button>
+        </div>
+        <div className="flex-1 relative min-h-[600px] overflow-hidden">
+          <LanderView
+            onExit={() => {
+              unlockStage(6);
+              setCurrentStage(6);
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto p-4 md:p-6 flex flex-col gap-6 animate-in fade-in duration-300">
       {/* 1. Mission Operations Status Bar */}
@@ -157,8 +194,17 @@ export const SimulateStage: React.FC = () => {
           </div>
         </div>
 
-        {/* MET Clock & Autopilot Switch */}
+        {/* MET Clock, Descent Button & Autopilot Switch */}
         <div className="flex items-center gap-3 font-mono text-xs">
+          <button
+            type="button"
+            onClick={() => setMode("descent")}
+            className="flex items-center gap-1.5 px-3 py-2 rounded bg-telemetry-amber/20 border border-telemetry-amber text-telemetry-amber font-mono text-xs font-bold uppercase hover:bg-telemetry-amber/30 transition-colors"
+          >
+            <Rocket className="w-4 h-4" />
+            <span>Powered Descent</span>
+          </button>
+
           <div className="p-2 rounded bg-space-950 border border-space-border text-center">
             <span className="text-[10px] text-slate-500 uppercase block">Mission Elapsed Time</span>
             <span className="text-base font-bold text-telemetry-amber">

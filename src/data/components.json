@@ -109,6 +109,48 @@
       "thrustN": 0.08,
       "costM": 8.0,
       "trl": 7
+    },
+    {
+      "id": "prop-descent-throttleable",
+      "name": "Deep-Throttle Bipropellant Descent Engine",
+      "explain": "Pintle-injector throttleable engine (10-100%) delivering controllable braking thrust for precision soft touchdowns on airless bodies.",
+      "basis": "Apollo LM Descent Propulsion System (DPS) / Chandrayaan-3 800N cluster, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "biprop",
+      "ispSeconds": 318,
+      "dryMassKg": 42.0,
+      "powerW": 45,
+      "thrustN": 7500.0,
+      "costM": 6.8,
+      "trl": 9
+    },
+    {
+      "id": "prop-descent-fixed",
+      "name": "High-Thrust Pulsed Landing Cluster",
+      "explain": "Fixed-thrust solid/bipropellant rocket motor cluster providing maximum deceleration thrust with rapid pulsing for terminal descent.",
+      "basis": "Surveyor Retrorocket / Chang'e Descent Cluster, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "type": "biprop",
+      "ispSeconds": 295,
+      "dryMassKg": 34.0,
+      "powerW": 30,
+      "thrustN": 6000.0,
+      "costM": 4.2,
+      "trl": 9
+    },
+    {
+      "id": "prop-mars-retro",
+      "name": "Mars Terminal Retro-Rocket Pack",
+      "explain": "High-thrust hydrazine monopropellant pulsed retro-rocket pack engineered for terminal deceleration through thin Martian atmosphere.",
+      "basis": "Phoenix / InSight / Mars 2020 Sky Crane descent stage, approximate, game-balanced",
+      "minLevel": "ADVANCED",
+      "type": "monoprop",
+      "ispSeconds": 240,
+      "dryMassKg": 48.0,
+      "powerW": 35,
+      "thrustN": 12000.0,
+      "costM": 7.5,
+      "trl": 9
     }
   ],
   "flightComputers": [
@@ -185,6 +227,18 @@
       "powerW": 65.0,
       "costM": 9.5,
       "trl": 7
+    },
+    {
+      "id": "adcs-rcs-pulse",
+      "name": "High-Rate Cold Gas & Bipropellant RCS Quads",
+      "explain": "Fast-response reaction control system providing agile attitude maneuvering and rapid pitch/roll correction during powered descent.",
+      "basis": "Apollo LM RCS Quad Assembly / Aerojet Rocketdyne MR-103, approximate, game-balanced",
+      "minLevel": "INTERMEDIATE",
+      "pointingAccuracyDeg": 0.05,
+      "massKg": 18.0,
+      "powerW": 15.0,
+      "costM": 2.8,
+      "trl": 9
     }
   ],
   "thermals": [

@@ -9,6 +9,7 @@ export { FrameRateMonitor } from "./FrameRateMonitor";
 export { OrbitView } from "./OrbitView";
 export { SolarSystemView } from "./SolarSystemView";
 export { Launch } from "./Launch";
+export { LanderView } from "./LanderView";
 export { CameraRig } from "./CameraRig";
 export type { CameraPreset } from "./CameraRig";
 export { CanvasWrapper } from "./CanvasWrapper";

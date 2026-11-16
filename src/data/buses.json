@@ -63,5 +63,18 @@
     "baseCostM": 150.0,
     "baseScheduleMonths": 60,
     "defaultPointingDeg": 0.001
+  },
+  {
+    "id": "bus-lander",
+    "name": "Artemis-Class Lunar Lander Bus",
+    "explain": "Quad-leg reinforced landing platform equipped with crushable shock-absorbing struts, descent propellant tanks, and omni-directional hazard LIDAR mounts.",
+    "basis": "Apollo LM / NASA CLPS Nova-C / Chandrayaan-3 Lander, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "structuralMassKg": 650.0,
+    "maxDryMassKg": 2400.0,
+    "diameterM": 3.8,
+    "baseCostM": 55.0,
+    "baseScheduleMonths": 36,
+    "defaultPointingDeg": 0.05
   }
 ]

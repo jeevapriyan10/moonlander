@@ -17,3 +17,4 @@ export * from "./science";
 export * from "./launch";
 export * from "./validate";
 export * from "./evaluate";
+export * from "./lander";

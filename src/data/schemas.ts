@@ -363,3 +363,16 @@ export const AchievementDataSchema = z.object({
   unlockRequirement: z.string(),
   criteria: z.record(z.any()).optional(),
 });
+
+export const LandingSiteSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  body: z.enum(["moon", "mars"]),
+  latDeg: z.number(),
+  lonDeg: z.number(),
+  elevationM: z.number(),
+  safeRadiusM: z.number().positive(),
+  scienceTargetOffsetM: z.number().positive().optional(),
+  targetDescription: z.string(),
+  historicalNotes: z.string().optional(),
+});

@@ -10,6 +10,7 @@ import {
   exoplanets,
   spaceWeather,
   realMissions,
+  landingSites,
   getCatalogLookup,
 } from "./index";
 import { evaluateMission, type MissionDesignConfig } from "../engine/evaluate";
@@ -34,6 +35,17 @@ describe("Data Integrity & Schema Validation Tests", () => {
     checkUnique(exoplanets, "exoplanets");
     checkUnique(spaceWeather, "spaceWeather");
     checkUnique(realMissions, "realMissions");
+    checkUnique(landingSites, "landingSites");
+  });
+
+  it("landing sites catalog contains 8 verified lunar and martian landing sites", () => {
+    expect(landingSites.length).toBe(8);
+    for (const site of landingSites) {
+      expect(site.id.length).toBeGreaterThan(0);
+      expect(site.name.length).toBeGreaterThan(0);
+      expect(site.safeRadiusM).toBeGreaterThanOrEqual(50);
+      expect(site.targetDescription.length).toBeGreaterThan(0);
+    }
   });
 
   it("has 8 playable destinations covering terrestrial, lagrange, lunar, and interplanetary regimes", () => {

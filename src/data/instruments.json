@@ -164,5 +164,41 @@
     "requiresCryo": false,
     "requiredPointingDeg": 0.001,
     "fieldOfViewDeg2": 25.0
+  },
+  {
+    "id": "inst-landing-lidar",
+    "name": "Flash LIDAR & Hazard Detection Suite",
+    "explain": "High-rate 3D pulsed laser imaging system providing real-time terrain-relative navigation, slope analysis, and boulder avoidance.",
+    "basis": "NASA Autonomous Landing Hazard Avoidance Technology (ALHAT) / Chandrayaan-3 Hazard Detection and Avoidance Camera, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "category": "radar",
+    "baseScienceValue": 80,
+    "massKg": 22.0,
+    "avgPowerW": 35.0,
+    "peakPowerW": 65.0,
+    "dataRateMbps": 15.0,
+    "maxDutyCycle": 0.90,
+    "costM": 12.0,
+    "trl": 9,
+    "requiresCryo": false,
+    "requiredPointingDeg": 0.1
+  },
+  {
+    "id": "inst-surface-spectrometer",
+    "name": "Alpha Particle X-Ray Spectrometer & Drill",
+    "explain": "Surface deployment package with a curium-244 radiation source and rock drill for elemental rock composition and water-ice volatile analysis.",
+    "basis": "Mars Exploration Rover APXS / Chandrayaan-3 ChaSTE payload, approximate, game-balanced",
+    "minLevel": "ADVANCED",
+    "category": "spectrometer",
+    "baseScienceValue": 120,
+    "massKg": 16.0,
+    "avgPowerW": 22.0,
+    "peakPowerW": 40.0,
+    "dataRateMbps": 2.0,
+    "maxDutyCycle": 0.50,
+    "costM": 16.0,
+    "trl": 9,
+    "requiresCryo": false,
+    "requiredPointingDeg": 0.5
   }
 ]
