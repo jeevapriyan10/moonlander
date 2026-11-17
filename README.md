@@ -1,4 +1,4 @@
-# MOONLANDER // Deep Space Mission Simulator & Lunar Descent
+# MOONLANDER 
 
 [![CI](https://github.com/jeevapriyan10/moonlander/actions/workflows/ci.yml/badge.svg)](https://github.com/jeevapriyan10/moonlander/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
