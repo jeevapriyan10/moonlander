@@ -1551,7 +1551,7 @@
     "gameplayImpact": "Demands MMRTG nuclear power and autonomous flight decision-making due to the 80-minute one-way radio latency.",
     "formula": "P_surface = 1.47 bar, T_surface = 94 K, g = 1.35 m/s²",
     "externalUrl": "https://science.nasa.gov/saturn/moons/titan/",
-    "relatedIds": ["dragonfly", "rtg-nuclear", "cassini"]
+    "relatedIds": ["cassini-huygens", "rtg-nuclear", "atmospheric-drag"]
   },
   {
     "id": "venus",
@@ -1564,7 +1564,7 @@
     "gameplayImpact": "Requires titanium pressure hull insulation and high-frequency radar sensors to pierce the opaque global cloud layers.",
     "formula": "T_surface = 737 K, P_surface = 92 bar, ρ_atm = 67 kg/m³",
     "externalUrl": "https://science.nasa.gov/venus/",
-    "relatedIds": ["davinci-plus", "sar-radar"]
+    "relatedIds": ["atmospheric-drag", "solar-flux", "bipropellant"]
   },
   {
     "id": "asteroid-bennu",
@@ -1577,7 +1577,7 @@
     "gameplayImpact": "Tests micro-impulse navigation and autonomous touch-and-go proximity operations where spacecraft thrusters easily kick up debris.",
     "formula": "g_surface ≈ 10 µm/s², v_escape ≈ 0.2 m/s",
     "externalUrl": "https://science.nasa.gov/mission/osiris-rex/",
-    "relatedIds": ["osiris-rex", "delta-v"]
+    "relatedIds": ["gravity-assist", "delta-v", "escape-velocity"]
   },
   {
     "id": "rtg-nuclear",
@@ -1590,7 +1590,7 @@
     "gameplayImpact": "Provides steady, indestructible power for outer solar system missions (Europa, Titan) and polar darkness where solar arrays produce zero watts.",
     "formula": "P(t) = P_0 · e^{-λ · t}, λ = ln(2) / 87.7 yr ≈ 0.0079 yr^{-1}",
     "externalUrl": "https://solarsystem.nasa.gov/missions/radioisotope-power-systems/",
-    "relatedIds": ["dragonfly", "titan", "europa-clipper"]
+    "relatedIds": ["titan", "europa-clipper", "voyager-1"]
   },
   {
     "id": "mars-jezero",
@@ -1603,6 +1603,6 @@
     "gameplayImpact": "Demands precision powered descent with Terrain-Relative Navigation to steer past boulder fields and steep delta scarps.",
     "formula": "Elev = -2,500 m, Lat = 18.38°N, Lon = 77.58°E",
     "externalUrl": "https://mars.nasa.gov/mars2020/mission/science/landing-site/",
-    "relatedIds": ["perseverance", "mars-transfer"]
+    "relatedIds": ["mro", "atmospheric-drag", "bipropellant"]
   }
 ]

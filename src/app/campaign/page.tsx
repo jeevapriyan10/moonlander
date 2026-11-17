@@ -48,33 +48,6 @@ export default function CampaignPage() {
   const [inspectingChapter, setInspectingChapter] = useState<CampaignChapter | null>(null);
   const [inBriefing, setInBriefing] = useState(false);
 
-  if (!hasHydrated) {
-    return (
-      <div className="min-h-screen bg-space-bg flex items-center justify-center p-6 text-telemetry-amber font-mono text-xs">
-        ESTABLISHING MERIDIAN COMMAND LINK...
-      </div>
-    );
-  }
-
-  const handleStartBriefing = (chapter: CampaignChapter) => {
-    setInspectingChapter(chapter);
-    setInBriefing(true);
-  };
-
-  const handleLaunchMission = (chapter: CampaignChapter) => {
-    createMission(chapter.linkedScenarioId, "INTERMEDIATE", false);
-    setCurrentStage(1);
-    router.push(`/mission/${chapter.linkedScenarioId}?stage=objective`);
-  };
-
-  // Group chapters by Act
-  const acts = [
-    { act: 0, title: "Prologue: Induction", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 0) },
-    { act: 1, title: "Act I: Earth Operations", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 1) },
-    { act: 2, title: "Act II: The Lunar Gateway & Touchdown", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 2) },
-    { act: 3, title: "Act III: Deep Solar System & The Outer Moons", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 3) },
-  ];
-
   // Campaign Multiple Endings Calculation
   const isCampaignFinished = completedChapterIds.includes("ch-10");
   const [showEndingModal, setShowEndingModal] = useState(isCampaignFinished);
@@ -137,6 +110,33 @@ export default function CampaignPage() {
       quote: "Meridian Flight Log: 'We held the line. The next generation must push it forward.'",
     };
   }, [isCampaignFinished, reputation]);
+
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-space-bg flex items-center justify-center p-6 text-telemetry-amber font-mono text-xs">
+        ESTABLISHING MERIDIAN COMMAND LINK...
+      </div>
+    );
+  }
+
+  const handleStartBriefing = (chapter: CampaignChapter) => {
+    setInspectingChapter(chapter);
+    setInBriefing(true);
+  };
+
+  const handleLaunchMission = (chapter: CampaignChapter) => {
+    createMission(chapter.linkedScenarioId, "INTERMEDIATE", false);
+    setCurrentStage(1);
+    router.push(`/mission/${chapter.linkedScenarioId}?stage=objective`);
+  };
+
+  // Group chapters by Act
+  const acts = [
+    { act: 0, title: "Prologue: Induction", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 0) },
+    { act: 1, title: "Act I: Earth Operations", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 1) },
+    { act: 2, title: "Act II: The Lunar Gateway & Touchdown", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 2) },
+    { act: 3, title: "Act III: Deep Solar System & The Outer Moons", chapters: CAMPAIGN_CHAPTERS.filter((c) => c.act === 3) },
+  ];
 
   return (
     <div className="min-h-screen bg-space-bg text-gray-200 flex flex-col">
@@ -468,8 +468,6 @@ export default function CampaignPage() {
           </div>
         </div>
       )}
-        </div>
-      </main>
 
       {/* Briefing Dossier Modal Overlay */}
       {inBriefing && inspectingChapter && (

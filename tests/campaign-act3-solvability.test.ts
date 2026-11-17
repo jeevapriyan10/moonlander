@@ -65,7 +65,7 @@ describe("Stage 3 Phase B: Scenario Solvability & Catalog Search Tests", () => {
         groundNetworkId: "net-dedicated-single",
         storageGb: 64,
         selectedInstrumentIds: [],
-        orbitId: sc.recommendedOrbitId,
+        orbitId: sc.targetOrbitId,
         launcherId: "electron",
       };
 
@@ -103,7 +103,7 @@ describe("Stage 3 Phase B: Scenario Solvability & Catalog Search Tests", () => {
                 busId,
                 propulsionId: propId,
                 solarArrayId: solarId,
-                solarArrayAreaM2: solarId === "solar-rtg-nuclear" ? 1.0 : Math.max(baseline.solarArrayAreaM2, 6.0),
+                solarArrayAreaM2: solarId === "solar-rtg-nuclear" ? Math.max(baseline.solarArrayAreaM2, 2.0) : Math.max(baseline.solarArrayAreaM2, 6.0),
                 launcherId: launchId,
                 batteryId: "battery-li-ion-adv",
                 batteryCapacityWh: Math.max(baseline.batteryCapacityWh, 1500),

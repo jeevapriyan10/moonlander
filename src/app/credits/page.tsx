@@ -63,7 +63,7 @@ export default function CreditsPage() {
                 <tr>
                   <td className="p-3 font-bold text-white">Earth</td>
                   <td className="p-3">Day, Night Lights, Clouds, Normal, Specular</td>
-                  <td className="p-3">Solar System Scope / NASA Visible Earth ("Blue Marble" & "Black Marble")</td>
+                  <td className="p-3">Solar System Scope / NASA Visible Earth (&apos;Blue Marble&apos; &amp; &apos;Black Marble&apos;)</td>
                   <td className="p-3 text-telemetry-green">CC BY 4.0 / Public Domain</td>
                 </tr>
                 <tr>
