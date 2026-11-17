@@ -108,6 +108,10 @@ export default function MissionWorkspacePage() {
         uiStore.setCurrentStage(3);
         isInternalStageChangeRef.current = true;
         router.replace(`/mission/sandbox?stage=design`, { scroll: false });
+      } else if (uiStore.currentStage < 3) {
+        uiStore.setCurrentStage(3);
+        isInternalStageChangeRef.current = true;
+        router.replace(`/mission/sandbox?stage=design`, { scroll: false });
       }
     } else if (scenarios.some((s) => s.id === scenarioOrId)) {
       if (

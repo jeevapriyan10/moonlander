@@ -18,3 +18,4 @@ export * from "./launch";
 export * from "./validate";
 export * from "./evaluate";
 export * from "./lander";
+export * from "./crew";

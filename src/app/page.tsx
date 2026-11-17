@@ -19,6 +19,7 @@ import {
   Compass,
   Settings,
   Flame,
+  Users,
 } from "lucide-react";
 import { useMissionStore } from "@/store/mission";
 import { useSettingsStore } from "@/store/settings";
@@ -180,6 +181,15 @@ export default function TitlePage() {
             <Layers className="w-5 h-5 text-purple-400 mb-1 group-hover:scale-110 transition-transform" />
             <span className="font-heading font-bold uppercase text-[11px] text-white">Sandbox</span>
             <span className="text-[10px] text-gray-500 mt-0.5">Free Build</span>
+          </Link>
+
+          <Link
+            href="/crew"
+            className="p-3 rounded-xl bg-black/40 border border-space-border/60 hover:border-telemetry-amber hover:bg-telemetry-amber/5 transition-all flex flex-col items-center text-center group"
+          >
+            <Users className="w-5 h-5 text-telemetry-amber mb-1 group-hover:scale-110 transition-transform" />
+            <span className="font-heading font-bold uppercase text-[11px] text-white">Crew Mode</span>
+            <span className="text-[10px] text-gray-500 mt-0.5">4-Player Co-op</span>
           </Link>
 
           <Link

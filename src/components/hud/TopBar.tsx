@@ -28,6 +28,7 @@ import {
   Compass,
   Cloud,
   CloudOff,
+  Users,
 } from "lucide-react";
 import { useProfileStore } from "@/store/profile";
 import { useAuthStore } from "@/store/auth";
@@ -232,6 +233,13 @@ export const TopBar: React.FC = () => {
             <Button variant="ghost" size="sm" title="Meridian Space Authority Campaign (/campaign)">
               <Compass className="w-3.5 h-3.5 text-telemetry-amber" />
               <span className="hidden md:inline">Campaign</span>
+            </Button>
+          </Link>
+
+          <Link href="/crew" target="_blank">
+            <Button variant="ghost" size="sm" title="Crew Mode 4-Player Co-op (/crew)">
+              <Users className="w-3.5 h-3.5 text-telemetry-cyan" />
+              <span className="hidden md:inline">Crew</span>
             </Button>
           </Link>
 
