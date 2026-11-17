@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import { useProfileStore } from "@/store/profile";
+import { MissionCardModal } from "@/components/share/MissionCardModal";
+import { playAchievement } from "@/lib/audio";
+import { orbits, launchers } from "@/data";
 import {
   Award,
   RotateCcw,
@@ -26,6 +29,7 @@ import {
   TrendingDown,
   Compass,
   Trophy,
+  Share2,
 } from "lucide-react";
 
 export const DebriefStage: React.FC = () => {
@@ -34,6 +38,7 @@ export const DebriefStage: React.FC = () => {
   const { setCurrentStage } = useUIStore();
 
   const [activeWhatIf, setActiveWhatIf] = useState<WhatIfScenario | null>(null);
+  const [showCardModal, setShowCardModal] = useState(false);
 
   const debrief = useMemo(() => {
     return generateMissionDebrief(currentMission, evaluation, opsResult);
@@ -63,6 +68,9 @@ export const DebriefStage: React.FC = () => {
   React.useEffect(() => {
     if (recordedRef.current) return;
     recordedRef.current = true;
+    if (overallScore >= 70 || overallGrade === "S" || overallGrade === "A") {
+      playAchievement();
+    }
     recordMissionDebrief({
       missionName: currentMission.name,
       scenarioId: currentMission.scenarioId,
@@ -76,7 +84,7 @@ export const DebriefStage: React.FC = () => {
         severity: e.severity === "critical" ? "critical" : (e.severity === "high" || e.severity === "medium") ? "warning" : "info",
       })) || [],
     });
-  }, [currentMission, evaluation, debrief, opsResult, recordMissionDebrief]);
+  }, [currentMission, evaluation, debrief, opsResult, recordMissionDebrief, overallScore, overallGrade]);
 
   const handleApplyWhatIf = (scenario: WhatIfScenario) => {
     updateDesign(scenario.patch);
@@ -434,6 +442,16 @@ export const DebriefStage: React.FC = () => {
           <Button
             size="md"
             variant="secondary"
+            onClick={() => setShowCardModal(true)}
+            className="flex items-center gap-1.5 border-telemetry-cyan/50 text-telemetry-cyan hover:bg-telemetry-cyan/10"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share Mission Card</span>
+          </Button>
+
+          <Button
+            size="md"
+            variant="secondary"
             onClick={() => {
               const report = exportMissionJson();
               const blob = new Blob([report], { type: "application/json" });
@@ -458,6 +476,28 @@ export const DebriefStage: React.FC = () => {
           </Link>
         </div>
       </div>
+
+      <MissionCardModal
+        isOpen={showCardModal}
+        onClose={() => setShowCardModal(false)}
+        data={{
+          missionName: currentMission.name,
+          scenarioTitle: currentMission.name,
+          difficulty: currentMission.difficulty,
+          seed: currentMission.seed,
+          callsign: useProfileStore.getState().profile.callsign,
+          rank: useProfileStore.getState().profile.currentRank,
+          score: overallScore,
+          grade: overallGrade,
+          costM: evaluation?.cost?.totalMissionCostM ?? 85.0,
+          massKg: evaluation?.mass?.totalWetMassKg ?? 500,
+          deltaVKmS: (evaluation?.propulsion?.deltaVAvailableMs ?? 1800) / 1000,
+          scienceReturnPercent: Math.round(overallScore * 0.98),
+          orbitName: orbits.find((o) => o.id === currentMission.orbitId)?.name || currentMission.orbitId,
+          launcherName: launchers.find((l) => l.id === currentMission.launcherId)?.name || currentMission.launcherId,
+          completedDate: new Date().toISOString().split("T")[0]!,
+        }}
+      />
     </div>
   );
 };

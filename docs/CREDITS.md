@@ -43,4 +43,10 @@ All assets conform to open-access, public domain, or Creative Commons licensing.
 
 ---
 
+## 4. Procedural Audio & Sound Architecture
+
+All music, sound effects (SFX), thruster acoustics, alert chimes, and radio squelch effects in MoonLander are 100% procedurally synthesized in real time via the Web Audio API (native DSP oscillators, biquad filters, white noise buffers, dynamics compressors). Zero external pre-recorded audio files, samples, or proprietary sound libraries are bundled or streamed, eliminating all audio licensing liabilities. Audio synthesis routines were designed and authored with AI-assisted digital signal processing code.
+
+---
+
 *MoonLander is an educational space systems engineering project. Reference to NASA, ESA, JAXA, or ISRO mission concepts does not imply endorsement by these agencies.*

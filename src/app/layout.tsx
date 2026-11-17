@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { ToastContainer } from "@/components/ui/Toast";
+import { RadioTransmissionLog } from "@/components/audio/RadioTransmissionLog";
 import "./globals.css";
 
 const barlowCondensed = Barlow_Condensed({
@@ -70,6 +71,7 @@ export default function RootLayout({
           {children}
         </main>
         <ToastContainer />
+        <RadioTransmissionLog />
       </body>
     </html>
   );

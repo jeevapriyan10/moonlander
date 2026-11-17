@@ -10,6 +10,11 @@ export interface SettingsState {
   graphicsQuality: GraphicsQuality;
   reducedMotion: boolean;
   soundEnabled: boolean;
+  masterVolume: number; // 0 to 100
+  musicVolume: number; // 0 to 100
+  sfxVolume: number; // 0 to 100
+  capcomTtsEnabled: boolean; // default false (Web Speech TTS)
+  closedCaptionsEnabled: boolean; // default true
   bloomEnabled: boolean;
   autoRotate3D: boolean;
   plainLanguage: boolean;
@@ -23,6 +28,11 @@ export interface SettingsState {
   setGraphicsQuality: (quality: GraphicsQuality) => void;
   setReducedMotion: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
+  setMasterVolume: (vol: number) => void;
+  setMusicVolume: (vol: number) => void;
+  setSfxVolume: (vol: number) => void;
+  setCapcomTtsEnabled: (enabled: boolean) => void;
+  setClosedCaptionsEnabled: (enabled: boolean) => void;
   setBloomEnabled: (enabled: boolean) => void;
   setAutoRotate3D: (enabled: boolean) => void;
   setPlainLanguage: (enabled: boolean) => void;
@@ -40,6 +50,11 @@ export const useSettingsStore = create<SettingsState>()(
       graphicsQuality: "HIGH",
       reducedMotion: false,
       soundEnabled: true,
+      masterVolume: 80,
+      musicVolume: 60,
+      sfxVolume: 80,
+      capcomTtsEnabled: false,
+      closedCaptionsEnabled: true,
       bloomEnabled: true,
       autoRotate3D: true,
       plainLanguage: false,
@@ -53,6 +68,11 @@ export const useSettingsStore = create<SettingsState>()(
       setGraphicsQuality: (quality) => set({ graphicsQuality: quality }),
       setReducedMotion: (enabled) => set({ reducedMotion: enabled }),
       setSoundEnabled: (enabled) => set({ soundEnabled: enabled }),
+      setMasterVolume: (vol) => set({ masterVolume: Math.max(0, Math.min(100, vol)) }),
+      setMusicVolume: (vol) => set({ musicVolume: Math.max(0, Math.min(100, vol)) }),
+      setSfxVolume: (vol) => set({ sfxVolume: Math.max(0, Math.min(100, vol)) }),
+      setCapcomTtsEnabled: (enabled) => set({ capcomTtsEnabled: enabled }),
+      setClosedCaptionsEnabled: (enabled) => set({ closedCaptionsEnabled: enabled }),
       setBloomEnabled: (enabled) => set({ bloomEnabled: enabled }),
       setAutoRotate3D: (enabled) => set({ autoRotate3D: enabled }),
       setPlainLanguage: (enabled) => set({ plainLanguage: enabled }),
@@ -75,7 +95,7 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: STORAGE_KEYS.SETTINGS,
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => safeStateStorage),
       skipHydration: true,
       migrate: (persistedState: unknown, version: number) => {
@@ -85,6 +105,11 @@ export const useSettingsStore = create<SettingsState>()(
             graphicsQuality: s.graphicsQuality ?? "HIGH",
             reducedMotion: s.reducedMotion ?? false,
             soundEnabled: s.soundEnabled ?? true,
+            masterVolume: s.masterVolume ?? 80,
+            musicVolume: s.musicVolume ?? 60,
+            sfxVolume: s.sfxVolume ?? 80,
+            capcomTtsEnabled: s.capcomTtsEnabled ?? false,
+            closedCaptionsEnabled: s.closedCaptionsEnabled ?? true,
             bloomEnabled: s.bloomEnabled ?? true,
             autoRotate3D: s.autoRotate3D ?? true,
             plainLanguage: s.plainLanguage ?? false,

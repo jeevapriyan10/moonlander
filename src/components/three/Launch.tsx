@@ -8,6 +8,12 @@ import { useMissionStore } from "@/store/mission";
 import { useUIStore } from "@/store/ui";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import {
+  updateThrusterRumble,
+  playAchievement,
+  playAlert,
+  playRadioSquelch,
+} from "@/lib/audio";
 import { CanvasWrapper } from "./CanvasWrapper";
 import { Spacecraft } from "./Spacecraft";
 import { Earth } from "./Earth";
@@ -60,8 +66,15 @@ const LaunchVehicle3D: React.FC<LaunchVehicle3DProps> = ({
     tRef.current = currentT;
 
     if (currentT >= T_END) {
+      updateThrusterRumble(0);
       onSequenceEnd();
       return;
+    }
+
+    if (currentT < T_SECO) {
+      updateThrusterRumble(currentT < T_MECO ? 0.9 : 0.55);
+    } else {
+      updateThrusterRumble(0);
     }
 
     // Ascent altitude & trajectory progression
@@ -267,9 +280,24 @@ export const Launch: React.FC<LaunchProps> = ({
   const outcome = evaluation.launchOutcome;
 
   const handleSkip = () => {
+    updateThrusterRumble(0);
     setTPlus(T_END);
     setIsFinished(true);
   };
+
+  React.useEffect(() => {
+    if (isFinished) {
+      updateThrusterRumble(0);
+      if (outcome.success) {
+        playAchievement();
+      } else {
+        playAlert();
+      }
+    }
+    return () => {
+      updateThrusterRumble(0);
+    };
+  }, [isFinished, outcome.success]);
 
   const handleRetry = () => {
     setTPlus(0);

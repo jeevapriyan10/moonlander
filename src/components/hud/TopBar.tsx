@@ -29,6 +29,8 @@ import {
   Cloud,
   CloudOff,
   Users,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { useProfileStore } from "@/store/profile";
 import { useAuthStore } from "@/store/auth";
@@ -66,6 +68,18 @@ export const TopBar: React.FC = () => {
     setPlainLanguage,
     coachMode,
     setCoachMode,
+    soundEnabled,
+    setSoundEnabled,
+    masterVolume,
+    setMasterVolume,
+    musicVolume,
+    setMusicVolume,
+    sfxVolume,
+    setSfxVolume,
+    capcomTtsEnabled,
+    setCapcomTtsEnabled,
+    closedCaptionsEnabled,
+    setClosedCaptionsEnabled,
   } = useSettingsStore();
 
   const [isEditingName, setIsEditingName] = React.useState(false);
@@ -257,13 +271,34 @@ export const TopBar: React.FC = () => {
             </Button>
           </Link>
 
+          <Link href="/leaderboard" target="_blank">
+            <Button variant="ghost" size="sm" title="Global Flight Leaderboards (/leaderboard)">
+              <Trophy className="w-3.5 h-3.5 text-telemetry-amber" />
+              <span className="hidden md:inline">Ranks</span>
+            </Button>
+          </Link>
+
           <Link href="/profile" target="_blank">
             <Button variant="ghost" size="sm" title="Pilot Profile & Career History (/profile)">
-              <Trophy className="w-3.5 h-3.5 text-telemetry-amber" />
+              <User className="w-3.5 h-3.5 text-telemetry-cyan" />
               <span className="hidden xl:inline text-xs font-mono">{profile.callsign} ({profile.currentRank})</span>
               <span className="hidden md:inline xl:hidden">Profile</span>
             </Button>
           </Link>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSoundEnabled(!soundEnabled)}
+            title={soundEnabled ? "Mute Procedural Web Audio" : "Unmute Audio Engine"}
+            className="flex items-center gap-1"
+          >
+            {soundEnabled ? (
+              <Volume2 className="w-3.5 h-3.5 text-telemetry-green" />
+            ) : (
+              <VolumeX className="w-3.5 h-3.5 text-slate-500" />
+            )}
+          </Button>
 
           <Button
             variant="ghost"
@@ -494,6 +529,100 @@ export const TopBar: React.FC = () => {
                 </Button>
               ))}
             </div>
+          </div>
+
+          {/* Procedural Web Audio Controls */}
+          <div className="flex flex-col gap-2.5 p-3 rounded bg-black/40 border border-space-border">
+            <div className="flex items-center justify-between border-b border-space-border/60 pb-2">
+              <div>
+                <span className="font-heading uppercase tracking-wider text-telemetry-cyan font-bold block">
+                  Procedural Web Audio Engine
+                </span>
+                <span className="text-gray-400 font-mono text-[10px]">
+                  100% synthetically generated audio (Zero sample licensing risk).
+                </span>
+              </div>
+              <Button
+                size="sm"
+                variant={soundEnabled ? "primary" : "outline"}
+                onClick={() => setSoundEnabled(!soundEnabled)}
+              >
+                {soundEnabled ? "Audio On" : "Muted"}
+              </Button>
+            </div>
+
+            {soundEnabled && (
+              <div className="flex flex-col gap-2 pt-1 font-mono text-[11px]">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-300 w-28 shrink-0">Master Gain:</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={masterVolume}
+                    onChange={(e) => setMasterVolume(parseInt(e.target.value, 10))}
+                    className="flex-1 accent-telemetry-amber cursor-pointer"
+                  />
+                  <span className="text-telemetry-amber w-10 text-right">{masterVolume}%</span>
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-300 w-28 shrink-0">Ambient Score:</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={musicVolume}
+                    onChange={(e) => setMusicVolume(parseInt(e.target.value, 10))}
+                    className="flex-1 accent-telemetry-cyan cursor-pointer"
+                  />
+                  <span className="text-telemetry-cyan w-10 text-right">{musicVolume}%</span>
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-300 w-28 shrink-0">UI & Thruster SFX:</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={sfxVolume}
+                    onChange={(e) => setSfxVolume(parseInt(e.target.value, 10))}
+                    className="flex-1 accent-telemetry-green cursor-pointer"
+                  />
+                  <span className="text-telemetry-green w-10 text-right">{sfxVolume}%</span>
+                </div>
+
+                <div className="flex items-center justify-between pt-1 border-t border-space-border/40">
+                  <div>
+                    <span className="text-gray-300 block font-heading uppercase text-xs">CAPCOM Web Speech TTS</span>
+                    <span className="text-[10px] text-gray-500">Robotic tactical voice with procedural squelch.</span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant={capcomTtsEnabled ? "primary" : "outline"}
+                    onClick={() => setCapcomTtsEnabled(!capcomTtsEnabled)}
+                    className="text-[10px]"
+                  >
+                    {capcomTtsEnabled ? "Active" : "Off (Default)"}
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between pt-1 border-t border-space-border/40">
+                  <div>
+                    <span className="text-gray-300 block font-heading uppercase text-xs">Closed Captions Subtitles</span>
+                    <span className="text-[10px] text-gray-500">Live on-screen radio transcript banner.</span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant={closedCaptionsEnabled ? "primary" : "outline"}
+                    onClick={() => setClosedCaptionsEnabled(!closedCaptionsEnabled)}
+                    className="text-[10px]"
+                  >
+                    {closedCaptionsEnabled ? "Enabled" : "Disabled"}
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="pt-2 border-t border-space-border flex justify-between items-center">

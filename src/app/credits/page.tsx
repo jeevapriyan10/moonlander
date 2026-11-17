@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, ShieldCheck, Database, BookOpen, Globe2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, ShieldCheck, Database, BookOpen, Globe2, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 
 export default function CreditsPage() {
@@ -151,6 +151,23 @@ export default function CreditsPage() {
             <p>2. Vallado, D. A. (2013). <em>Fundamentals of Astrodynamics and Applications</em> (4th ed.). Microcosm Press.</p>
             <p>3. NASA. (2016). <em>NASA Systems Engineering Handbook</em> (NASA/SP-2016-6105 Rev 2). National Aeronautics and Space Administration.</p>
             <p>4. AIAA. (2006). <em>AIAA S-120-2006: Mass Properties Control for Space Systems</em>. American Institute of Aeronautics and Astronautics.</p>
+          </div>
+        </section>
+
+        {/* Section 4: Procedural Web Audio Engine */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2 text-telemetry-purple font-heading uppercase tracking-wider font-bold text-lg">
+            <Volume2 className="w-5 h-5" />
+            <h3>4. Procedural Audio Architecture</h3>
+          </div>
+
+          <div className="p-4 rounded-xl border border-space-border bg-space-panel/60 font-mono text-xs text-slate-300 space-y-2">
+            <p>
+              All soundtrack music, tactile interface audio, rocket booster combustion rumbles, master alert tones, and communications radio squelch effects are 100% procedurally synthesized in real time in the user&apos;s browser using the native Web Audio API (oscillators, biquad filters, pink/white noise generators, and dynamics compressors).
+            </p>
+            <p className="text-slate-400">
+              Zero external pre-recorded audio files, MP3/WAV samples, or commercial sound libraries are bundled or streamed, eliminating copyright and licensing friction. All procedural synthesis routines were authored with AI-assisted digital signal processing code.
+            </p>
           </div>
         </section>
 

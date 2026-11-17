@@ -5,6 +5,8 @@ import { useMissionStore } from "@/store/mission";
 import { useSettingsStore } from "@/store/settings";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { broadcastRadioTransmission } from "@/components/audio/RadioTransmissionLog";
+import { speakCapcomMessage } from "@/lib/audio/capcomTts";
 import {
   Radio,
   ChevronDown,
@@ -40,6 +42,10 @@ export const Coach: React.FC = () => {
   useEffect(() => {
     setHintLevel(1);
     if (!currentIssue) return;
+
+    const line = currentIssue.message;
+    broadcastRadioTransmission("CAPCOM", line);
+    speakCapcomMessage(line);
 
     const timer1 = setTimeout(() => setHintLevel(2), 8000);
     const timer2 = setTimeout(() => setHintLevel(3), 16000);
