@@ -26,8 +26,12 @@ import {
   Trophy,
   User,
   Compass,
+  Cloud,
+  CloudOff,
 } from "lucide-react";
 import { useProfileStore } from "@/store/profile";
+import { useAuthStore } from "@/store/auth";
+import { AuthModal } from "@/components/auth/AuthModal";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
 
 export const TopBar: React.FC = () => {
@@ -44,6 +48,12 @@ export const TopBar: React.FC = () => {
 
   const { addToast } = useUIStore();
   const { profile } = useProfileStore();
+  const { user, openAuthModal, initialize: initAuth } = useAuthStore();
+
+  React.useEffect(() => {
+    initAuth();
+  }, [initAuth]);
+
   const {
     graphicsQuality,
     setGraphicsQuality,
@@ -246,6 +256,26 @@ export const TopBar: React.FC = () => {
               <span className="hidden md:inline xl:hidden">Profile</span>
             </Button>
           </Link>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={openAuthModal}
+            title={user ? `Signed in as ${user.email} (Cloud Sync Active)` : "Sign In / Cloud Sync (Pure Email)"}
+            className="flex items-center gap-1.5 font-mono text-xs"
+          >
+            {user ? (
+              <>
+                <Cloud className="w-3.5 h-3.5 text-telemetry-green" />
+                <span className="hidden lg:inline text-telemetry-green font-semibold">Synced</span>
+              </>
+            ) : (
+              <>
+                <CloudOff className="w-3.5 h-3.5 text-slate-400" />
+                <span className="hidden lg:inline text-slate-400">Guest</span>
+              </>
+            )}
+          </Button>
 
           <Button
             variant="ghost"
@@ -534,6 +564,9 @@ export const TopBar: React.FC = () => {
         isOpen={onboardingOpen}
         onClose={() => setOnboardingOpen(false)}
       />
+
+      {/* Cloud Authentication & Sync Modal */}
+      <AuthModal />
     </>
   );
 };

@@ -130,6 +130,8 @@ export function getCatalogLookup(): CatalogLookup {
   return catalog;
 }
 
+export const createCatalogLookup = getCatalogLookup;
+
 const LEVEL_RANK = {
   YOUTH: 1,
   INTERMEDIATE: 2,
