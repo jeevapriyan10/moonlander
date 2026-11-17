@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { ToastContainer } from "@/components/ui/Toast";
 import { RadioTransmissionLog } from "@/components/audio/RadioTransmissionLog";
+import { PwaProvider } from "@/components/pwa/PwaProvider";
 import "./globals.css";
 
 const barlowCondensed = Barlow_Condensed({
@@ -28,7 +29,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://moonlander.space"),
   title: {
-    default: "MOONLANDER // Deep Space Mission Simulator",
+    default: "MOONLANDER",
     template: "%s | MoonLander",
   },
   description:
@@ -43,13 +44,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://moonlander.space",
     siteName: "MoonLander",
-    title: "MOONLANDER // Deep Space Mission Simulator",
+    title: "MOONLANDER",
     description:
       "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MOONLANDER // Deep Space Mission Simulator",
+    title: "MOONLANDER",
     description:
       "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
   },
@@ -66,12 +67,14 @@ export default function RootLayout({
       className={`${barlowCondensed.variable} ${interTight.variable} ${jetbrainsMono.variable} dark h-full`}
     >
       <body className="h-full min-h-screen bg-space-bg text-slate-200 antialiased font-body bg-scanline selection:bg-telemetry-amber/30 selection:text-white flex flex-col">
-        <div className="fixed inset-0 pointer-events-none bg-radial-vignette z-0" />
-        <main className="relative z-10 flex-1 flex flex-col min-h-0 h-full">
-          {children}
-        </main>
-        <ToastContainer />
-        <RadioTransmissionLog />
+        <PwaProvider>
+          <div className="fixed inset-0 pointer-events-none bg-radial-vignette z-0" />
+          <main className="relative z-10 flex-1 flex flex-col min-h-0 h-full">
+            {children}
+          </main>
+          <ToastContainer />
+          <RadioTransmissionLog />
+        </PwaProvider>
       </body>
     </html>
   );

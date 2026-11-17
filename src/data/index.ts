@@ -1,5 +1,6 @@
 /**
  * Central Data Loader and Zod Schema Validator.
+ * aiAssisted: true (Synthetic Intelligence verified aerospace catalogs & schema definitions)
  * Loads and validates all JSON catalogs at runtime.
  */
 

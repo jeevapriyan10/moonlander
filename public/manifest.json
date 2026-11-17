@@ -1,15 +1,31 @@
 {
-  "name": "MoonLander",
+  "name": "MoonLander // Orbital Mission Simulation & Powered Descent",
   "short_name": "MoonLander",
-  "description": "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions.",
+  "description": "Every mission begins with a decision. Architect, balance, launch, and operate real-world aerospace missions and terminal lunar powered descent.",
   "start_url": "/",
+  "id": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#05070D",
   "theme_color": "#05070D",
+  "categories": ["education", "games", "simulation"],
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }

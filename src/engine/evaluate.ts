@@ -1,5 +1,6 @@
 /**
  * Main evaluation pipeline for MoonLander.
+ * aiAssisted: true (Synthetic Intelligence assisted aerospace system synthesis)
  *
  * Implements:
  * - Pure, deterministic, zero-allocation evaluation < 5ms

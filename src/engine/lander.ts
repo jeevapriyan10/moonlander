@@ -1,5 +1,6 @@
 /**
  * MoonLander 2D Powered-Descent Engine (120 Hz Fixed Timestep)
+ * aiAssisted: true (Synthetic Intelligence assisted code & mathematical derivation)
  *
  * Implements deterministic physics for terminal powered descent,
  * hazard detection, terrain-relative landing, and touchdown mechanics.

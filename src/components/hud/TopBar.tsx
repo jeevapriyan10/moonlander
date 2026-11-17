@@ -36,6 +36,7 @@ import { useProfileStore } from "@/store/profile";
 import { useAuthStore } from "@/store/auth";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { OnboardingModal } from "@/components/ui/OnboardingModal";
+import { useTranslation } from "@/lib/i18n";
 
 export const TopBar: React.FC = () => {
   const {
@@ -81,6 +82,8 @@ export const TopBar: React.FC = () => {
     closedCaptionsEnabled,
     setClosedCaptionsEnabled,
   } = useSettingsStore();
+
+  const { locale, setLocale, supportedLocales } = useTranslation();
 
   const [isEditingName, setIsEditingName] = React.useState(false);
   const [missionName, setMissionName] = React.useState(currentMission.name);
@@ -623,6 +626,50 @@ export const TopBar: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Language / i18n Selector */}
+          <div className="flex items-center justify-between p-3 rounded bg-black/30 border border-space-border">
+            <div>
+              <span className="font-heading uppercase tracking-wider text-gray-200 font-semibold block">
+                Mission Interface Language
+              </span>
+              <span className="text-gray-400 font-mono text-[11px]">
+                Configures multilingual terminology and telemetry displays.
+              </span>
+            </div>
+            <div className="flex gap-1">
+              {supportedLocales.map((loc) => (
+                <Button
+                  key={loc.code}
+                  size="sm"
+                  variant={locale === loc.code ? "primary" : "outline"}
+                  onClick={() => setLocale(loc.code)}
+                  className="text-[11px]"
+                >
+                  {loc.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-space-border flex justify-between items-center">
+            <span className="text-[11px] font-mono text-slate-400">
+              Legal, Privacy & AI Architecture
+            </span>
+            <div className="flex items-center gap-2">
+              <Link href="/privacy" target="_blank" className="text-telemetry-cyan text-[11px] hover:underline">
+                Privacy
+              </Link>
+              <span className="text-gray-600">·</span>
+              <Link href="/terms" target="_blank" className="text-telemetry-cyan text-[11px] hover:underline">
+                Terms
+              </Link>
+              <span className="text-gray-600">·</span>
+              <Link href="/ai-disclosure" target="_blank" className="text-telemetry-amber text-[11px] hover:underline">
+                AI Disclosure
+              </Link>
+            </div>
           </div>
 
           <div className="pt-2 border-t border-space-border flex justify-between items-center">

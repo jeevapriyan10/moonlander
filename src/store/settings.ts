@@ -21,6 +21,7 @@ export interface SettingsState {
   coachEnabled: boolean;
   coachMode: CoachMode;
   difficultyPreference: DifficultyPreference;
+  locale: string; // e.g. "en", "es", "fr", "ja"
   hasCompletedOnboarding: boolean;
   completedLessons: string[];
   unlockedParts: string[];
@@ -39,6 +40,7 @@ export interface SettingsState {
   setCoachEnabled: (enabled: boolean) => void;
   setCoachMode: (mode: CoachMode) => void;
   setDifficultyPreference: (diff: DifficultyPreference) => void;
+  setLocale: (locale: string) => void;
   setHasCompletedOnboarding: (completed: boolean) => void;
   completeLesson: (lessonId: string) => void;
   unlockPart: (partId: string) => void;
@@ -61,6 +63,7 @@ export const useSettingsStore = create<SettingsState>()(
       coachEnabled: true,
       coachMode: "all",
       difficultyPreference: "INTERMEDIATE",
+      locale: "en",
       hasCompletedOnboarding: false,
       completedLessons: [],
       unlockedParts: [],
@@ -79,6 +82,7 @@ export const useSettingsStore = create<SettingsState>()(
       setCoachEnabled: (enabled) => set({ coachEnabled: enabled }),
       setCoachMode: (mode) => set({ coachMode: mode, coachEnabled: mode !== "off" }),
       setDifficultyPreference: (diff) => set({ difficultyPreference: diff }),
+      setLocale: (locale) => set({ locale }),
       setHasCompletedOnboarding: (completed) => set({ hasCompletedOnboarding: completed }),
       completeLesson: (lessonId) =>
         set((state) => ({
@@ -95,7 +99,7 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: STORAGE_KEYS.SETTINGS,
-      version: 4,
+      version: 5,
       storage: createJSONStorage(() => safeStateStorage),
       skipHydration: true,
       migrate: (persistedState: unknown, version: number) => {
@@ -116,6 +120,7 @@ export const useSettingsStore = create<SettingsState>()(
             coachEnabled: s.coachEnabled ?? true,
             coachMode: s.coachMode ?? "all",
             difficultyPreference: s.difficultyPreference ?? "INTERMEDIATE",
+            locale: s.locale ?? "en",
             hasCompletedOnboarding: s.hasCompletedOnboarding ?? false,
             completedLessons: s.completedLessons ?? [],
             unlockedParts: s.unlockedParts ?? [],
